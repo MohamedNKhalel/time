@@ -4,121 +4,404 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El-Dra3 Bayez</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>El-Dra3 Bayez System</h1>
+    <div class="main">
+        <h1 class="text-center text-uppercase title">El-Dra3 Bayez System</h1>
         <button class="clearbtn" onclick="clearAllTimers()">Clear All Timers</button>
-
         <!-- Device blocks -->
-        <div id="device1" class="device">
-            <h2>Device 1</h2>
-            <button onclick="startTimer(1)">Start</button>
-            <button onclick="stopTimer(1)" disabled>Stop</button>
-            <div>Elapsed Time: <span id="elapsedTime1">00:00:00</span></div>
-            <select id="rateSelector1">
-               <option value="10">10 EGP/hour</option>
-                <option value="15">15 EGP/hour</option>
-                <option value="20">20 EGP/hour</option>
-                <option value="25">25 EGP/hour</option>
-                <option value="30">30 EGP/hour</option>
-                <option value="35">35 EGP/hour</option>
-                <option value="40">40 EGP/hour</option>
-            </select>
-            <div>Total Cost: <span id="cost1">0</span></div>
-        </div>
-
-        <div id="device2" class="device">
-          <h2>Device 2</h2>
-          <button onclick="startTimer(2)">Start</button>
-          <button onclick="stopTimer(2)" disabled>Stop</button>
-          <div>Elapsed Time: <span id="elapsedTime2">00:00:00</span></div>
-          <select id="rateSelector2">
-             <option value="10">10 EGP/hour</option>
-             <option value="15">15 EGP/hour</option>
-             <option value="20">20 EGP/hour</option>
-             <option value="25">25 EGP/hour</option>
-             <option value="30">30 EGP/hour</option>
-             <option value="35">35 EGP/hour</option>
-             <option value="40">40 EGP/hour</option>
-          </select>
-          <div>Total Cost: <span id="cost2">0</span></div>
-        </div>
-        
-        
-        <div id="device3" class="device">
-          <h2>Device 3</h2>
-          <button onclick="startTimer(3)">Start</button>
-          <button onclick="stopTimer(3)" disabled>Stop</button>
-          <div>Elapsed Time: <span id="elapsedTime3">00:00:00</span></div>
-          <select id="rateSelector3">
-             <option value="10">10 EGP/hour</option>
-             <option value="15">15 EGP/hour</option>
-             <option value="20">20 EGP/hour</option>
-             <option value="25">25 EGP/hour</option>
-             <option value="30">30 EGP/hour</option>
-             <option value="35">35 EGP/hour</option>
-             <option value="40">40 EGP/hour</option>
-          </select>
-          <div>Total Cost: <span id="cost3">0</span></div>
-        </div>
-        
-        
-        <div id="device4" class="device">
-          <h2>Device 4</h2>
-          <button onclick="startTimer(4)">Start</button>
-          <button onclick="stopTimer(4)" disabled>Stop</button>
-          <div>Elapsed Time: <span id="elapsedTime4">00:00:00</span></div>
-          <select id="rateSelector4">
-            <option value="10">10 EGP/hour</option>
-             <option value="15">15 EGP/hour</option>
-             <option value="20">20 EGP/hour</option>
-             <option value="25">25 EGP/hour</option>
-             <option value="30">30 EGP/hour</option>
-             <option value="35">35 EGP/hour</option>
-             <option value="40">40 EGP/hour</option>
-          </select>
-          <div>Total Cost: <span id="cost4">0</span></div>
-        </div>
-        
-        <div id="device5" class="device">
-          <h2>Device 5</h2>
-          <button onclick="startTimer(5)">Start</button>
-          <button onclick="stopTimer(5)" disabled>Stop</button>
-          <div>Elapsed Time: <span id="elapsedTime5">00:00:00</span></div>
-          <select id="rateSelector5">
-             <option value="10">10 EGP/hour</option>
-             <option value="15">15 EGP/hour</option>
-             <option value="20">20 EGP/hour</option>
-             <option value="25">25 EGP/hour</option>
-             <option value="30">30 EGP/hour</option>
-             <option value="35">35 EGP/hour</option>
-             <option value="40">40 EGP/hour</option>
-          </select>
-          <div>Total Cost: <span id="cost5">0</span></div>
-        </div>
-        
-        
-        <div id="device6" class="device">
-          <h2>Device 6</h2>
-          <button onclick="startTimer(6)">Start</button>
-          <button onclick="stopTimer(6)" disabled>Stop</button>
-          <div>Elapsed Time: <span id="elapsedTime6">00:00:00</span></div>
-          <select id="rateSelector6">
-            <option value="10">10 EGP/hour</option>
-             <option value="15">15 EGP/hour</option>
-             <option value="20">20 EGP/hour</option>
-             <option value="25">25 EGP/hour</option>
-             <option value="30">30 EGP/hour</option>
-             <option value="35">35 EGP/hour</option>
-             <option value="40">40 EGP/hour</option>
-          </select>
-          <div>Total Cost: <span id="cost6">0</span></div>
-        </div>
-        
+          <div class="row g-4">
+            <!-- Device 1 -->
+            <div class="col-md-4">
+              <div id="device1" class="device">
+                <h2 class="text-center fw-bolder text-uppercase">Device 1</h2>
+                <button onclick="startTimer(1)">Start</button>
+                <button onclick="stopTimer(1)" disabled>Stop</button>
+                <div>Elapsed Time: <span id="elapsedTime1">00:00:00</span></div>
+                <select title="rate" id="rateSelector1" onchange="saveRateSelection(1)">
+                    <option  value="10">10 EGP/hour</option>
+                    <option  value="15">15 EGP/hour</option>
+                    <option  value="20">20 EGP/hour</option>
+                    <option  value="25">25 EGP/hour</option>
+                    <option  value="30">30 EGP/hour</option>
+                    <option  value="35">35 EGP/hour</option>
+                    <option  value="40">40 EGP/hour</option>
+                </select>
+                <div>
+                  Drinks:
+                  <button class="show-drinks-btn">Show Drinks</button>
+                  <button class="hide-drinks-btn d-none">Hide Drinks</button>
+                  <div class="drinks d-none">
+                    <div class="my-2">
+                      
+                      <label>Soda Small (15 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="1" id="sodaS1" type="number" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Soda Large (15 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="1" type="number" id="sodaL1" min="0" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Sokhn  (10 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="1" type="number" id="sokhn1" min="0" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Coffee (15 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="1" type="number" id="coffee1" min="0" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Cappuccino (15 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="1" type="number" id="cappuccino1" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>French Coffee (20 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="1" type="number" id="frenchCoffee1" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Net Card (5 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="1" type="number" id="netCard1" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Half Hour PS4 (10 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="1" type="number" id="halfHourPS41" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Hour PS4 (20 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="1" type="number" id="hourPS41" value="0">
+                    </div>
+                  </div>
+                </div>
+                <div>Total Cost: <span id="cost1">0</span></div>
+                <button class="clear-btn" onclick="clearTimer(1)">Clear Data</button>
+            </div>
+            </div>
+            <!-- Device 2 -->
+            <div class="col-md-4">
+              <div id="device2" class="device">
+                <h2 class="text-center fw-bolder text-uppercase">Device 2</h2>
+                <button onclick="startTimer(2)">Start</button>
+                <button onclick="stopTimer(2)" disabled>Stop</button>
+                <div>Elapsed Time: <span id="elapsedTime2">00:00:00</span></div>
+                <select title="rate" id="rateSelector2" onchange="saveRateSelection(2)">
+                    <option  value="10">10 EGP/hour</option>
+                    <option  value="15">15 EGP/hour</option>
+                    <option  value="20">20 EGP/hour</option>
+                    <option  value="25">25 EGP/hour</option>
+                    <option  value="30">30 EGP/hour</option>
+                    <option  value="35">35 EGP/hour</option>
+                    <option  value="40">40 EGP/hour</option>
+                </select>
+                <div>
+                  Drinks:
+                  <button class="show-drinks-btn">Show Drinks</button>
+                  <button class="hide-drinks-btn d-none">Hide Drinks</button>
+                  <div class="drinks d-none">
+                    <div class="my-2">
+                      
+                      <label>Soda Small (15 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="2" id="sodaS2" type="number" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Soda Large (15 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="2" type="number" id="sodaL2" min="0" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Sokhn  (10 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="2" type="number" id="sokhn2" min="0" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Coffee (15 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="2" type="number" id="coffee2" min="0" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Cappuccino (15 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="2" type="number" id="cappuccino2" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>French Coffee (20 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="2" type="number" id="frenchCoffee2" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Net Card (5 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="2" type="number" id="netCard2" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Half Hour PS4 (10 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="2" type="number" id="halfHourPS42" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Hour PS4 (20 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="2" type="number" id="hourPS42" value="0">
+                    </div>
+                  </div>
+                </div>
+                <div>Total Cost: <span id="cost2">0</span></div>
+                <button class="clear-btn" onclick="clearTimer(2)">Clear Data</button>
+            </div>
+            </div>
+            <!-- Device 3 -->
+            <div class="col-md-4">
+              <div id="device3" class="device">
+                <h2 class="text-center fw-bolder text-uppercase">Device 3</h2>
+                <button onclick="startTimer(3)">Start</button>
+                <button onclick="stopTimer(3)" disabled>Stop</button>
+                <div>Elapsed Time: <span id="elapsedTime3">00:00:00</span></div>
+                <select title="rate" id="rateSelector3" onchange="saveRateSelection(3)">
+                    <option  value="10">10 EGP/hour</option>
+                    <option  value="15">15 EGP/hour</option>
+                    <option  value="20">20 EGP/hour</option>
+                    <option  value="25">25 EGP/hour</option>
+                    <option  value="30">30 EGP/hour</option>
+                    <option  value="35">35 EGP/hour</option>
+                    <option  value="40">40 EGP/hour</option>
+                </select>
+                <div>
+                  Drinks:
+                  <button class="show-drinks-btn">Show Drinks</button>
+                  <button class="hide-drinks-btn d-none">Hide Drinks</button>
+                  <div class="drinks d-none">
+                    <div class="my-2">
+                      
+                      <label>Soda Small (15 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="3" id="sodaS3" type="number" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Soda Large (15 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="3" type="number" id="sodaL3" min="0" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Sokhn  (10 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="3" type="number" id="sokhn3" min="0" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Coffee (15 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="3" type="number" id="coffee3" min="0" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Cappuccino (15 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="3" type="number" id="cappuccino3" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>French Coffee (20 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="3" type="number" id="frenchCoffee3" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Net Card (5 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="3" type="number" id="netCard3" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Half Hour PS4 (10 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="3" type="number" id="halfHourPS43" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Hour PS4 (20 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="3" type="number" id="hourPS43" value="0">
+                    </div>
+                  </div>
+                </div>
+                <div>Total Cost: <span id="cost3">0</span></div>
+                <button class="clear-btn" onclick="clearTimer(3)">Clear Data</button>
+            </div>
+            </div>
+            <!-- Device 4 -->
+            <div class="col-md-4">
+              <div id="device4" class="device">
+                <h2 class="text-center fw-bolder text-uppercase">Device 4</h2>
+                <button onclick="startTimer(4)">Start</button>
+                <button onclick="stopTimer(4)" disabled>Stop</button>
+                <div>Elapsed Time: <span id="elapsedTime4">00:00:00</span></div>
+                <select title="rate" id="rateSelector4" onchange="saveRateSelection(4)">
+                    <option  value="10">10 EGP/hour</option>
+                    <option  value="15">15 EGP/hour</option>
+                    <option  value="20">20 EGP/hour</option>
+                    <option  value="25">25 EGP/hour</option>
+                    <option  value="30">30 EGP/hour</option>
+                    <option  value="35">35 EGP/hour</option>
+                    <option  value="40">40 EGP/hour</option>
+                </select>
+                <div>
+                  Drinks:
+                  <button class="show-drinks-btn">Show Drinks</button>
+                  <button class="hide-drinks-btn d-none">Hide Drinks</button>
+                  <div class="drinks d-none">
+                    <div class="my-2">
+                      
+                      <label>Soda Small (15 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="4" id="sodaS4" type="number" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Soda Large (15 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="4" type="number" id="sodaL4" min="0" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Sokhn  (10 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="4" type="number" id="sokhn4" min="0" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Coffee (15 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="4" type="number" id="coffee4" min="0" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Cappuccino (15 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="4" type="number" id="cappuccino4" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>French Coffee (20 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="4" type="number" id="frenchCoffee4" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Net Card (5 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="4" type="number" id="netCard4" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Half Hour PS4 (10 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="4" type="number" id="halfHourPS44" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Hour PS4 (20 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="4" type="number" id="hourPS44" value="0">
+                    </div>
+                  </div>
+                </div>
+                <div>Total Cost: <span id="cost4">0</span></div>
+                <button class="clear-btn" onclick="clearTimer(4)">Clear Data</button>
+            </div>
+            </div>
+            <!-- Device 5 -->
+            <div class="col-md-4">
+              <div id="device5" class="device">
+                <h2 class="text-center fw-bolder text-uppercase">Device 5</h2>
+                <button onclick="startTimer(5)">Start</button>
+                <button onclick="stopTimer(5)" disabled>Stop</button>
+                <div>Elapsed Time: <span id="elapsedTime5">00:00:00</span></div>
+                <select title="rate" id="rateSelector5" onchange="saveRateSelection(5)">
+                    <option  value="10">10 EGP/hour</option>
+                    <option  value="15">15 EGP/hour</option>
+                    <option  value="20">20 EGP/hour</option>
+                    <option  value="25">25 EGP/hour</option>
+                    <option  value="30">30 EGP/hour</option>
+                    <option  value="35">35 EGP/hour</option>
+                    <option  value="40">40 EGP/hour</option>
+                </select>
+                <div>
+                  Drinks:
+                  <button class="show-drinks-btn">Show Drinks</button>
+                  <button class="hide-drinks-btn d-none">Hide Drinks</button>
+                  <div class="drinks d-none">
+                    <div class="my-2">
+                      
+                      <label>Soda Small (15 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="5" id="sodaS5" type="number" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Soda Large (15 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="5" type="number" id="sodaL5" min="0" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Sokhn  (10 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="5" type="number" id="sokhn5" min="0" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Coffee (15 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="5" type="number" id="coffee5" min="0" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Cappuccino (15 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="5" type="number" id="cappuccino5" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>French Coffee (20 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="5" type="number" id="frenchCoffee5" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Net Card (5 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="5" type="number" id="netCard5" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Half Hour PS4 (10 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="5" type="number" id="halfHourPS45" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Hour PS4 (20 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="5" type="number" id="hourPS45" value="0">
+                    </div>
+                  </div>
+                </div>
+                <div>Total Cost: <span id="cost5">0</span></div>
+                <button class="clear-btn" onclick="clearTimer(5)">Clear Data</button>
+            </div>
+            </div>
+            <!-- Device 6 -->
+            <div class="col-md-4">
+              <div id="device6" class="device">
+                <h2 class="text-center fw-bolder text-uppercase">Device 6</h2>
+                <button onclick="startTimer(6)">Start</button>
+                <button onclick="stopTimer(6)" disabled>Stop</button>
+                <div>Elapsed Time: <span id="elapsedTime6">00:00:00</span></div>
+                <select title="rate" id="rateSelector6" onchange="saveRateSelection(6)">
+                    <option  value="10">10 EGP/hour</option>
+                    <option  value="15">15 EGP/hour</option>
+                    <option  value="20">20 EGP/hour</option>
+                    <option  value="25">25 EGP/hour</option>
+                    <option  value="30">30 EGP/hour</option>
+                    <option  value="35">35 EGP/hour</option>
+                    <option  value="40">40 EGP/hour</option>
+                </select>
+                <div>
+                  Drinks:
+                  <button class="show-drinks-btn">Show Drinks</button>
+                  <button class="hide-drinks-btn d-none">Hide Drinks</button>
+                  <div class="drinks d-none">
+                    <div class="my-2">
+                      
+                      <label>Soda Small (15 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="6" id="sodaS6" type="number" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Soda Large (15 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="6" type="number" id="sodaL6" min="0" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Sokhn  (10 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="6" type="number" id="sokhn6" min="0" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Coffee (15 EGP)</label>
+                      <input title="drink" class="drink-input" data-device-id="6" type="number" id="coffee6" min="0" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Cappuccino (15 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="6" type="number" id="cappuccino6" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>French Coffee (20 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="6" type="number" id="frenchCoffee6" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Net Card (5 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="6" type="number" id="netCard6" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Half Hour PS4 (10 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="6" type="number" id="halfHourPS46" value="0">
+                    </div>
+                    <div class="my-2">
+                      <label>Hour PS4 (20 EGP):</label>
+                      <input title="drink" class="drink-input" data-device-id="6" type="number" id="hourPS46" value="0">
+                    </div>
+                  </div>
+                </div>
+                <div>Total Cost: <span id="cost6">0</span></div>
+                <button class="clear-btn" onclick="clearTimer(6)">Clear Data</button>
+            </div>
+            </div>
+          </div>
         <!-- Repeat the above block for additional devices -->
     </div>
-    <script src="script.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>

@@ -1,0 +1,113 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #12372A;
+    font-size: 20px;
+}
+.title{
+    border: solid 2px white;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: white;
+    color: #000 !important;
+    font-weight: 700;
+    box-shadow: 10px 10px 0px 0px black;
+    margin-bottom: 20px;
+}
+.main h1{
+  color: #FBFADA;
+}
+label{
+    display: block;
+}
+.show-btn,.hide-btn{  
+    display: block;
+    width: 100%;
+    background-color: transparent;
+    border:solid white 2px;
+    color: white;
+    transition: all .2s ease;
+}
+.show-btn:hover{
+    background-color:#12372A ;
+    border: solid 2px transparent;
+}
+.hide-btn:hover{
+    background-color:#12372A ;
+    border: solid 2px transparent;
+}
+input{
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+}
+.clearbtn{
+  display: block;
+  margin-left: auto;
+  margin-bottom: 10px;
+}
+.device {
+    background-color: #0A6847;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border-radius: 10px;
+    color: white;
+}
+.clear-btn{
+    background-color: #ba4242;
+    color: white;
+    transition: all .2s ease;
+}
+.clear-btn:hover{
+    background-color: #913232;
+
+}
+button{
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    background-color:#7ABA78 ;
+    border: none;
+    color: #000;
+    font-weight: 700;
+    border-radius: 10px;
+    transition: all .3s ease;
+}
+button:hover{
+    background-color: #295037;
+    color: white;
+}
+button:disabled{
+  background-color :grey;
+  color: dimgray;
+}
+.show-drinks-btn,.hide-drinks-btn{
+    display: block;
+    width: 100%;
+}
+select {
+    padding: 5px;
+    margin-top: 10px;
+    display: block;
+    width: 100%;
+    background-color: #09c;
+    color: white;
+}
+/* Enhance the appearance of dropdowns used for selecting drink rates */
+select {
+    background-color: #295037; /* Darker shade for better contrast */
+    color: #FBFADA; /* Light text for readability */
+    border: 2px solid #7ABA78; /* Green border matching button colors */
+    border-radius: 5px; /* Rounded corners for modern look */
+    font-size: 16px; /* Slightly larger font for better visibility */
+}
+
+option {
+    padding: 5px; /* Padding for better touch interaction */
+    background-color: #0A6847; /* Consistent with device background */
+}
