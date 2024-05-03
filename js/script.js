@@ -158,7 +158,7 @@ function clearAllTimers() {
     }
 }
 function clearTimer(deviceId) {
-    if (confirm(`Are you sure you want to clear the timer for device ${deviceId}? This action cannot be undone.`)) {
+    if (confirm(`Are you sure you want to clear the data for device ${deviceId}? This action cannot be undone.`)) {
         clearInterval(timers[deviceId]);
         localStorage.removeItem(`device${deviceId}`);
         document.getElementById(`elapsedTime${deviceId}`).textContent = "00:00:00";
