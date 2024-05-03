@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El-Dra3 Bayez</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>El-Dra3 Bayez System</h1>
+        <button class="clearbtn" onclick="clearAllTimers()">Clear All Timers</button>
+
+        <!-- Device blocks -->
+        <div id="device1" class="device">
+            <h2>Device 1</h2>
+            <button onclick="startTimer(1)">Start</button>
+            <button onclick="stopTimer(1)" disabled>Stop</button>
+            <div>Elapsed Time: <span id="elapsedTime1">00:00:00</span></div>
+            <select id="rateSelector1">
+               <option value="10">10 EGP/hour</option>
+                <option value="15">15 EGP/hour</option>
+                <option value="20">20 EGP/hour</option>
+                <option value="25">25 EGP/hour</option>
+                <option value="30">30 EGP/hour</option>
+                <option value="35">35 EGP/hour</option>
+                <option value="40">40 EGP/hour</option>
+            </select>
+            <div>Total Cost: <span id="cost1">0</span></div>
+        </div>
+
+        <div id="device2" class="device">
+          <h2>Device 2</h2>
+          <button onclick="startTimer(2)">Start</button>
+          <button onclick="stopTimer(2)" disabled>Stop</button>
+          <div>Elapsed Time: <span id="elapsedTime2">00:00:00</span></div>
+          <select id="rateSelector2">
+             <option value="10">10 EGP/hour</option>
+             <option value="15">15 EGP/hour</option>
+             <option value="20">20 EGP/hour</option>
+             <option value="25">25 EGP/hour</option>
+             <option value="30">30 EGP/hour</option>
+             <option value="35">35 EGP/hour</option>
+             <option value="40">40 EGP/hour</option>
+          </select>
+          <div>Total Cost: <span id="cost2">0</span></div>
+        </div>
+        
+        
+        <div id="device3" class="device">
+          <h2>Device 3</h2>
+          <button onclick="startTimer(3)">Start</button>
+          <button onclick="stopTimer(3)" disabled>Stop</button>
+          <div>Elapsed Time: <span id="elapsedTime3">00:00:00</span></div>
+          <select id="rateSelector3">
+             <option value="10">10 EGP/hour</option>
+             <option value="15">15 EGP/hour</option>
+             <option value="20">20 EGP/hour</option>
+             <option value="25">25 EGP/hour</option>
+             <option value="30">30 EGP/hour</option>
+             <option value="35">35 EGP/hour</option>
+             <option value="40">40 EGP/hour</option>
+          </select>
+          <div>Total Cost: <span id="cost3">0</span></div>
+        </div>
+        
+        
+        <div id="device4" class="device">
+          <h2>Device 4</h2>
+          <button onclick="startTimer(4)">Start</button>
+          <button onclick="stopTimer(4)" disabled>Stop</button>
+          <div>Elapsed Time: <span id="elapsedTime4">00:00:00</span></div>
+          <select id="rateSelector4">
+            <option value="10">10 EGP/hour</option>
+             <option value="15">15 EGP/hour</option>
+             <option value="20">20 EGP/hour</option>
+             <option value="25">25 EGP/hour</option>
+             <option value="30">30 EGP/hour</option>
+             <option value="35">35 EGP/hour</option>
+             <option value="40">40 EGP/hour</option>
+          </select>
+          <div>Total Cost: <span id="cost4">0</span></div>
+        </div>
+        
+        <div id="device5" class="device">
+          <h2>Device 5</h2>
+          <button onclick="startTimer(5)">Start</button>
+          <button onclick="stopTimer(5)" disabled>Stop</button>
+          <div>Elapsed Time: <span id="elapsedTime5">00:00:00</span></div>
+          <select id="rateSelector5">
+             <option value="10">10 EGP/hour</option>
+             <option value="15">15 EGP/hour</option>
+             <option value="20">20 EGP/hour</option>
+             <option value="25">25 EGP/hour</option>
+             <option value="30">30 EGP/hour</option>
+             <option value="35">35 EGP/hour</option>
+             <option value="40">40 EGP/hour</option>
+          </select>
+          <div>Total Cost: <span id="cost5">0</span></div>
+        </div>
+        
+        
+        <div id="device6" class="device">
+          <h2>Device 6</h2>
+          <button onclick="startTimer(6)">Start</button>
+          <button onclick="stopTimer(6)" disabled>Stop</button>
+          <div>Elapsed Time: <span id="elapsedTime6">00:00:00</span></div>
+          <select id="rateSelector6">
+            <option value="10">10 EGP/hour</option>
+             <option value="15">15 EGP/hour</option>
+             <option value="20">20 EGP/hour</option>
+             <option value="25">25 EGP/hour</option>
+             <option value="30">30 EGP/hour</option>
+             <option value="35">35 EGP/hour</option>
+             <option value="40">40 EGP/hour</option>
+          </select>
+          <div>Total Cost: <span id="cost6">0</span></div>
+        </div>
+        
+        <!-- Repeat the above block for additional devices -->
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
