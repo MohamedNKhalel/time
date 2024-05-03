@@ -40,7 +40,10 @@ button {
     font-weight: 700;
     border-radius: 10px;
 }
-
+button:disabled{
+  background-color :grey;
+  color: dimgray;
+}
 select {
     padding: 5px;
     margin-top: 10px;
