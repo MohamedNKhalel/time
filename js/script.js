@@ -1,5 +1,28 @@
 let timers = {};
 
+document.querySelectorAll('.show-drinks-bar, .hide-drinks-bar').forEach(bar=>{
+    bar.addEventListener('click',function(){
+        let device = this.closest('.device'); // Find the closest parent '.device' container
+        let drinksMenu = device.querySelector('.drinks-menu');
+        let showBtn = device.querySelector('.show-drinks-bar');
+        let hideBtn = device.querySelector('.hide-drinks-bar');
+        drinksMenu.classList.toggle('d-none');
+        showBtn.classList.toggle('d-none');
+        hideBtn.classList.toggle('d-none');
+    })
+})
+document.querySelectorAll('.show-others-bar, .hide-others-bar').forEach(bar=>{
+    bar.addEventListener('click',function(){
+        let device = this.closest('.device'); // Find the closest parent '.device' container
+        let drinksMenu = device.querySelector('.others-menu');
+        let showBtn = device.querySelector('.show-others-bar');
+        let hideBtn = device.querySelector('.hide-others-bar');
+        drinksMenu.classList.toggle('d-none');
+        showBtn.classList.toggle('d-none');
+        hideBtn.classList.toggle('d-none');
+    })
+})
+
 document.querySelectorAll('.show-drinks-btn, .hide-drinks-btn').forEach(button => {
     button.addEventListener("click", function() {
         let device = this.closest('.device'); // Find the closest parent '.device' container
@@ -61,7 +84,7 @@ function loadRateSelections() {
 
 function loadDrinkQuantities(deviceId) {
     // Load saved drink quantities from localStorage
-    const drinkIds = ['sodaS', 'sodaL', 'sokhn', 'coffee', 'cappuccino', 'frenchCoffee', 'netCard', 'halfHourPS4', 'hourPS4'];
+    const drinkIds = ['sodaS', 'sodaL', 'sokhn', 'coffee', 'cappuccino', 'frenchCoffee', 'netCard', 'halfHourPS4', 'hourPS4','sandwich','cleaning'];
     drinkIds.forEach(drinkId => {
         let savedQuantity = localStorage.getItem(`${drinkId}${deviceId}`);
         if (savedQuantity) {
@@ -72,7 +95,7 @@ function loadDrinkQuantities(deviceId) {
 
 function saveDrinkQuantities(deviceId) {
     // Save current drink quantities to localStorage
-    const drinkIds = ['sodaS', 'sodaL', 'sokhn', 'coffee', 'cappuccino', 'frenchCoffee', 'netCard', 'halfHourPS4', 'hourPS4'];
+    const drinkIds = ['sodaS', 'sodaL', 'sokhn', 'coffee', 'cappuccino', 'frenchCoffee', 'netCard', 'halfHourPS4', 'hourPS4','sandwich','cleaning'];
     drinkIds.forEach(drinkId => {
         let quantity = document.getElementById(`${drinkId}${deviceId}`).value;
         localStorage.setItem(`${drinkId}${deviceId}`, quantity);
@@ -119,16 +142,19 @@ function calculateCost(deviceId, savedData) {
 
     // Sum up costs from drinks
     const sodaS = parseInt(document.getElementById(`sodaS${deviceId}`).value, 10) * 15;
-    const sodaL = parseInt(document.getElementById(`sodaL${deviceId}`).value, 10) * 15;
+    const sodaL = parseInt(document.getElementById(`sodaL${deviceId}`).value, 10) * 20;
     const sokhn = parseInt(document.getElementById(`sokhn${deviceId}`).value, 10) * 10;
     const coffee = parseInt(document.getElementById(`coffee${deviceId}`).value, 10) * 15;
     const cappuccino = parseInt(document.getElementById(`cappuccino${deviceId}`).value) * 15;
-    const frenchCoffee = parseInt(document.getElementById(`frenchCoffee${deviceId}`).value) * 20;
+    const frenchCoffee = parseInt(document.getElementById(`frenchCoffee${deviceId}`).value) * 25;
     const netCard = parseInt(document.getElementById(`netCard${deviceId}`).value) * 5;
     const halfHourPS4 = parseInt(document.getElementById(`halfHourPS4${deviceId}`).value) * 10;
     const hourPS4 = parseInt(document.getElementById(`hourPS4${deviceId}`).value) * 20;
+    const sandwich = parseInt(document.getElementById(`sandwich${deviceId}`).value) * 15;
+    const cleaning = parseInt(document.getElementById(`cleaning${deviceId}`).value) * 3;
+    
 
-    const totalCost = (costFromTime + sodaS + sodaL + sokhn + coffee + cappuccino + frenchCoffee + netCard + halfHourPS4 + hourPS4).toFixed(2);
+    const totalCost = (costFromTime + sodaS + sodaL + sokhn + coffee + cappuccino + frenchCoffee + netCard + halfHourPS4 + hourPS4 + sandwich + cleaning).toFixed(2);
     document.getElementById(`cost${deviceId}`).textContent = `${totalCost} EGP`;
     savedData.cost = totalCost;
     localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
@@ -170,7 +196,7 @@ function clearTimer(deviceId) {
 }
 
 function resetDrinkQuantities(deviceId) {
-    const drinkIds = ['sodaS', 'sodaL', 'sokhn', 'coffee', 'cappuccino', 'frenchCoffee', 'netCard', 'halfHourPS4', 'hourPS4'];
+    const drinkIds = ['sodaS', 'sodaL', 'sokhn', 'coffee', 'cappuccino', 'frenchCoffee', 'netCard', 'halfHourPS4', 'hourPS4','sandwich','cleaning'];
     drinkIds.forEach(drinkId => {
         document.getElementById(`${drinkId}${deviceId}`).value = 0;
         localStorage.removeItem(`${drinkId}${deviceId}`);
