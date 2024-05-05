@@ -43,15 +43,45 @@ function init() {
             savedData = JSON.parse(savedData);
             if (savedData.running) {
                 startTimer(deviceId, new Date(savedData.startTime));
-            } else {
+                document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = true;
+                document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = false;
+                document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = false;
+                document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
+                document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.remove('d-none');
+                document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.add('d-none')
+
+
+            }
+            else if(savedData.running==false && savedData.paused == true){
+                document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = true;
+                document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = false;
+                document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
+                document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.add('d-none');
+                document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = false;
+                document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.remove('d-none')
+            } 
+            else {
                 document.getElementById(`elapsedTime${deviceId}`).textContent = formatTime(savedData.elapsedTime);
                 document.getElementById(`cost${deviceId}`).textContent = `${savedData.cost} EGP`;
+                document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
+                document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
+                document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
+                document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = false;
             }
+        } else {
+            // Ensure all controls are reset to a default state if no saved data exists
+            document.getElementById(`elapsedTime${deviceId}`).textContent = "00:00:00";
+            document.getElementById(`cost${deviceId}`).textContent = "0.00 EGP";
+            document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
+            document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
+            document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
+            document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
         }
-        loadRateSelections(deviceId);
         loadDrinkQuantities(deviceId);  // Load the drink quantities for each device
     }
+    loadRateSelections();  // This call should happen once for all device setups, ensure it's placed correctly as per your logic
 }
+
 document.querySelectorAll('.drink-input').forEach(input => {
     input.addEventListener('change', (event) => {
         const deviceId = event.target.dataset.deviceId; // Assuming you have a data-device-id attribute
@@ -103,16 +133,25 @@ function saveDrinkQuantities(deviceId) {
 }
 
 
-function startTimer(deviceId, startTime = new Date()) {
-    timers[deviceId] = setInterval(() => updateElapsedTime(deviceId), 1000);
-    document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = true;
-    document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = false;
-    localStorage.setItem(`device${deviceId}`, JSON.stringify({
-        startTime: startTime.toISOString(),
+
+function startTimer(deviceId, resume = false) {
+    let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`)) || {
+        startTime: new Date().toISOString(),
         elapsedTime: 0,
         cost: 0,
         running: true
-    }));
+    };
+
+    if (!resume) {
+        savedData.startTime = new Date().toISOString();
+        savedData.elapsedTime = 0;
+    }
+
+    timers[deviceId] = setInterval(() => updateElapsedTime(deviceId), 1000);
+    document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = true;
+    document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = false;
+    document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = false;
+    localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
 }
 
 function stopTimer(deviceId) {
@@ -122,10 +161,50 @@ function stopTimer(deviceId) {
         calculateCost(deviceId, savedData);
         document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
         document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
+        document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
+        document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
         savedData.running = false;
         localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
     }
 }
+function pauseTimer(deviceId) {
+    if (timers[deviceId]) {
+        clearInterval(timers[deviceId]);
+        updateElapsedTime(deviceId); // Make sure elapsed time is updated before pausing
+        let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
+        savedData.running = false;
+        savedData.paused = true; // Save paused state
+        localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
+
+        // Update button visibility
+        document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = false;
+        document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.remove('d-none');
+        document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
+        document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.add('d-none');
+    }
+}
+
+
+function resumeTimer(deviceId) {
+    let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
+    if (!savedData.running) {
+        let currentTime = new Date();
+        let elapsedTimeInMs = savedData.elapsedTime * 1000;
+        savedData.startTime = new Date(currentTime - elapsedTimeInMs).toISOString();
+        savedData.paused = false; // Clear paused state
+        savedData.running = true;
+
+        localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
+
+        startTimer(deviceId, true); // Resume with true to keep current elapsed time
+        document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
+        document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.add('d-none');
+        document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = false;
+        document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.remove('d-none');
+    }
+}
+
+
 
 function updateElapsedTime(deviceId) {
     let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
@@ -133,37 +212,6 @@ function updateElapsedTime(deviceId) {
     document.getElementById(`elapsedTime${deviceId}`).textContent = formatTime(elapsedTime);
     savedData.elapsedTime = elapsedTime;
     localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
-}
-
-function calculateCost(deviceId, savedData) {
-    const elapsedTime = savedData.elapsedTime / 3600; // convert seconds to hours
-    const rate = parseFloat(document.getElementById(`rateSelector${deviceId}`).value);
-    const costFromTime = elapsedTime * rate;
-
-    // Sum up costs from drinks
-    const sodaS = parseInt(document.getElementById(`sodaS${deviceId}`).value, 10) * 15;
-    const sodaL = parseInt(document.getElementById(`sodaL${deviceId}`).value, 10) * 20;
-    const sokhn = parseInt(document.getElementById(`sokhn${deviceId}`).value, 10) * 10;
-    const coffee = parseInt(document.getElementById(`coffee${deviceId}`).value, 10) * 15;
-    const cappuccino = parseInt(document.getElementById(`cappuccino${deviceId}`).value) * 15;
-    const frenchCoffee = parseInt(document.getElementById(`frenchCoffee${deviceId}`).value) * 25;
-    const netCard = parseInt(document.getElementById(`netCard${deviceId}`).value) * 5;
-    const halfHourPS4 = parseInt(document.getElementById(`halfHourPS4${deviceId}`).value) * 10;
-    const hourPS4 = parseInt(document.getElementById(`hourPS4${deviceId}`).value) * 20;
-    const sandwich = parseInt(document.getElementById(`sandwich${deviceId}`).value) * 15;
-    const cleaning = parseInt(document.getElementById(`cleaning${deviceId}`).value) * 3;
-    
-
-    const totalCost = (costFromTime + sodaS + sodaL + sokhn + coffee + cappuccino + frenchCoffee + netCard + halfHourPS4 + hourPS4 + sandwich + cleaning).toFixed(2);
-    document.getElementById(`cost${deviceId}`).textContent = `${totalCost} EGP`;
-    savedData.cost = totalCost;
-    localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
-}
-
-function calculateDrinkCost(deviceId) {
-  const drinkPrice = parseFloat(document.getElementById(`drinkSelector${deviceId}`).value);
-  const quantity = parseInt(document.getElementById(`drinkQuantity${deviceId}`).value, 10);
-  return drinkPrice * quantity;
 }
 function formatTime(seconds) {
     const hrs = Math.floor(seconds / 3600);
@@ -193,6 +241,34 @@ function clearTimer(deviceId) {
         document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
         document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
     }
+}
+
+function calculateCost(deviceId, savedData) {
+    const elapsedTime = savedData.elapsedTime / 3600; // convert seconds to hours
+    const rate = parseFloat(document.getElementById(`rateSelector${deviceId}`).value);
+    const costFromTime = elapsedTime * rate;
+    // Sum up costs from drinks
+    const sodaS = parseInt(document.getElementById(`sodaS${deviceId}`).value, 10) * 15;
+    const sodaL = parseInt(document.getElementById(`sodaL${deviceId}`).value, 10) * 20;
+    const sokhn = parseInt(document.getElementById(`sokhn${deviceId}`).value, 10) * 10;
+    const coffee = parseInt(document.getElementById(`coffee${deviceId}`).value, 10) * 15;
+    const cappuccino = parseInt(document.getElementById(`cappuccino${deviceId}`).value) * 15;
+    const frenchCoffee = parseInt(document.getElementById(`frenchCoffee${deviceId}`).value) * 25;
+    const netCard = parseInt(document.getElementById(`netCard${deviceId}`).value) * 5;
+    const halfHourPS4 = parseInt(document.getElementById(`halfHourPS4${deviceId}`).value) * 10;
+    const hourPS4 = parseInt(document.getElementById(`hourPS4${deviceId}`).value) * 20;
+    const sandwich = parseInt(document.getElementById(`sandwich${deviceId}`).value) * 15;
+    const cleaning = parseInt(document.getElementById(`cleaning${deviceId}`).value) * 3;
+    const totalCost = (costFromTime + sodaS + sodaL + sokhn + coffee + cappuccino + frenchCoffee + netCard + halfHourPS4 + hourPS4 + sandwich + cleaning).toFixed(2);
+    document.getElementById(`cost${deviceId}`).textContent = `${totalCost} EGP`;
+    savedData.cost = totalCost;
+    localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
+}
+
+function calculateDrinkCost(deviceId) {
+  const drinkPrice = parseFloat(document.getElementById(`drinkSelector${deviceId}`).value);
+  const quantity = parseInt(document.getElementById(`drinkQuantity${deviceId}`).value, 10);
+  return drinkPrice * quantity;
 }
 
 function resetDrinkQuantities(deviceId) {

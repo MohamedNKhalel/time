@@ -8,18 +8,25 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
+<body >
     <div class="main">
         <h1 class="text-center text-uppercase title">El-Dra3 Bayez System</h1>
         <button class="clearbtn" onclick="clearAllTimers()">Clear All Timers</button>
+
         <!-- Device blocks -->
           <div class="row g-4">
             <!-- Device 1 -->
             <div class="col-md-4">
               <div id="device1" class="device">
                 <h2 class="text-center fw-bolder text-uppercase">Device 1</h2>
-                <button onclick="startTimer(1)">Start</button>
+                
+                <div class="d-flex justify-content-between align-items-center">
+                  <button class="w-100" onclick="startTimer(1)">Start</button>
+                  <button title="pause" onclick="pauseTimer(1)" id="pauseTimer1" disabled><i class="fa fa-pause fa-xl"></i></button>
+                  <button title="play" type="button" class="d-none" onclick="resumeTimer(1)" id="continueTimer1" disabled><i class="fa fa-play fa-xl "></i></button>
+                </div>
                 <button onclick="stopTimer(1)" disabled>Stop</button>
+                
                 <div>Elapsed Time: <span id="elapsedTime1">00:00:00</span></div>
                 <select title="rate" id="rateSelector1" onchange="saveRateSelection(1)">
                     <option  value="10">10 EGP/hour</option>
@@ -110,7 +117,11 @@
             <div class="col-md-4">
               <div id="device2" class="device">
                 <h2 class="text-center fw-bolder text-uppercase">Device 2</h2>
-                <button onclick="startTimer(2)">Start</button>
+                <div class="d-flex justify-content-between align-items-center">
+                  <button class="w-100" onclick="startTimer(2)">Start</button>
+                  <button title="pause" onclick="pauseTimer(2)" id="pauseTimer1" disabled><i class="fa fa-pause fa-xl"></i></button>
+                  <button title="play" type="button" class="d-none" onclick="resumeTimer(2)" id="continueTimer1" disabled><i class="fa fa-play fa-xl "></i></button>
+                </div>
                 <button onclick="stopTimer(2)" disabled>Stop</button>
                 <div>Elapsed Time: <span id="elapsedTime2">00:00:00</span></div>
                 <select title="rate" id="rateSelector2" onchange="saveRateSelection(2)">
@@ -201,7 +212,11 @@
             <div class="col-md-4">
               <div id="device3" class="device">
                 <h2 class="text-center fw-bolder text-uppercase">Device 3</h2>
-                <button onclick="startTimer(3)">Start</button>
+                <div class="d-flex justify-content-between align-items-center">
+                  <button class="w-100" onclick="startTimer(3)">Start</button>
+                  <button title="pause" onclick="pauseTimer(3)" id="pauseTimer1" disabled><i class="fa fa-pause fa-xl"></i></button>
+                  <button title="play" type="button" class="d-none" onclick="resumeTimer(3)" id="continueTimer1" disabled><i class="fa fa-play fa-xl "></i></button>
+                </div>
                 <button onclick="stopTimer(3)" disabled>Stop</button>
                 <div>Elapsed Time: <span id="elapsedTime3">00:00:00</span></div>
                 <select title="rate" id="rateSelector3" onchange="saveRateSelection(3)">
@@ -293,7 +308,11 @@
             <div class="col-md-4">
               <div id="device4" class="device">
                 <h2 class="text-center fw-bolder text-uppercase">Device 4</h2>
-                <button onclick="startTimer(4)">Start</button>
+                <div class="d-flex justify-content-between align-items-center">
+                  <button class="w-100" onclick="startTimer(4)">Start</button>
+                  <button title="pause" onclick="pauseTimer(4)" id="pauseTimer1" disabled><i class="fa fa-pause fa-xl"></i></button>
+                  <button title="play" type="button" class="d-none" onclick="resumeTimer(4)" id="continueTimer1" disabled><i class="fa fa-play fa-xl "></i></button>
+                </div>
                 <button onclick="stopTimer(4)" disabled>Stop</button>
                 <div>Elapsed Time: <span id="elapsedTime4">00:00:00</span></div>
                 <select title="rate" id="rateSelector4" onchange="saveRateSelection(4)">
@@ -385,7 +404,11 @@
             <div class="col-md-4">
               <div id="device5" class="device">
                 <h2 class="text-center fw-bolder text-uppercase">Device 5</h2>
-                <button onclick="startTimer(5)">Start</button>
+                <div class="d-flex justify-content-between align-items-center">
+                  <button class="w-100" onclick="startTimer(5)">Start</button>
+                  <button title="pause" onclick="pauseTimer(5)" id="pauseTimer1" disabled><i class="fa fa-pause fa-xl"></i></button>
+                  <button title="play" type="button" class="d-none" onclick="resumeTimer(5)" id="continueTimer1" disabled><i class="fa fa-play fa-xl "></i></button>
+                </div>
                 <button onclick="stopTimer(5)" disabled>Stop</button>
                 <div>Elapsed Time: <span id="elapsedTime5">00:00:00</span></div>
                 <select title="rate" id="rateSelector5" onchange="saveRateSelection(5)">
@@ -477,7 +500,11 @@
             <div class="col-md-4">
               <div id="device6" class="device">
                 <h2 class="text-center fw-bolder text-uppercase">Device 6</h2>
-                <button onclick="startTimer(6)">Start</button>
+                <div class="d-flex justify-content-between align-items-center">
+                  <button class="w-100" onclick="startTimer(6)">Start</button>
+                  <button title="pause" onclick="pauseTimer(6)" id="pauseTimer1" disabled><i class="fa fa-pause fa-xl"></i></button>
+                  <button title="play" type="button" class="d-none" onclick="resumeTimer(6)" id="continueTimer1" disabled><i class="fa fa-play fa-xl "></i></button>
+                </div>
                 <button onclick="stopTimer(6)" disabled>Stop</button>
                 <div>Elapsed Time: <span id="elapsedTime6">00:00:00</span></div>
                 <select title="rate" id="rateSelector6" onchange="saveRateSelection(6)">
@@ -568,6 +595,13 @@
           </div>
         <!-- Repeat the above block for additional devices -->
     </div>
+    <!-- <section>
+      <label for="deviceCount">count</label>
+      <input type="text" class="form-control" id="deviceCount" >
+      <button onclick="addDevice()">Add Device</button>
+        <div  id="deviceContainer" class="row" >
+        </div>
+    </section> -->
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/script.js"></script>
 </body>
