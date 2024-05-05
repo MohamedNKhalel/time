@@ -228,6 +228,9 @@ function clearAllTimers() {
             document.getElementById(`cost${deviceId}`).textContent = "0.00 EGP";
             document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
             document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
+            document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
+            document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
+            
         }
     }
 }
@@ -240,6 +243,8 @@ function clearTimer(deviceId) {
         resetDrinkQuantities(deviceId);
         document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
         document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
+        document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
+        document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
     }
 }
 
