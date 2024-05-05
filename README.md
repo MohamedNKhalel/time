@@ -1,1 +1,1 @@
-Platstaion Time and drinks System management
+Platystaion Time and drinks System management
