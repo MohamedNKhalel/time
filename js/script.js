@@ -229,6 +229,8 @@ function clearAllTimers() {
             document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
             document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
             document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
+            document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.add('d-none');
+            document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.remove('d-none');
             document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
             
         }
@@ -244,6 +246,8 @@ function clearTimer(deviceId) {
         document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
         document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
         document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
+        document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.add('d-none');
+        document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.remove('d-none');
         document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
     }
 }
