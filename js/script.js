@@ -37,6 +37,8 @@ document.querySelectorAll('.show-drinks-btn, .hide-drinks-btn').forEach(button =
 });
 
 function init() {
+    rebuildTable();
+    displaySavedTotalCost();
     for (let deviceId = 1; deviceId <= 6; deviceId++) {
         let savedData = localStorage.getItem(`device${deviceId}`);
         if (savedData) {
@@ -159,14 +161,134 @@ function stopTimer(deviceId) {
         clearInterval(timers[deviceId]);
         let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
         calculateCost(deviceId, savedData);
+        
+        // Update button states
         document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
         document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
         document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
         document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
+        
+        // Update running state and save to localStorage
         savedData.running = false;
         localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
+
+        // Update UI Table with device information
+        updateDeviceTable(deviceId, savedData);
+
+        // Recalculate and update the total cost
+        updateTotalCost();
     }
 }
+function updateDeviceTable(deviceId, data) {
+    const table = document.getElementById("deviceSummary");
+    const row = table.insertRow(1); 
+    const idCell = row.insertCell(0);
+    const timeCell = row.insertCell(1);
+    const costCell = row.insertCell(2);
+
+    idCell.textContent = `Device ${deviceId}`;
+    timeCell.textContent = formatTime(data.elapsedTime);
+    costCell.textContent = `${data.cost} EGP`;
+
+    // Save the row data to localStorage
+    let tableData = JSON.parse(localStorage.getItem('tableData')) || [];
+    tableData.push({
+        deviceId: deviceId,
+        elapsedTime: data.elapsedTime,
+        cost: data.cost
+    });
+    localStorage.setItem('tableData', JSON.stringify(tableData));
+}
+function rebuildTable() {
+    const tableData = JSON.parse(localStorage.getItem('tableData'));
+    if (tableData) {
+        const table = document.getElementById("deviceSummary");
+        tableData.forEach(data => {
+            const row = table.insertRow(1);
+            const idCell = row.insertCell(0);
+            const timeCell = row.insertCell(1);
+            const costCell = row.insertCell(2);
+
+            idCell.textContent = `Device ${data.deviceId}`;
+            timeCell.textContent = formatTime(data.elapsedTime);
+            costCell.textContent = `${data.cost} EGP`;
+        });
+    }
+}
+
+function updateTotalCost() {
+    let total = 0;
+    const costCells = document.querySelectorAll('#deviceSummary td:nth-child(3)');  // Select all cost cells
+    costCells.forEach(cell => {
+        total += parseFloat(cell.textContent.replace(' EGP', ''));
+    });
+    localStorage.setItem('totalCost', total.toFixed(2));  // Save the total cost to localStorage
+    document.getElementById('totalCost').textContent = `${total.toFixed(2)} EGP`; // Display the updated total cost
+}
+function displaySavedTotalCost() {
+    const savedTotalCost = localStorage.getItem('totalCost');
+    if (savedTotalCost) {
+        document.getElementById('totalCost').textContent = `${savedTotalCost} EGP`;
+    }
+}
+function clearTableData() {
+    if (confirm("Are you sure you want to clear all table data? This action cannot be undone.")) {
+        window.location.reload();
+        // Clear table rows from the DOM
+        const table = document.getElementById("deviceSummary");
+        while (table.rows.length > 1) {  // Assuming the first row is the header
+            table.deleteRow(1);
+        }
+
+        // Clear table data from localStorage
+        localStorage.removeItem('tableData');
+        localStorage.removeItem('totalCost');
+
+        // Reset total cost display
+        document.getElementById('totalCost').textContent = '0.00 EGP';
+    }
+}
+function getCurrentDate() {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+    const year = today.getFullYear();
+    return `${day}/${month}/${year}`; // Formats date as DD/MM/YYYY
+}
+let pdfCounter = 0;
+function downloadPDF() {
+    pdfCounter++;
+    localStorage.setItem("pdfCounter",pdfCounter)
+    let i = pdfCounter;
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    // Set font for better compatibility
+    doc.setFont('helvetica', 'normal');
+
+    // Get the current date
+    const date = getCurrentDate();
+
+    // Optionally add a header with the date
+    doc.text(`Date: ${date}`, 14, 10); // Adjust the position as needed
+
+    // Capture the HTML table and use AutoTable to add it to the PDF
+    doc.autoTable({
+        html: '#deviceSummary',
+        theme: 'striped',
+        startY: 20, // Make sure this starts below your date text
+        margin: { top: 10, bottom: 10 }
+    });
+
+    // Optionally add a footer or any additional text
+    doc.text("ElDra3 Bayez Devices Summary Report", 14, doc.lastAutoTable.finalY + 10); // Adjust the position as needed
+
+    // Save the PDF
+    i = localStorage.getItem('pdfCounter')
+    doc.save(`DeviceSummary${i}.pdf`);
+}
+
+
+
 function pauseTimer(deviceId) {
     if (timers[deviceId]) {
         clearInterval(timers[deviceId]);
@@ -214,6 +336,9 @@ function updateElapsedTime(deviceId) {
     localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
 }
 function formatTime(seconds) {
+    if (isNaN(seconds)) {
+        return "00:00:00"; // Returns a default time if input is invalid
+    }
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
@@ -251,6 +376,8 @@ function clearTimer(deviceId) {
         document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
     }
 }
+
+
 
 function calculateCost(deviceId, savedData) {
     const elapsedTime = savedData.elapsedTime / 3600; // convert seconds to hours

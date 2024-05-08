@@ -594,6 +594,35 @@
             </div>
             </div>
           </div>
+          
+          <div class="summary-table mt-5">
+            <div class="text-white d-flex justify-content-between align-items-center p-2 rounded-2 shadow">
+              <h2>Devices Summary</h2>
+              <div class="summary-buttons">
+                <button class="btn-danger btn" onclick="clearTableData()">Clear Table</button>
+                <button class="btn btn-info" onclick="downloadPDF()">Download as PDF</button>
+              </div>
+            </div>
+            <table class="table position-relative" id="deviceSummary">
+              <thead class="text-center">
+                  <tr>
+                      <th>Device ID</th>
+                      <th>Elapsed Time</th>
+                      <th>Cost</th>
+                  </tr>
+              </thead>
+              <tbody id="deviceRows">
+                  <!-- Device rows will be added dynamically here -->
+              </tbody>
+              <tfoot>
+                  <tr >
+                      <th colspan="2">Total Cost</th>
+                      <th id="totalCost">0 EGP</th>
+                  </tr>
+              </tfoot>
+            </table>
+          </div>
+
         <!-- Repeat the above block for additional devices -->
     </div>
     <!-- <section>
@@ -604,6 +633,8 @@
         </div>
     </section> -->
     <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>
