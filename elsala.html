@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Playstation management system">
+    <title>El-Dra3 Bayez</title>
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/elsala.css">
+</head>
+<body>
+    <div class="main py-4 px-1 container">
+        <div class="mb-4">
+            <a class="text-decoration-none text-white fs-4 fw-bolder" href="index.html"> <i class="fa fa-arrow-right ms-2"></i>العوده الي صفحه الاجهزه</a>
+        </div>
+        <div >
+            <div class="w-100 m-auto shadow text-white p-4 bg-dark rounded-3">
+                <div class="shadow p-4 bg-gradient rounded-3">
+                    <div class="mb-4">
+                        <label for="nameInput">الاسم:</label>
+                        <input class="form-control" id="nameInput" type="text" placeholder="اسم العميل" >
+                    </div>
+                    <div class="mb-4">
+                        <label for="drinkInput">Drink:</label>
+                        <!-- <input class="form-control" id="drinkInput" type="text" placeholder="اسم المشروب" > -->
+                        <select class="form-control" id="drinkInput">
+                            <option  disabled selected>اختر المشروب</option>
+                            <option value="مشروب سخن">مشروب سخن</option>
+                            <option value="قهوه">قهوه</option>
+                            <option value="نسكافيه">نسكافيه</option>
+                            <option value="ساقع صغير">ساقع حجم صغير</option>
+                            <option value="ساقع كبير">ساقع حجم كبير</option>
+                            <option value="قهوه فرنساوي">قهوه فرنساوي</option>
+                            <option value="كابتشينو">كابتشينو</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="priceInput">Price:</label>
+                        <input class="form-control" id="priceInput" type="number" placeholder="سعر المشروب" >
+                    </div>
+                    <div>
+                        <button disabled id="addBtn" class="btn btn-primary w-50 d-block m-auto">اضافه</button>
+                        <button id="updateBtn" class="btn btn-primary d-none w-50 d-block m-auto">تحديث</button>
+                        <p id="errMsg" class="text-danger text-center d-none mb-0  mt-2">ادخل جميع الحقول</p>
+                    </div>
+                    <input type="hidden"  id="editIndex">
+                </div>
+                <div class="mt-4 text-center shadow">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>الاسم</th>
+                                <th>السعر</th>
+                                <th>المشروب</th>
+                                <th>مسح</th>
+                                <th>تعديل</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+    
+        </div>
+    </div>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/elsala.js"></script>
+</body>
+</html>
