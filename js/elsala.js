@@ -64,7 +64,6 @@ function deleteCustomer(index){
 
 
 function updateCustomer(index){
-    console.log("hi");
     addBtn.classList.replace('d-block','d-none')
     updateBtn.classList.replace('d-none','d-block')
     nameInput.value = allCustomers[index].name;
@@ -76,21 +75,23 @@ function updateCustomer(index){
 }
 
 function updateNewInformation(){
-    let newUpdatedCustomer = {
-        name : nameInput.value,
-        price : priceInput.value,
-        drink : drinkInput.value,
-    }
-
-    allCustomers[updateIndex].name = newUpdatedCustomer.name;
-    allCustomers[updateIndex].price = newUpdatedCustomer.price;
-    allCustomers[updateIndex].drink = newUpdatedCustomer.drink;
-    localStorage.setItem("customers",JSON.stringify(allCustomers));
-    displayTable(allCustomers);
+    if(validForm()== true){
+        let newUpdatedCustomer = {
+            name : nameInput.value,
+            price : priceInput.value,
+            drink : drinkInput.value,
+        }
+        allCustomers[updateIndex].name = newUpdatedCustomer.name;
+        allCustomers[updateIndex].price = newUpdatedCustomer.price;
+        allCustomers[updateIndex].drink = newUpdatedCustomer.drink;
+        localStorage.setItem("customers",JSON.stringify(allCustomers));
+        displayTable(allCustomers);
     clearForm();
     
     addBtn.classList.replace('d-none','d-block')
     updateBtn.classList.replace('d-block','d-none')
+    }
+    
 }
 updateBtn.addEventListener('click',()=>{
     updateNewInformation()
