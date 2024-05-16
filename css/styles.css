@@ -1,17 +1,23 @@
 body {
     font-family: Arial, sans-serif;
     padding: 20px;
-    background-color: #12372A;
+    background-image: url(../assets/images/high-angle-controller-with-vr-glasses.jpg);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
     font-size: 20px;
+
 }
 .title{
-    border: solid 2px white;
     padding: 15px;
     border-radius: 10px;
-    background-color: white;
-    color: #000 !important;
+    background-image:linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3)), url(../assets/images/5106989.jpg);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white !important;
     font-weight: 700;
-    box-shadow: 10px 10px 0px 0px black;
     margin-bottom: 20px;
 
 }
@@ -26,16 +32,16 @@ body {
     
 }
 .table th {
-    background-color: #0A6847;
+    background-image: linear-gradient(to right,rgba(77, 1, 1, 0.9),rgba(0, 0, 0, 0.9)); /* Darker shade for better contrast */
     color: white;
 }
 .table td {
-    background-color: #295037;
+    background-image: linear-gradient(to right,rgba(0, 6, 7, 0.9),rgba(71, 0, 37, 0.9)); /* Darker shade for better contrast */
     color: white;
 }
 .table tfoot th {
     background-color: #eee;
-    color: #333;
+    color: white;
     font-weight: bold;
 }
 .summary-table{
@@ -66,31 +72,47 @@ body {
 }
 .device h2{
     position: relative;
-    left: 0px;
+    
 }
+.device>h2::after{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background-color: white;
+    background-image: linear-gradient(to right,black,rgb(228, 143, 143),#690606,#2F1328,#2E0100,#1C1918);
+    bottom: -10px;
+    left: 0;
+    /* animation: moves .6s infinite; */
+}
+@keyframes moves {
+    0%{
+    background-image: linear-gradient(to right,black,white,#690606,#2F1328,#2E0100,#1C1918);
+    }
+    20%{
+        background-image: linear-gradient(to right,#690606,white,black,#2F1328,#2E0100,#1C1918);
 
+    }
+    40%{
+        background-image: linear-gradient(to right,#2F1328,#690606,white,black,#2E0100,#1C1918);
+    }
+    60%{
+        background-image: linear-gradient(to right,#2E0100,#690606,#2F1328,white,black,#1C1918);
+    }
+    80%{
+        background-image: linear-gradient(to right,#1C1918,#690606,#2F1328,#2E0100,white,black);
+    }
+    100%{
+        background-image: linear-gradient(to right,black,white,#690606,#2F1328,#2E0100,#1C1918);
+    }
+}
 label{
     display: block;
 }
 i{
     cursor: pointer;
 }
-.show-btn,.hide-btn{  
-    display: block;
-    width: 100%;
-    background-color: transparent;
-    border:solid white 2px;
-    color: white;
-    transition: all .2s ease;
-}
-.show-btn:hover{
-    background-color:#12372A ;
-    border: solid 2px transparent;
-}
-.hide-btn:hover{
-    background-color:#12372A ;
-    border: solid 2px transparent;
-}
+
 input{
     width: 100%;
     padding: 10px;
@@ -102,67 +124,90 @@ input{
   margin-left: auto;
   margin-bottom: 10px;
 }
+
 .device {
-    background-color: #0A6847;
+    background-image: linear-gradient(to top,rgba(0, 0, 0, 0.9),rgba(120, 6, 6, 0.9)),url(../assets/images/focus-shot-man-holding-controller-apartment-playing-videogames-smart-tv-display.jpg);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
     padding: 20px;
     margin-bottom: 20px;
-    border: 1px solid #ddd;
     display: flex;
     flex-direction: column;
     gap: 15px;
     border-radius: 10px;
     color: white;
+    box-shadow: 0px 0px 1px 2px rgb(191, 83, 83);
 }
 .clear-btn{
-    background-color: #ba4242;
+    background-image: url(../assets/images/6b857d4c-09d0-45bf-9d7d-6e6d5e7a3c01.jpg);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
     color: white;
     transition: all .2s ease;
 }
 .clear-btn:hover{
-    background-color: #913232;
-
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)),url(../assets/images/6b857d4c-09d0-45bf-9d7d-6e6d5e7a3c01.jpg);
 }
 button{
     padding: 10px 20px;
     margin: 5px;
     cursor: pointer;
-    background-color:#7ABA78 ;
+    background-image: url(../assets/images/cosmic-background-with-colorful-laser-lights-perfect-digital-wallpaper.jpg);
+    background-size: cover;
+    background-position: center center;
     border: none;
-    color: #000;
-    font-weight: 700;
+    color: white;
+    font-weight: 900;
+    text-shadow: 1px 1px 5px black;
     border-radius: 10px;
     transition: all .3s ease;
 }
 button:hover{
-    background-color: #295037;
+    background-image:linear-gradient(rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.6)), url(../assets/images/cosmic-background-with-colorful-laser-lights-perfect-digital-wallpaper.jpg);
     color: white;
 }
 button:disabled{
-  background-color :grey;
-  color: dimgray;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0.7)),url(../assets/images/5106989.jpg);
+    background-size: cover;
+    background-position: center center;
+    color: gray;
 }
 .show-drinks-btn,.hide-drinks-btn{
     display: block;
     width: 100%;
 }
-select {
-    padding: 5px;
-    margin-top: 10px;
-    display: block;
-    width: 100%;
-    background-color: #09c;
-    color: white;
-}
+
 /* Enhance the appearance of dropdowns used for selecting drink rates */
 select {
-    background-color: #295037; /* Darker shade for better contrast */
+    background-image: linear-gradient(to right,rgba(77, 1, 1, 0.9),rgba(0, 0, 0, 0.9)); /* Darker shade for better contrast */
     color: #FBFADA; /* Light text for readability */
-    border: 2px solid #7ABA78; /* Green border matching button colors */
     border-radius: 5px; /* Rounded corners for modern look */
     font-size: 16px; /* Slightly larger font for better visibility */
 }
 
 option {
     padding: 5px; /* Padding for better touch interaction */
-    background-color: #0A6847; /* Consistent with device background */
+    background-color: black; /* Consistent with device background */
+}
+.btn-danger{
+    background-image: url(../assets/images/6b857d4c-09d0-45bf-9d7d-6e6d5e7a3c01.jpg);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+    transition: all .2s ease;
+}
+.btn-danger:hover{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)),url(../assets/images/6b857d4c-09d0-45bf-9d7d-6e6d5e7a3c01.jpg);
+}
+.btn-info{
+    background-image: linear-gradient(to right,rgba(0, 0, 70, 0.54),rgba(255, 255, 255, 0.523));
+    color: white;
+    transition: all .5s ease;
+}
+.btn-info:hover{
+    background-image: linear-gradient(to right,rgba(255, 255, 255, 0.523),rgba(0, 0, 70, 0.54));
+    color: white;
 }
