@@ -9,6 +9,7 @@ body {
     font-size: 20px;
 
 }
+
 .title{
     padding: 15px;
     border-radius: 10px;
@@ -210,4 +211,18 @@ option {
 .btn-info:hover{
     background-image: linear-gradient(to right,rgba(255, 255, 255, 0.523),rgba(0, 0, 70, 0.54));
     color: white;
+}
+.calc-menu{
+    background-color: black !important;
+    color: white !important;
+    padding: 15px !important;
+    border-radius: 10px !important;
+    background-image: none;
+    text-shadow: none;
+
+}
+.calc-menu:hover{
+    background-image: none;
+    color: black !important;
+    background-color: #ccc !important;
 }

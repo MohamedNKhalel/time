@@ -81,7 +81,8 @@ function init() {
         }
         loadDrinkQuantities(deviceId);  // Load the drink quantities for each device
     }
-    loadRateSelections();  // This call should happen once for all device setups, ensure it's placed correctly as per your logic
+    loadRateSelections(); 
+    loadMenuCosts(); // This call should happen once for all device setups, ensure it's placed correctly as per your logic
 }
 
 document.querySelectorAll('.drink-input').forEach(input => {
@@ -141,7 +142,8 @@ function startTimer(deviceId, resume = false) {
         startTime: new Date().toISOString(),
         elapsedTime: 0,
         cost: 0,
-        running: true
+        running: true,
+        date: getCurrentDate()
     };
 
     if (!resume) {
@@ -156,75 +158,108 @@ function startTimer(deviceId, resume = false) {
     localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
 }
 
+
+
 function stopTimer(deviceId) {
     if (confirm("Are you sure you want to stop the timer?")) {
         clearInterval(timers[deviceId]);
         let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
         calculateCost(deviceId, savedData);
-        
-        // Update button states
-        document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
-        document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
-        document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
-        document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
-        
-        // Update running state and save to localStorage
+
+        savedData.endTime = new Date().toISOString();
         savedData.running = false;
+        savedData.paused = false; // Clear paused state
         localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
 
-        // Update UI Table with device information
+        document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
+        document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
+        document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
+        document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.add('d-none');
+        document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.remove('d-none');
+        document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
         updateDeviceTable(deviceId, savedData);
-
-        // Recalculate and update the total cost
-        updateTotalCost();
+        updateTotalCost(); // Ensure total cost is updated here as well
     }
 }
+
+
+
 function updateDeviceTable(deviceId, data) {
-    const table = document.getElementById("deviceSummary");
-    const row = table.insertRow(1); 
+    const table = document.getElementById("deviceSummary").getElementsByTagName('tbody')[0];
+    const row = table.insertRow(0);
     const idCell = row.insertCell(0);
-    const timeCell = row.insertCell(1);
-    const costCell = row.insertCell(2);
+    const dateCell = row.insertCell(1);
+    const startTimeCell = row.insertCell(2);
+    const endTimeCell = row.insertCell(3);
+    const timeCell = row.insertCell(4);
+    const costCell = row.insertCell(5);
 
     idCell.textContent = `Device ${deviceId}`;
+    dateCell.textContent = data.date;
+    startTimeCell.textContent = new Date(data.startTime).toLocaleTimeString();
+    endTimeCell.textContent = new Date(data.endTime).toLocaleTimeString();
     timeCell.textContent = formatTime(data.elapsedTime);
     costCell.textContent = `${data.cost} EGP`;
 
-    // Save the row data to localStorage
     let tableData = JSON.parse(localStorage.getItem('tableData')) || [];
     tableData.push({
         deviceId: deviceId,
+        date: data.date,
+        startTime: data.startTime,
+        endTime: data.endTime,
         elapsedTime: data.elapsedTime,
         cost: data.cost
     });
     localStorage.setItem('tableData', JSON.stringify(tableData));
+
+    // Update the total cost
+    updateTotalCost();
 }
+
+
+
 function rebuildTable() {
     const tableData = JSON.parse(localStorage.getItem('tableData'));
     if (tableData) {
-        const table = document.getElementById("deviceSummary");
+        const table = document.getElementById("deviceSummary").getElementsByTagName('tbody')[0];
+        table.innerHTML = ""; // Clear the table body before rebuilding
         tableData.forEach(data => {
-            const row = table.insertRow(1);
+            const row = table.insertRow(0);
             const idCell = row.insertCell(0);
-            const timeCell = row.insertCell(1);
-            const costCell = row.insertCell(2);
+            const dateCell = row.insertCell(1);
+            const startTimeCell = row.insertCell(2);
+            const endTimeCell = row.insertCell(3);
+            const timeCell = row.insertCell(4);
+            const costCell = row.insertCell(5);
 
             idCell.textContent = `Device ${data.deviceId}`;
+            dateCell.textContent = data.date;
+            startTimeCell.textContent = new Date(data.startTime).toLocaleTimeString();
+            endTimeCell.textContent = new Date(data.endTime).toLocaleTimeString();
             timeCell.textContent = formatTime(data.elapsedTime);
             costCell.textContent = `${data.cost} EGP`;
         });
+
+        // Update the total cost after rebuilding the table
+        updateTotalCost();
     }
 }
 
+
+
+
 function updateTotalCost() {
     let total = 0;
-    const costCells = document.querySelectorAll('#deviceSummary td:nth-child(3)');  // Select all cost cells
+    const costCells = document.querySelectorAll('#deviceSummary tbody td:nth-child(6)'); // Select all cost cells in the table body
     costCells.forEach(cell => {
         total += parseFloat(cell.textContent.replace(' EGP', ''));
     });
-    localStorage.setItem('totalCost', total.toFixed(2));  // Save the total cost to localStorage
+    localStorage.setItem('totalCost', total.toFixed(2)); // Save the total cost to localStorage
     document.getElementById('totalCost').textContent = `${total.toFixed(2)} EGP`; // Display the updated total cost
 }
+
+
+
 function displaySavedTotalCost() {
     const savedTotalCost = localStorage.getItem('totalCost');
     if (savedTotalCost) {
@@ -351,22 +386,26 @@ function clearAllTimers() {
             localStorage.removeItem(`device${deviceId}`);
             document.getElementById(`elapsedTime${deviceId}`).textContent = "00:00:00";
             document.getElementById(`cost${deviceId}`).textContent = "0.00 EGP";
+            document.getElementById(`costm${deviceId}`).textContent = "0.00 EGP";
             document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
             document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
             document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
             document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.add('d-none');
             document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.remove('d-none');
             document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
-            
+            resetDrinkQuantities(deviceId);
         }
     }
 }
+
+
 function clearTimer(deviceId) {
     if (confirm(`Are you sure you want to clear the data for device ${deviceId}? This action cannot be undone.`)) {
         clearInterval(timers[deviceId]);
         localStorage.removeItem(`device${deviceId}`);
         document.getElementById(`elapsedTime${deviceId}`).textContent = "00:00:00";
         document.getElementById(`cost${deviceId}`).textContent = "0.00 EGP";
+        document.getElementById(`costm${deviceId}`).textContent = "0.00 EGP";
         resetDrinkQuantities(deviceId);
         document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
         document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
@@ -375,6 +414,35 @@ function clearTimer(deviceId) {
         document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.remove('d-none');
         document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
     }
+}
+
+function loadMenuCosts() {
+    for (let deviceId = 1; deviceId <= 6; deviceId++) {  // Assuming you have 6 devices
+        const storedCost = localStorage.getItem(`menuCost${deviceId}`);
+        if (storedCost !== null) {
+            document.getElementById(`costm${deviceId}`).textContent = `${storedCost} EGP`;
+        }
+    }
+}
+
+function calculateMenuCost(deviceId) {
+    const sodaS = parseInt(document.getElementById(`sodaS${deviceId}`).value, 10) * 15;
+    const sodaL = parseInt(document.getElementById(`sodaL${deviceId}`).value, 10) * 20;
+    const sokhn = parseInt(document.getElementById(`sokhn${deviceId}`).value, 10) * 10;
+    const coffee = parseInt(document.getElementById(`coffee${deviceId}`).value, 10) * 15;
+    const cappuccino = parseInt(document.getElementById(`cappuccino${deviceId}`).value) * 15;
+    const frenchCoffee = parseInt(document.getElementById(`frenchCoffee${deviceId}`).value) * 25;
+    const netCard = parseInt(document.getElementById(`netCard${deviceId}`).value) * 5;
+    const halfHourPS4 = parseInt(document.getElementById(`halfHourPS4${deviceId}`).value) * 10;
+    const hourPS4 = parseInt(document.getElementById(`hourPS4${deviceId}`).value) * 20;
+    const sandwich = parseInt(document.getElementById(`sandwich${deviceId}`).value) * 15;
+    const cleaning = parseInt(document.getElementById(`cleaning${deviceId}`).value) * 3;
+    // Add more items as necessary
+
+    const totalMenuCost = ( sodaS + sodaL + sokhn + coffee + cappuccino + frenchCoffee + netCard + halfHourPS4 + hourPS4 + sandwich + cleaning).toFixed(2);
+    document.getElementById(`costm${deviceId}`).textContent = `${totalMenuCost} EGP`; // Display the calculated cost
+    localStorage.setItem(`menuCost${deviceId}`, totalMenuCost);  // Save each device's menu cost separately
+
 }
 
 
@@ -412,6 +480,7 @@ function resetDrinkQuantities(deviceId) {
     drinkIds.forEach(drinkId => {
         document.getElementById(`${drinkId}${deviceId}`).value = 0;
         localStorage.removeItem(`${drinkId}${deviceId}`);
+        localStorage.removeItem(`menuCost${deviceId}`);
     });
 }
 

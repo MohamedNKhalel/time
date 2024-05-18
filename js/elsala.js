@@ -5,6 +5,32 @@ let addBtn = document.getElementById("addBtn");
 let updateBtn = document.getElementById("updateBtn");
 let updateIndex = document.getElementById('editIndex');
 let allCustomers = [];
+let drinks =[
+    'مشروب سخن',
+    'شاي',
+    ' قهوه تركي',
+    'نسكافيه',
+    'ساقع صغير',
+    'ساقع كبير',
+    'قهوه فرنساوي',
+    'كابتشينو',
+    
+];
+
+
+drinkInput.addEventListener("input",()=>{
+    for(let i = 0 ; i<drinks.length ; i++){
+        if(drinks[i].includes(drinkInput.value)){
+            document.getElementById('drinkSuggest').classList.remove('d-none')
+            document.getElementById('drinkSuggest').innerHTML = drinks[i]
+            document.getElementById('drinkSuggest').addEventListener('click',(e)=>{
+                // console.log(e.target.innerHTML);
+                drinkInput.value =e.target.innerHTML;
+            })
+        }
+    }
+})
+
 
 if(localStorage.getItem('customers') != null){
     allCustomers = JSON.parse(localStorage.getItem('customers'))

@@ -19,25 +19,18 @@
                 <div class="shadow p-4 options rounded-3">
                     <div class="mb-4">
                         <label for="nameInput">الاسم    :</label>
-                        <input class="form-control" id="nameInput" type="text" placeholder="اسم العميل" >
+                        <input class="form-control" id="nameInput" type="text" placeholder="اسم الزبون" >
                     </div>
                     <div class="mb-4">
                         <label for="drinkInput">المشروب :</label>
                         <!-- <input class="form-control" id="drinkInput" type="text" placeholder="اسم المشروب" > -->
-                        <select class="form-control" id="drinkInput">
-                            <option  disabled selected>اختر المشروب</option>
-                            <option value="مشروب سخن">مشروب سخن</option>
-                            <option value="قهوه">قهوه</option>
-                            <option value="نسكافيه">نسكافيه</option>
-                            <option value="ساقع صغير">ساقع حجم صغير</option>
-                            <option value="ساقع كبير">ساقع حجم كبير</option>
-                            <option value="قهوه فرنساوي">قهوه فرنساوي</option>
-                            <option value="كابتشينو">كابتشينو</option>
-                        </select>
+                        <input  class="form-control mb-2" id="drinkInput" type="text" placeholder="هيشرب اي" >
+                        <span id="drinkSuggest" class="bg-info-subtle text-dark p-2 rounded-2 d-none"></span>
                     </div>
                     <div class="mb-4">
                         <label for="priceInput">السعر   :</label>
-                        <input class="form-control" id="priceInput" type="number" placeholder="سعر المشروب" >
+                        <input class="form-control" id="priceInput" type="number" placeholder="سعر اللي هيشربه" >
+                        
                     </div>
                     <div class="all-buttons">
                         <button disabled id="addBtn" class="btn  w-50 d-block m-auto">اضافه</button>
