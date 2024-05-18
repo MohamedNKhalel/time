@@ -13,10 +13,7 @@ body {
 .title{
     padding: 15px;
     border-radius: 10px;
-    background-image:linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3)), url(../assets/images/5106989.jpg);
-    background-position: center center;
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-image: linear-gradient(to right,rgba(0, 0, 0, 0.774),rgba(68, 0, 0, 0.889));
     color: white !important;
     font-weight: 700;
     margin-bottom: 20px;
@@ -141,7 +138,9 @@ input{
     box-shadow: 0px 0px 1px 2px rgb(191, 83, 83);
 }
 .clear-btn{
-    background-image: url(../assets/images/6b857d4c-09d0-45bf-9d7d-6e6d5e7a3c01.jpg);
+    /* background-image: url(../assets/images/6b857d4c-09d0-45bf-9d7d-6e6d5e7a3c01.jpg); */
+    background-image: linear-gradient(to right,rgba(255, 22, 22, 0.9),rgba(68, 0, 0, 0.9));
+
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -149,15 +148,14 @@ input{
     transition: all .2s ease;
 }
 .clear-btn:hover{
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)),url(../assets/images/6b857d4c-09d0-45bf-9d7d-6e6d5e7a3c01.jpg);
+    background-image: linear-gradient(to right,rgb(255, 22, 22),rgb(68, 0, 0));
+
 }
 button{
     padding: 10px 20px;
     margin: 5px;
     cursor: pointer;
-    background-image: url(../assets/images/cosmic-background-with-colorful-laser-lights-perfect-digital-wallpaper.jpg);
-    background-size: cover;
-    background-position: center center;
+    background-image: linear-gradient(to right,rgba(0, 0, 0),rgba(68, 0, 0));
     border: none;
     color: white;
     font-weight: 900;
@@ -166,14 +164,15 @@ button{
     transition: all .3s ease;
 }
 button:hover{
-    background-image:linear-gradient(rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.6)), url(../assets/images/cosmic-background-with-colorful-laser-lights-perfect-digital-wallpaper.jpg);
+    /* background-image:linear-gradient(rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.6)), url(../assets/images/cosmic-background-with-colorful-laser-lights-perfect-digital-wallpaper.jpg); */
+    background-image: linear-gradient(to right,rgb(0, 0, 0),rgb(20, 6, 6));
+
     color: white;
 }
 button:disabled{
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0.7)),url(../assets/images/5106989.jpg);
-    background-size: cover;
-    background-position: center center;
+    background-image: linear-gradient(to right,rgb(67, 67, 67),rgb(67, 67, 67));
     color: gray;
+    text-shadow: none;
 }
 .show-drinks-btn,.hide-drinks-btn{
     display: block;
@@ -193,16 +192,10 @@ option {
     background-color: black; /* Consistent with device background */
 }
 .btn-danger{
-    background-image: url(../assets/images/6b857d4c-09d0-45bf-9d7d-6e6d5e7a3c01.jpg);
-    background-position: center center;
-    background-size: cover;
-    background-repeat: no-repeat;
     color: white;
     transition: all .2s ease;
 }
-.btn-danger:hover{
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)),url(../assets/images/6b857d4c-09d0-45bf-9d7d-6e6d5e7a3c01.jpg);
-}
+
 .btn-info{
     background-image: linear-gradient(to right,rgba(0, 0, 70, 0.54),rgba(255, 255, 255, 0.523));
     color: white;
