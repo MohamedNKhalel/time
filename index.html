@@ -29,7 +29,11 @@
                   <button title="play" type="button" class="d-none" onclick="resumeTimer(1)" id="continueTimer1" disabled><i class="fa fa-play fa-xl "></i></button>
                 </div>
                 <button onclick="stopTimer(1)" disabled>Stop</button>
-                
+
+                <div class="info-time">
+                  <span><span class="start-time" id="startTime1"></span></span>
+                  <span><span class="pause-time" id="pauseTime1"></span></span>
+                </div>
                 <div>Elapsed Time: <span id="elapsedTime1">00:00:00</span></div>
                 <select title="rate" id="rateSelector1" onchange="saveRateSelection(1)">
                     <option  value="10">10 EGP/hour</option>
@@ -130,6 +134,10 @@
                   <button title="play" type="button" class="d-none" onclick="resumeTimer(2)" id="continueTimer2" disabled><i class="fa fa-play fa-xl "></i></button>
                 </div>
                 <button onclick="stopTimer(2)" disabled>Stop</button>
+                <div class="info-time">
+                  <span><span class="start-time" id="startTime2"></span></span>
+                <span><span class="pause-time" id="pauseTime2"></span></span>
+                </div>
                 <div>Elapsed Time: <span id="elapsedTime2">00:00:00</span></div>
                 <select title="rate" id="rateSelector2" onchange="saveRateSelection(2)">
                     <option  value="10">10 EGP/hour</option>
@@ -229,6 +237,10 @@
                   <button title="play" type="button" class="d-none" onclick="resumeTimer(3)" id="continueTimer3" disabled><i class="fa fa-play fa-xl "></i></button>
                 </div>
                 <button onclick="stopTimer(3)" disabled>Stop</button>
+                <div class="info-time">
+                  <span><span class="start-time" id="startTime3"></span></span>
+                <span><span class="pause-time" id="pauseTime3"></span></span>
+                </div>                
                 <div>Elapsed Time: <span id="elapsedTime3">00:00:00</span></div>
                 <select title="rate" id="rateSelector3" onchange="saveRateSelection(3)">
                     <option  value="10">10 EGP/hour</option>
@@ -328,6 +340,10 @@
                   <button title="play" type="button" class="d-none" onclick="resumeTimer(4)" id="continueTimer4" disabled><i class="fa fa-play fa-xl "></i></button>
                 </div>
                 <button onclick="stopTimer(4)" disabled>Stop</button>
+                <div class="info-time">
+                  <span><span class="start-time" id="startTime4"></span></span>
+                <span><span class="pause-time" id="pauseTime4"></span></span>
+                </div>                
                 <div>Elapsed Time: <span id="elapsedTime4">00:00:00</span></div>
                 <select title="rate" id="rateSelector4" onchange="saveRateSelection(4)">
                     <option  value="10">10 EGP/hour</option>
@@ -427,6 +443,10 @@
                   <button title="play" type="button" class="d-none" onclick="resumeTimer(5)" id="continueTimer5" disabled><i class="fa fa-play fa-xl "></i></button>
                 </div>
                 <button onclick="stopTimer(5)" disabled>Stop</button>
+                <div class="info-time">
+                  <span><span class="start-time" id="startTime5"></span></span>
+                <span><span class="pause-time" id="pauseTime5"></span></span>
+                </div>                
                 <div>Elapsed Time: <span id="elapsedTime5">00:00:00</span></div>
                 <select title="rate" id="rateSelector5" onchange="saveRateSelection(5)">
                     <option  value="10">10 EGP/hour</option>
@@ -526,6 +546,10 @@
                   <button title="play" type="button" class="d-none" onclick="resumeTimer(6)" id="continueTimer6" disabled><i class="fa fa-play fa-xl "></i></button>
                 </div>
                 <button onclick="stopTimer(6)" disabled>Stop</button>
+                <div class="info-time">
+                  <span><span class="start-time" id="startTime6"></span></span>
+                <span><span class="pause-time" id="pauseTime6"></span></span>
+                </div>                
                 <div>Elapsed Time: <span id="elapsedTime6">00:00:00</span></div>
                 <select title="rate" id="rateSelector6" onchange="saveRateSelection(6)">
                     <option  value="10">10 EGP/hour</option>
@@ -649,7 +673,6 @@
           </div>
         <!-- Repeat the above block for additional devices -->
     </div>
-    <script src="js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
     <script src="js/script.js"></script>

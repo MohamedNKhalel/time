@@ -81,6 +81,7 @@ function init() {
         }
         loadDrinkQuantities(deviceId);  // Load the drink quantities for each device
     }
+    getStartandPausedTime();
     loadRateSelections(); 
     loadMenuCosts(); // This call should happen once for all device setups, ensure it's placed correctly as per your logic
 }
@@ -136,6 +137,18 @@ function saveDrinkQuantities(deviceId) {
 }
 
 
+function getStartandPausedTime(){
+    console.log("testPause");
+    for(let i = 0 ; i<=6 ; i++){
+        if(localStorage.getItem(`startTime${i}`) != null){
+            document.getElementById(`startTime${i}`).innerHTML ="Start Time : " + JSON.parse(localStorage.getItem(`startTime${i}`))
+        }
+        if(localStorage.getItem(`pauseTime${i}`) != null){
+            document.getElementById(`pauseTime${i}`).innerHTML ="Paused at : " + JSON.parse(localStorage.getItem(`pauseTime${i}`));
+        }
+    }
+}
+
 
 function startTimer(deviceId, resume = false) {
     let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`)) || {
@@ -149,6 +162,7 @@ function startTimer(deviceId, resume = false) {
     if (!resume) {
         savedData.startTime = new Date().toISOString();
         savedData.elapsedTime = 0;
+        document.getElementById(`startTime${deviceId}`).textContent ="Start Time : " + new Date(savedData.startTime).toLocaleTimeString();
     }
 
     timers[deviceId] = setInterval(() => updateElapsedTime(deviceId), 1000);
@@ -156,7 +170,9 @@ function startTimer(deviceId, resume = false) {
     document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = false;
     document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = false;
     localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
+    localStorage.setItem(`startTime${deviceId}`,JSON.stringify(new Date(savedData.startTime).toLocaleTimeString()))
 }
+
 
 
 
@@ -323,21 +339,24 @@ function downloadPDF() {
 }
 
 
-
 function pauseTimer(deviceId) {
     if (timers[deviceId]) {
         clearInterval(timers[deviceId]);
-        updateElapsedTime(deviceId); // Make sure elapsed time is updated before pausing
+        updateElapsedTime(deviceId);
         let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
         savedData.running = false;
-        savedData.paused = true; // Save paused state
+        savedData.paused = true;
+        savedData.pauseTime = new Date().toISOString();
+
         localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
 
-        // Update button visibility
+        document.getElementById(`pauseTime${deviceId}`).textContent = "Paused at : " + new Date(savedData.pauseTime).toLocaleTimeString();
+        
         document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = false;
         document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.remove('d-none');
         document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
         document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.add('d-none');
+        localStorage.setItem(`pauseTime${deviceId}`,JSON.stringify(new Date(savedData.pauseTime).toLocaleTimeString()))
     }
 }
 
@@ -384,6 +403,10 @@ function clearAllTimers() {
         for (let deviceId = 1; deviceId <= 6; deviceId++) {
             clearInterval(timers[deviceId]);
             localStorage.removeItem(`device${deviceId}`);
+            localStorage.removeItem(`startTime${deviceId}`);
+            localStorage.removeItem(`pauseTime${deviceId}`);
+            document.getElementById(`startTime${deviceId}`).textContent = "";
+            document.getElementById(`pauseTime${deviceId}`).textContent = "";
             document.getElementById(`elapsedTime${deviceId}`).textContent = "00:00:00";
             document.getElementById(`cost${deviceId}`).textContent = "0.00 EGP";
             document.getElementById(`costm${deviceId}`).textContent = "0.00 EGP";
@@ -403,6 +426,10 @@ function clearTimer(deviceId) {
     if (confirm(`Are you sure you want to clear the data for device ${deviceId}? This action cannot be undone.`)) {
         clearInterval(timers[deviceId]);
         localStorage.removeItem(`device${deviceId}`);
+        localStorage.removeItem(`startTime${deviceId}`);
+        localStorage.removeItem(`pauseTime${deviceId}`);
+        document.getElementById(`startTime${deviceId}`).textContent = "";
+        document.getElementById(`pauseTime${deviceId}`).textContent = "";
         document.getElementById(`elapsedTime${deviceId}`).textContent = "00:00:00";
         document.getElementById(`cost${deviceId}`).textContent = "0.00 EGP";
         document.getElementById(`costm${deviceId}`).textContent = "0.00 EGP";

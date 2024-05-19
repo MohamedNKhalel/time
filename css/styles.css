@@ -122,9 +122,20 @@ input{
   margin-left: auto;
   margin-bottom: 10px;
 }
-
+.info-time{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.start-time,.pause-time{
+    width: 100%;
+    color: white;
+    padding-inline: 10px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+}
 .device {
-    background-image: linear-gradient(to top,rgba(0, 0, 0, 0.9),rgba(120, 6, 6, 0.9)),url(../assets/images/focus-shot-man-holding-controller-apartment-playing-videogames-smart-tv-display.jpg);
+    background-image: linear-gradient(to top,rgba(0, 0, 0, 0.9),rgba(120, 6, 6, 0.9));
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
