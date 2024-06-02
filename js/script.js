@@ -169,6 +169,8 @@ function startTimer(deviceId, resume = false) {
     document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = true;
     document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = false;
     document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = false;
+    document.querySelector(`#device${deviceId} button[onclick^="submit"]`).disabled = true;
+
     localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
     localStorage.setItem(`startTime${deviceId}`,JSON.stringify(new Date(savedData.startTime).toLocaleTimeString()))
     document.getElementById(`discountMenu${deviceId}`).classList.add('d-none');
