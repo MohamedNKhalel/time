@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Playstation management system">
+    <title>El-Dra3 Bayez</title>
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body >
+    <div class="main">
+        <h1 class="text-center text-uppercase title">El-Dra3 Bayez System</h1>
+        <ul class="main-nav text-center m-auto mt-2 mt-lg-0 d-flex list-unstyled shadow border-bottom p-3 my-3">
+          <li class="main-nav-item ">
+            <a onclick="showDevices()" class="main-nav-link active">Devices</a>
+          </li>
+          <li class="main-nav-item">
+            <a onclick="showSummaryTable()" class="main-nav-link">Summary</a>
+          </li>
+          <li class="main-nav-item">
+            <a onclick="showSala()" class="main-nav-link">الصاله</a>
+          </li>
+        </ul>
+        <!-- Device blocks -->
+          <div class="device-blocks">
+            <button class="clearbtn d-block ms-auto my-3" onclick="clearAllTimers()">Clear All Devices Data</button>
+            <div class="row g-4">
+              <!-- Device 1 -->
+              <div class="col-lg-4 col-md-6">
+                <div id="device1" class="device position-relative">
+                  <div id="layer1" class="layer-succes position-absolute top-0 start-0 end-0 bottom-0 bg-success z-3 d-flex justify-content-center align-items-center  d-none">
+                    <i class="fa-regular fa-circle-check fa-4x"></i>
+                    <h3>Successfully added to the table</h3>
+                  </div>
+                  <h2 class="text-center fw-bolder text-uppercase">Device 1</h2>
+                  
+                  <div class="d-flex justify-content-between align-items-center">
+                    <button class="w-100" onclick="startTimer(1)">Start</button>
+                    <button title="pause" onclick="pauseTimer(1)" id="pauseTimer1" disabled><i class="fa fa-pause fa-xl"></i></button>
+                    <button title="play" type="button" class="d-none" onclick="resumeTimer(1)" id="continueTimer1" disabled><i class="fa fa-play fa-xl "></i></button>
+                  </div>
+                  <button onclick="stopTimer(1)" disabled>Stop</button>
+  
+                  <div class="info-time">
+                    <span><span class="start-time" id="startTime1"></span></span>
+                    <span><span class="pause-time" id="pauseTime1"></span></span>
+                  </div>
+                  <div>Elapsed Time: <span id="elapsedTime1">00:00:00</span></div>
+                  <select title="rate" id="rateSelector1" onchange="saveRateSelection(1)">
+                      <option  value="10">10 EGP/hour</option>
+                      <option  value="15">15 EGP/hour</option>
+                      <option  value="20">20 EGP/hour</option>
+                      <option  value="25">25 EGP/hour</option>
+                      <option  value="30">30 EGP/hour</option>
+                      <option  value="35">35 EGP/hour</option>
+                      <option  value="40">40 EGP/hour</option>
+                  </select>
+                  <!-- Start Menu -->
+                  <div class="menu">
+                    Menu:
+                    <button class="show-drinks-btn mb-2 d-block m-auto">Show Menu <i class="fa-solid fa-caret-down fa-xl"></i></button>
+                    <button class="hide-drinks-btn mb-2 d-none m-auto">Hide Menu <i class="fa-solid fa-caret-up fa-xl"></i></button>
+                    <div class="drinks d-none ">
+                      <div class="p-3 bg-dark rounded-2 shadow">
+                        <div class="bg-dark p-3 rounded-3 all-drinks shadow">
+                          <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="h4 pt-2">Drinks :</h2>
+                            <i class="fa-solid fa-caret-down fa-xl show-drinks-bar"></i>
+                            <i class="fa-solid fa-caret-up fa-xl d-none hide-drinks-bar"></i>
+                          </div>
+                          <div class="d-none drinks-menu">
+                            <div class="my-2">
+                              <label>Soda Small (15 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="1" id="sodaS1" type="number" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Soda Large (20 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="1" type="number" id="sodaL1" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Sokhn  (10 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="1" type="number" id="sokhn1" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Coffee (15 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="1" type="number" id="coffee1" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Cappuccino (15 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="1" type="number" id="cappuccino1" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>French Coffee (25 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="1" type="number" id="frenchCoffee1" value="0">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="bg-dark p-3 rounded-3 mt-2 all-others shadow">
+                          <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="h4 pt-2">Others :</h2>
+                            <i class="fa-solid fa-caret-down fa-xl show-others-bar"></i>
+                            <i class="fa-solid fa-caret-up d-none fa-xl hide-others-bar"></i>
+                          </div>
+                          <div class="d-none others-menu">
+                            <div>
+                              <label for="sandwich">Sandwich (15 EGP)</label>
+                              <input title="sandwich" class="drink-input" data-device-id="1" type="number" id="sandwich1" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Net Card (5 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="1" type="number" id="netCard1" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Half Hour PS4 (10 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="1" type="number" id="halfHourPS41" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Hour PS4 (20 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="1" type="number" id="hourPS41" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Cleaning (3 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="1" type="number" id="cleaning1" value="0">
+                            </div>
+                          </div>
+                        </div>
+                        <button onclick="calculateMenuCost(1)" class="w-100 m-auto mt-2 calc-menu">Show menu cost</button>
+                        <div class="mt-2">Menu Cost: <span id="costm1">0</span></div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <!-- End Menu -->
+                  <div>Total Cost: <span id="cost1">0</span></div>
+                  <div id="discountMenu1" class="discount-menu d-none p-3 rounded-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="position-relative"><input id="discount1" type="number" placeholder="Add Discount"> <img src="assets/images/discount-svgrepo-com.svg" class="discount-image" alt=""></div>
+                      <i onclick="calcDiscountCost(1)" class="fa fa-plus fa-2x ms-2 add-icon"></i>
+                    </div>
+                    <div class="mt-2">After Discount: <span id="discountCost1">0</span></div>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <button  class="submit w-100" onclick="submit(1)" disabled>Submit</button>
+                  </div>
+                </div>
+              </div>
+              <!-- Device 2 -->
+              <div class="col-lg-4 col-md-6">
+                <div id="device2" class="device ">
+                  <div id="layer2" class="layer-succes position-absolute top-0 start-0 end-0 bottom-0 bg-success z-3 d-flex justify-content-center align-items-center d-none">
+                    <i class="fa-regular fa-circle-check fa-4x"></i>
+                    <h3>Successfully added to the table</h3>
+                  </div>
+                  <h2 class="text-center fw-bolder text-uppercase">Device 2</h2>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <button class="w-100" onclick="startTimer(2)">Start</button>
+                    <button title="pause" onclick="pauseTimer(2)" id="pauseTimer2" disabled><i class="fa fa-pause fa-xl"></i></button>
+                    <button title="play" type="button" class="d-none" onclick="resumeTimer(2)" id="continueTimer2" disabled><i class="fa fa-play fa-xl "></i></button>
+                  </div>
+                  <button onclick="stopTimer(2)" disabled>Stop</button>
+                  <div class="info-time">
+                    <span><span class="start-time" id="startTime2"></span></span>
+                  <span><span class="pause-time" id="pauseTime2"></span></span>
+                  </div>
+                  <div>Elapsed Time: <span id="elapsedTime2">00:00:00</span></div>
+                  <select title="rate" id="rateSelector2" onchange="saveRateSelection(2)">
+                      <option  value="10">10 EGP/hour</option>
+                      <option  value="15">15 EGP/hour</option>
+                      <option  value="20">20 EGP/hour</option>
+                      <option  value="25">25 EGP/hour</option>
+                      <option  value="30">30 EGP/hour</option>
+                      <option  value="35">35 EGP/hour</option>
+                      <option  value="40">40 EGP/hour</option>
+                  </select>
+                  <!-- Start Menu -->
+                  <div class="menu">
+                    Menu:
+                    <button class="show-drinks-btn mb-2 d-block m-auto">Show Menu <i class="fa-solid fa-caret-down fa-xl"></i></button>
+                    <button class="hide-drinks-btn mb-2 d-none m-auto">Hide Menu <i class="fa-solid fa-caret-up fa-xl"></i></button>
+                    <div class="drinks d-none ">
+                      <div class="p-3 bg-dark rounded-2 shadow">
+                        <div class="bg-dark p-3 rounded-3 all-drinks">
+                          <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="h4 pt-2">Drinks :</h2>
+                            <i class="fa-solid fa-caret-down fa-xl show-drinks-bar"></i>
+                            <i class="fa-solid fa-caret-up fa-xl d-none hide-drinks-bar"></i>
+                          </div>
+                          <div class="d-none drinks-menu">
+                            <div class="my-2">
+                              <label>Soda Small (15 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="2" id="sodaS2" type="number" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Soda Large (20 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="2" type="number" id="sodaL2" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Sokhn  (10 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="2" type="number" id="sokhn2" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Coffee (15 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="2" type="number" id="coffee2" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Cappuccino (15 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="2" type="number" id="cappuccino2" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>French Coffee (25 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="2" type="number" id="frenchCoffee2" value="0">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="bg-dark p-3 rounded-3 mt-2 all-others">
+                          <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="h4 pt-2">Others :</h2>
+                            <i class="fa-solid fa-caret-down fa-xl show-others-bar"></i>
+                            <i class="fa-solid fa-caret-up d-none fa-xl hide-others-bar"></i>
+                          </div>
+                          <div class="d-none others-menu">
+                            <div>
+                              <label for="sandwich">Sandwich (15 EGP)</label>
+                              <input title="sandwich" class="drink-input" data-device-id="2" type="number" id="sandwich2" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Net Card (5 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="2" type="number" id="netCard2" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Half Hour PS4 (10 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="2" type="number" id="halfHourPS42" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Hour PS4 (20 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="2" type="number" id="hourPS42" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Cleaning (3 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="2" type="number" id="cleaning2" value="0">
+                            </div>
+                          </div>
+                        </div>
+                        <button onclick="calculateMenuCost(2)" class="w-100 m-auto mt-2 calc-menu">Show menu cost</button>
+                        <div class="mt-2">Menu Cost: <span id="costm2">0</span></div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End Menu -->
+                  <div>Total Cost: <span id="cost2">0</span></div>
+                  <div id="discountMenu2" class="discount-menu d-none p-3 rounded-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="position-relative"><input id="discount2" type="number" placeholder="Add Discount"> <img src="assets/images/discount-svgrepo-com.svg" class="discount-image" alt=""></div>
+                      <i onclick="calcDiscountCost(2)" class="fa fa-plus fa-2x ms-2 add-icon"></i>
+                    </div>
+                    <div class="mt-2">After Discount: <span id="discountCost2">0</span></div>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <button class="submit w-100" onclick="submit(2)" disabled>Submit</button>
+                  </div>
+              </div>
+              </div>
+              <!-- Device 3 -->
+              <div class="col-lg-4 col-md-6">
+                <div id="device3" class="device">
+                  <div id="layer3" class="layer-succes position-absolute top-0 start-0 end-0 bottom-0 bg-success z-3 d-flex justify-content-center align-items-center d-none">
+                    <i class="fa-regular fa-circle-check fa-4x"></i>
+                    <h3>Successfully added to the table</h3>
+                  </div>
+                  <h2 class="text-center fw-bolder text-uppercase">Device 3</h2>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <button class="w-100" onclick="startTimer(3)">Start</button>
+                    <button title="pause" onclick="pauseTimer(3)" id="pauseTimer3" disabled><i class="fa fa-pause fa-xl"></i></button>
+                    <button title="play" type="button" class="d-none" onclick="resumeTimer(3)" id="continueTimer3" disabled><i class="fa fa-play fa-xl "></i></button>
+                  </div>
+                  <button onclick="stopTimer(3)" disabled>Stop</button>
+                  <div class="info-time">
+                    <span><span class="start-time" id="startTime3"></span></span>
+                  <span><span class="pause-time" id="pauseTime3"></span></span>
+                  </div>                
+                  <div>Elapsed Time: <span id="elapsedTime3">00:00:00</span></div>
+                  <select title="rate" id="rateSelector3" onchange="saveRateSelection(3)">
+                      <option  value="10">10 EGP/hour</option>
+                      <option  value="15">15 EGP/hour</option>
+                      <option  value="20">20 EGP/hour</option>
+                      <option  value="25">25 EGP/hour</option>
+                      <option  value="30">30 EGP/hour</option>
+                      <option  value="35">35 EGP/hour</option>
+                      <option  value="40">40 EGP/hour</option>
+                  </select>
+                  <!-- Start Menu -->
+                  <div class="menu">
+                    Menu:
+                    <button class="show-drinks-btn mb-2 d-block m-auto">Show Menu <i class="fa-solid fa-caret-down fa-xl"></i></button>
+                    <button class="hide-drinks-btn mb-2 d-none m-auto">Hide Menu <i class="fa-solid fa-caret-up fa-xl"></i></button>
+                    <div class="drinks d-none ">
+                      <div class="p-3 bg-dark rounded-2 shadow">
+                        <div class="bg-dark p-3 rounded-3 all-drinks">
+                          <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="h4 pt-2">Drinks :</h2>
+                            <i class="fa-solid fa-caret-down fa-xl show-drinks-bar"></i>
+                            <i class="fa-solid fa-caret-up fa-xl d-none hide-drinks-bar"></i>
+                          </div>
+                          <div class="d-none drinks-menu">
+                            <div class="my-2">
+                              <label>Soda Small (15 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="3" id="sodaS3" type="number" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Soda Large (20 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="3" type="number" id="sodaL3" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Sokhn  (10 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="3" type="number" id="sokhn3" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Coffee (15 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="3" type="number" id="coffee3" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Cappuccino (15 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="3" type="number" id="cappuccino3" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>French Coffee (25 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="3" type="number" id="frenchCoffee3" value="0">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="bg-dark p-3 rounded-3 mt-2 all-others">
+                          <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="h4 pt-2">Others :</h2>
+                            <i class="fa-solid fa-caret-down fa-xl show-others-bar"></i>
+                            <i class="fa-solid fa-caret-up d-none fa-xl hide-others-bar"></i>
+                          </div>
+                          <div class="d-none others-menu">
+                            <div>
+                              <label for="sandwich">Sandwich (15 EGP)</label>
+                              <input title="sandwich" class="drink-input" data-device-id="3" type="number" id="sandwich3" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Net Card (5 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="3" type="number" id="netCard3" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Half Hour PS4 (10 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="3" type="number" id="halfHourPS43" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Hour PS4 (20 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="3" type="number" id="hourPS43" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Cleaning (3 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="3" type="number" id="cleaning3" value="0">
+                            </div>
+                          </div>
+                        </div>
+                        <button onclick="calculateMenuCost(3)" class="w-100 m-auto mt-2 calc-menu">Show menu cost</button>
+                        <div class="mt-2">Menu Cost: <span id="costm3">0</span></div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End Menu -->
+                  <div>Total Cost: <span id="cost3">0</span></div>
+                  <div id="discountMenu3" class="discount-menu d-none p-3 rounded-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="position-relative"><input id="discount3" type="number" placeholder="Add Discount"> <img src="assets/images/discount-svgrepo-com.svg" class="discount-image" alt=""></div>
+                      <i onclick="calcDiscountCost(3)" class="fa fa-plus fa-2x ms-2 add-icon"></i>
+                    </div>
+                    <div class="mt-2">After Discount: <span id="discountCost3">0</span></div>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <button class="submit w-100" onclick="submit(3)" disabled>Submit</button>
+                  </div>
+              </div>
+              </div>
+              <!-- Device 4 -->
+              <div class="col-lg-4 col-md-6">
+                <div id="device4" class="device">
+                  <div id="layer4" class="layer-succes position-absolute top-0 start-0 end-0 bottom-0 bg-success z-3 d-flex justify-content-center align-items-center d-none">
+                    <i class="fa-regular fa-circle-check fa-4x"></i>
+                    <h3>Successfully added to the table</h3>
+                  </div>
+                  <h2 class="text-center fw-bolder text-uppercase">Device 4</h2>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <button class="w-100" onclick="startTimer(4)">Start</button>
+                    <button title="pause" onclick="pauseTimer(4)" id="pauseTimer4" disabled><i class="fa fa-pause fa-xl"></i></button>
+                    <button title="play" type="button" class="d-none" onclick="resumeTimer(4)" id="continueTimer4" disabled><i class="fa fa-play fa-xl "></i></button>
+                  </div>
+                  <button onclick="stopTimer(4)" disabled>Stop</button>
+                  <div class="info-time">
+                    <span><span class="start-time" id="startTime4"></span></span>
+                  <span><span class="pause-time" id="pauseTime4"></span></span>
+                  </div>                
+                  <div>Elapsed Time: <span id="elapsedTime4">00:00:00</span></div>
+                  <select title="rate" id="rateSelector4" onchange="saveRateSelection(4)">
+                      <option  value="10">10 EGP/hour</option>
+                      <option  value="15">15 EGP/hour</option>
+                      <option  value="20">20 EGP/hour</option>
+                      <option  value="25">25 EGP/hour</option>
+                      <option  value="30">30 EGP/hour</option>
+                      <option  value="35">35 EGP/hour</option>
+                      <option  value="40">40 EGP/hour</option>
+                  </select>
+                  <!-- Start Menu -->
+                  <div class="menu">
+                    Menu:
+                    <button class="show-drinks-btn mb-2 d-block m-auto">Show Menu <i class="fa-solid fa-caret-down fa-xl"></i></button>
+                    <button class="hide-drinks-btn mb-2 d-none m-auto">Hide Menu <i class="fa-solid fa-caret-up fa-xl"></i></button>
+                    <div class="drinks d-none ">
+                      <div class="p-3 bg-dark rounded-2 shadow">
+                        <div class="bg-dark p-3 rounded-3 all-drinks">
+                          <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="h4 pt-2">Drinks :</h2>
+                            <i class="fa-solid fa-caret-down fa-xl show-drinks-bar"></i>
+                            <i class="fa-solid fa-caret-up fa-xl d-none hide-drinks-bar"></i>
+                          </div>
+                          <div class="d-none drinks-menu">
+                            <div class="my-2">
+                              <label>Soda Small (15 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="4" id="sodaS4" type="number" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Soda Large (20 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="4" type="number" id="sodaL4" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Sokhn  (10 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="4" type="number" id="sokhn4" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Coffee (15 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="4" type="number" id="coffee4" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Cappuccino (15 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="4" type="number" id="cappuccino4" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>French Coffee (25 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="4" type="number" id="frenchCoffee4" value="0">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="bg-dark p-3 rounded-3 mt-2 all-others">
+                          <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="h4 pt-2">Others :</h2>
+                            <i class="fa-solid fa-caret-down fa-xl show-others-bar"></i>
+                            <i class="fa-solid fa-caret-up d-none fa-xl hide-others-bar"></i>
+                          </div>
+                          <div class="d-none others-menu">
+                            <div>
+                              <label for="sandwich">Sandwich (15 EGP)</label>
+                              <input title="sandwich" class="drink-input" data-device-id="4" type="number" id="sandwich4" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Net Card (5 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="4" type="number" id="netCard4" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Half Hour PS4 (10 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="4" type="number" id="halfHourPS44" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Hour PS4 (20 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="4" type="number" id="hourPS44" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Cleaning (3 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="4" type="number" id="cleaning4" value="0">
+                            </div>
+                          </div>
+                        </div>
+                        <button onclick="calculateMenuCost(4)" class="w-100 m-auto mt-2 calc-menu">Show menu cost</button>
+                        <div class="mt-2">Menu Cost: <span id="costm4">0</span></div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End Menu -->
+                  <div>Total Cost: <span id="cost4">0</span></div>
+                  <div id="discountMenu4" class="discount-menu d-none p-3 rounded-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="position-relative"><input id="discount4" type="number" placeholder="Add Discount"> <img src="assets/images/discount-svgrepo-com.svg" class="discount-image" alt=""></div>
+                      <i onclick="calcDiscountCost(4)" class="fa fa-plus fa-2x ms-2 add-icon"></i>
+                    </div>
+                    <div class="mt-2">After Discount: <span id="discountCost4">0</span></div>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <button class="submit w-100" onclick="submit(4)" disabled>Submit</button>
+                  </div>
+              </div>
+              </div>
+              <!-- Device 5 -->
+              <div class="col-lg-4 col-md-6">
+                <div id="device5" class="device">
+                  <div id="layer5" class="layer-succes position-absolute top-0 start-0 end-0 bottom-0 bg-success z-3 d-flex justify-content-center align-items-center d-none">
+                    <i class="fa-regular fa-circle-check fa-4x"></i>
+                    <h3>Successfully added to the table</h3>
+                  </div>
+                  <h2 class="text-center fw-bolder text-uppercase">Device 5</h2>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <button class="w-100" onclick="startTimer(5)">Start</button>
+                    <button title="pause" onclick="pauseTimer(5)" id="pauseTimer5" disabled><i class="fa fa-pause fa-xl"></i></button>
+                    <button title="play" type="button" class="d-none" onclick="resumeTimer(5)" id="continueTimer5" disabled><i class="fa fa-play fa-xl "></i></button>
+                  </div>
+                  <button onclick="stopTimer(5)" disabled>Stop</button>
+                  <div class="info-time">
+                    <span><span class="start-time" id="startTime5"></span></span>
+                  <span><span class="pause-time" id="pauseTime5"></span></span>
+                  </div>                
+                  <div>Elapsed Time: <span id="elapsedTime5">00:00:00</span></div>
+                  <select title="rate" id="rateSelector5" onchange="saveRateSelection(5)">
+                      <option  value="10">10 EGP/hour</option>
+                      <option  value="15">15 EGP/hour</option>
+                      <option  value="20">20 EGP/hour</option>
+                      <option  value="25">25 EGP/hour</option>
+                      <option  value="30">30 EGP/hour</option>
+                      <option  value="35">35 EGP/hour</option>
+                      <option  value="40">40 EGP/hour</option>
+                  </select>
+                  <!-- Start Menu -->
+                  <div class="menu">
+                    Menu:
+                    <button class="show-drinks-btn mb-2 d-block m-auto">Show Menu <i class="fa-solid fa-caret-down fa-xl"></i></button>
+                    <button class="hide-drinks-btn mb-2 d-none m-auto">Hide Menu <i class="fa-solid fa-caret-up fa-xl"></i></button>
+                    <div class="drinks d-none ">
+                      <div class="p-3 bg-dark rounded-2 shadow">
+                        <div class="bg-dark p-3 rounded-3 all-drinks">
+                          <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="h4 pt-2">Drinks :</h2>
+                            <i class="fa-solid fa-caret-down fa-xl show-drinks-bar"></i>
+                            <i class="fa-solid fa-caret-up fa-xl d-none hide-drinks-bar"></i>
+                          </div>
+                          <div class="d-none drinks-menu">
+                            <div class="my-2">
+                              <label>Soda Small (15 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="5" id="sodaS5" type="number" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Soda Large (20 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="5" type="number" id="sodaL5" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Sokhn  (10 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="5" type="number" id="sokhn5" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Coffee (15 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="5" type="number" id="coffee5" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Cappuccino (15 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="5" type="number" id="cappuccino5" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>French Coffee (25 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="5" type="number" id="frenchCoffee5" value="0">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="bg-dark p-3 rounded-3 mt-2 all-others">
+                          <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="h4 pt-2">Others :</h2>
+                            <i class="fa-solid fa-caret-down fa-xl show-others-bar"></i>
+                            <i class="fa-solid fa-caret-up d-none fa-xl hide-others-bar"></i>
+                          </div>
+                          <div class="d-none others-menu">
+                            <div>
+                              <label for="sandwich">Sandwich (15 EGP)</label>
+                              <input title="sandwich" class="drink-input" data-device-id="5" type="number" id="sandwich5" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Net Card (5 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="5" type="number" id="netCard5" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Half Hour PS4 (10 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="5" type="number" id="halfHourPS45" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Hour PS4 (20 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="5" type="number" id="hourPS45" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Cleaning (3 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="5" type="number" id="cleaning5" value="0">
+                            </div>
+                          </div>
+                        </div>
+                        <button onclick="calculateMenuCost(5)" class="w-100 m-auto mt-2 calc-menu">Show menu cost</button>
+                        <div class="mt-2">Menu Cost: <span id="costm5">0</span></div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End Menu -->
+                  <div>Total Cost: <span id="cost5">0</span></div>
+                  <div id="discountMenu5" class="discount-menu d-none p-3 rounded-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="position-relative"><input id="discount5" type="number" placeholder="Add Discount"> <img src="assets/images/discount-svgrepo-com.svg" class="discount-image" alt=""></div>
+                      <i onclick="calcDiscountCost(5)" class="fa fa-plus fa-2x ms-2 add-icon"></i>
+                    </div>
+                    <div class="mt-2">After Discount: <span id="discountCost5">0</span></div>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <button class="submit w-100" onclick="submit(5)" disabled>Submit</button>
+                  </div>
+              </div>
+              </div>
+              <!-- Device 6 -->
+              <div class="col-lg-4 col-md-6">
+                <div id="device6" class="device">
+                  <div id="layer6" class="layer-succes position-absolute top-0 start-0 end-0 bottom-0 bg-success z-3 d-flex justify-content-center align-items-center d-none">
+                    <i class="fa-regular fa-circle-check fa-4x"></i>
+                    <h3>Successfully added to the table</h3>
+                  </div>
+                  <h2 class="text-center fw-bolder text-uppercase">Device 6</h2>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <button class="w-100" onclick="startTimer(6)">Start</button>
+                    <button title="pause" onclick="pauseTimer(6)" id="pauseTimer6" disabled><i class="fa fa-pause fa-xl"></i></button>
+                    <button title="play" type="button" class="d-none" onclick="resumeTimer(6)" id="continueTimer6" disabled><i class="fa fa-play fa-xl "></i></button>
+                  </div>
+                  <button onclick="stopTimer(6)" disabled>Stop</button>
+                  <div class="info-time">
+                    <span><span class="start-time" id="startTime6"></span></span>
+                  <span><span class="pause-time" id="pauseTime6"></span></span>
+                  </div>                
+                  <div>Elapsed Time: <span id="elapsedTime6">00:00:00</span></div>
+                  <select title="rate" id="rateSelector6" onchange="saveRateSelection(6)">
+                      <option  value="10">10 EGP/hour</option>
+                      <option  value="15">15 EGP/hour</option>
+                      <option  value="20">20 EGP/hour</option>
+                      <option  value="25">25 EGP/hour</option>
+                      <option  value="30">30 EGP/hour</option>
+                      <option  value="35">35 EGP/hour</option>
+                      <option  value="40">40 EGP/hour</option>
+                  </select>
+                  <!-- Start Menu -->
+                  <div class="menu">
+                    Menu:
+                    <button class="show-drinks-btn mb-2 d-block m-auto">Show Menu <i class="fa-solid fa-caret-down fa-xl"></i></button>
+                    <button class="hide-drinks-btn mb-2 d-none m-auto">Hide Menu <i class="fa-solid fa-caret-up fa-xl"></i></button>
+                    <div class="drinks d-none ">
+                      <div class="p-3 bg-dark rounded-2 shadow">
+                        <div class="bg-dark p-3 rounded-3 all-drinks">
+                          <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="h4 pt-2">Drinks :</h2>
+                            <i class="fa-solid fa-caret-down fa-xl show-drinks-bar"></i>
+                            <i class="fa-solid fa-caret-up fa-xl d-none hide-drinks-bar"></i>
+                          </div>
+                          <div class="d-none drinks-menu">
+                            <div class="my-2">
+                              <label>Soda Small (15 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="6" id="sodaS6" type="number" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Soda Large (20 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="6" type="number" id="sodaL6" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Sokhn  (10 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="6" type="number" id="sokhn6" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Coffee (15 EGP)</label>
+                              <input title="drink" class="drink-input" data-device-id="6" type="number" id="coffee6" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Cappuccino (15 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="6" type="number" id="cappuccino6" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>French Coffee (25 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="6" type="number" id="frenchCoffee6" value="0">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="bg-dark p-3 rounded-3 mt-2 all-others">
+                          <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="h4 pt-2">Others :</h2>
+                            <i class="fa-solid fa-caret-down fa-xl show-others-bar"></i>
+                            <i class="fa-solid fa-caret-up d-none fa-xl hide-others-bar"></i>
+                          </div>
+                          <div class="d-none others-menu">
+                            <div>
+                              <label for="sandwich">Sandwich (15 EGP)</label>
+                              <input title="sandwich" class="drink-input" data-device-id="6" type="number" id="sandwich6" min="0" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Net Card (5 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="6" type="number" id="netCard6" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Half Hour PS4 (10 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="6" type="number" id="halfHourPS46" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Hour PS4 (20 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="6" type="number" id="hourPS46" value="0">
+                            </div>
+                            <div class="my-2">
+                              <label>Cleaning (3 EGP):</label>
+                              <input title="drink" class="drink-input" data-device-id="6" type="number" id="cleaning6" value="0">
+                            </div>
+                          </div>
+                        </div>
+                        <button onclick="calculateMenuCost(6)" class="w-100 m-auto mt-2 calc-menu">Show menu cost</button>
+                        <div class="mt-2">Menu Cost: <span id="costm6">0</span></div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End Menu -->
+                  <div>Total Cost: <span id="cost6">0</span></div>
+                  <div id="discountMenu6" class="discount-menu d-none p-3 rounded-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="position-relative"><input id="discount6" type="number" placeholder="Add Discount"> <img src="assets/images/discount-svgrepo-com.svg" class="discount-image" alt=""></div>
+                      <i onclick="calcDiscountCost(6)" class="fa fa-plus fa-2x ms-2 add-icon"></i>
+                    </div>
+                    <div class="mt-2">After Discount: <span id="discountCost6">0</span></div>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <button class="submit w-100" onclick="submit(6)" disabled>Submit</button>
+                  </div>
+              </div>
+              </div>
+            </div>
+          </div>
+          <div class="summary-table d-none mt-5">
+            <div class="text-white d-flex justify-content-between align-items-center p-2 rounded-2 shadow">
+              <h2>Devices Summary</h2>
+              <div class="summary-buttons">
+                <button class="btn-danger btn" onclick="clearTableData()">Clear Table</button>
+                <button class="btn btn-info" onclick="downloadPDF()">Download as PDF</button>
+              </div>
+            </div>
+            <table class="table position-relative" id="deviceSummary">
+              <thead class="text-center">
+                  <tr>
+                    <th>Device ID</th>
+                    <th>Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Elapsed Time</th>
+                    <th>Cost</th>
+                  </tr>
+              </thead>
+              <tbody id="deviceRows">
+                  <!-- Device rows will be added dynamically here -->
+              </tbody>
+              <tfoot>
+                  <tr >
+                      <th colspan="5">Total Cost</th>
+                      <th id="totalCost">0 EGP</th>
+                  </tr>
+              </tfoot>
+            </table>
+          </div>
+          <div class="main-elsala  py-4 px-1 d-none ">
+            <div class="w-100 m-auto main-content shadow text-white p-3 rounded-3">
+                <div class="shadow p-4 options rounded-3">
+                    <div class="mb-4">
+                        <label for="nameInput">الاسم    :</label>
+                        <input class="form-control" id="nameInput" type="text" placeholder="اسم الزبون" >
+                    </div>
+                    <div class="mb-4">
+                        <label for="drinkInput">المشروب :</label>
+                        <!-- <input class="form-control" id="drinkInput" type="text" placeholder="اسم المشروب" > -->
+                        <input  class="form-control mb-2" id="drinkInput" type="text" placeholder="هيشرب اي" >
+                        <span id="drinkSuggest" class="bg-info-subtle text-dark p-2 rounded-2 d-none"></span>
+                    </div>
+                    <div class="mb-4">
+                        <label for="priceInput">السعر   :</label>
+                        <input class="form-control" id="priceInput" type="number" placeholder="سعر اللي هيشربه" >
+                        
+                    </div>
+                    <div class="all-buttons">
+                        <button disabled id="addBtn" class="btn  w-50 d-block m-auto">اضافه</button>
+                        <button id="updateBtn" class="btn  d-none w-50 d-block m-auto">تحديث</button>
+                        <p id="errMsg" class="text-danger text-center d-none mb-0  mt-2">ادخل جميع الحقول</p>
+                    </div>
+                    <input type="hidden"  id="editIndex">
+                </div>
+                <div class="mt-4 shadow">
+                    <table class="drinks-table">
+                        <thead>
+                            <tr>
+                                <th>الاسم</th>
+                                <th>السعر</th>
+                                <th>المشروب</th>
+                                <th>مسح</th>
+                                <th>تعديل</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+          </div>
+        <!-- Repeat the above block for additional devices -->
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/elsala.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

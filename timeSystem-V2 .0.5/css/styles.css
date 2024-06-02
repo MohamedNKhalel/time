@@ -1,0 +1,401 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-image: url(../assets/images/high-angle-controller-with-vr-glasses.jpg);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    font-size: 20px;
+
+}
+.main-content{
+    direction: rtl;
+}
+.main-nav{
+    width: 100%;
+    padding: 10px;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.main-nav-item{
+    margin-right: 20px;
+}
+.main-nav-link{
+    padding: 10px;
+    text-decoration: none;
+    color: white;
+}
+.active{
+    background-color: #09c;
+    color: white !important;
+    border-radius: 10px;
+}
+.title{
+    padding: 15px;
+    border-radius: 10px;
+    background-image: linear-gradient(to right,rgba(0, 0, 0, 0.774),rgba(68, 0, 0, 0.889));
+    color: white !important;
+    font-weight: 700;
+    margin-bottom: 20px;
+
+}
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.table th, .table td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+    
+}
+.table th {
+    background-image: linear-gradient(to right,rgba(77, 1, 1, 0.9),rgba(0, 0, 0, 0.9)); /* Darker shade for better contrast */
+    color: white;
+}
+.table td {
+    background-image: linear-gradient(to right,rgba(0, 6, 7, 0.9),rgba(71, 0, 37, 0.9)); /* Darker shade for better contrast */
+    color: white;
+}
+.table tfoot th {
+    background-color: #eee;
+    color: white;
+    font-weight: bold;
+}
+.summary-table{
+    font-size: 16px;
+    min-height: 100vh;
+}
+.summary-buttons button{
+    font-size: 1em ;
+}
+
+.drinks-table{
+    box-shadow: 0px 0px 1px 1px  black;
+    width: 100%;
+}
+.drinks-table th,td{
+    text-align: center;
+}
+.drinks-table th {
+    color: white;
+    background-color: rgb(93, 0, 0);
+}
+.drinks-table td {
+    color: white;
+    background-color: black;
+    border-bottom: solid white 1px;
+}
+
+  /* Responsive table */
+  @media (max-width: 768px) {
+    .table th, .table td {
+      padding: 10px 5px;
+    }
+    .clearbtn{
+        font-size: .9rem;
+    }
+    .delete-btn,.update-btn{
+        font-size: .6rem;
+    }
+    .summary-table{
+        font-size: 12px;
+    }
+    .drinks-table{
+        font-size: 13px;
+    }
+    .summary-buttons button{
+        width: 100%;
+    }
+  }
+.main h1{
+    color: #FBFADA;
+    
+}
+.device h2{
+    position: relative;
+    
+}
+.device>h2::after{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background-color: white;
+    background-image: linear-gradient(to right,black,rgb(228, 143, 143),#690606,#2F1328,#2E0100,#1C1918);
+    bottom: -10px;
+    left: 0;
+}
+
+label{
+    display: block;
+}
+i{
+    cursor: pointer;
+}
+
+input{
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+}
+
+.info-time{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+.start-time,.pause-time{
+    width: 100%;
+    color: white;
+    padding-inline: 10px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+}
+.device {
+    background-image: linear-gradient(to top,rgba(0, 0, 0, 0.9),rgba(120, 6, 6, 0.9));
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border-radius: 10px;
+    color: white;
+    box-shadow: 0px 0px 1px 2px rgb(191, 83, 83);
+    position: relative;
+}
+.clear-btn{
+    /* background-image: url(../assets/images/6b857d4c-09d0-45bf-9d7d-6e6d5e7a3c01.jpg); */
+    background-image: linear-gradient(to right,rgba(255, 22, 22, 0.9),rgba(68, 0, 0, 0.9));
+
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+    transition: all .2s ease;
+}
+.clear-btn:hover{
+    background-image: linear-gradient(to right,rgb(255, 22, 22),rgb(68, 0, 0));
+
+}
+button{
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    background-image: linear-gradient(to right,rgba(0, 0, 0),rgba(68, 0, 0));
+    border: none;
+    color: white;
+    font-weight: 900;
+    text-shadow: 1px 1px 5px black;
+    border-radius: 10px;
+    transition: all .3s ease;
+}
+button:hover{
+    background-image: linear-gradient(to right,rgb(0, 0, 0),rgb(20, 6, 6));
+
+    color: white;
+}
+button:disabled{
+    background-image: linear-gradient(to right,rgb(67, 67, 67),rgb(67, 67, 67));
+    color: gray;
+    text-shadow: none;
+}
+.show-drinks-btn,.hide-drinks-btn{
+    display: block;
+    width: 100%;
+}
+
+/* Enhance the appearance of dropdowns used for selecting drink rates */
+select {
+    background-image: linear-gradient(to right,rgba(77, 1, 1, 0.9),rgba(0, 0, 0, 0.9)); /* Darker shade for better contrast */
+    color: #FBFADA; /* Light text for readability */
+    border-radius: 5px; /* Rounded corners for modern look */
+    font-size: 16px; /* Slightly larger font for better visibility */
+}
+
+option {
+    padding: 5px; /* Padding for better touch interaction */
+    background-color: black; /* Consistent with device background */
+}
+.btn-danger{
+    color: white;
+    transition: all .2s ease;
+}
+
+.btn-info{
+    background-image: linear-gradient(to right,rgba(0, 0, 70, 0.54),rgba(255, 255, 255, 0.523));
+    color: white;
+    transition: all .5s ease;
+}
+.btn-info:hover{
+    background-image: linear-gradient(to right,rgba(255, 255, 255, 0.523),rgba(0, 0, 70, 0.54));
+    color: white;
+}
+.calc-menu{
+    background-color: black !important;
+    color: white !important;
+    padding: 15px !important;
+    border-radius: 10px !important;
+    background-image: none;
+    text-shadow: none;
+
+}
+.calc-menu:hover{
+    background-image: none;
+    color: black !important;
+    background-color: #ccc !important;
+}
+.submit{
+    background-image: none;
+    background-color: green;
+    transition: all .2s ease;
+}
+.submit:disabled{
+    background-image: linear-gradient(to right,rgb(67, 67, 67),rgb(67, 67, 67)) !important;
+    color: gray !important;
+    text-shadow: none;
+}
+.submit:hover{
+    background-image: linear-gradient(to right,rgb(0, 75, 0),rgb(0,85,0));
+
+    color: white;
+}
+.discount-menu{
+    background-image: linear-gradient(to right,rgb(31, 121, 144),#460808);
+
+}
+.add-icon{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgb(57, 93, 187);
+    padding: 3px 6px;
+    transition: all .2s ease;
+    border: solid 2px transparent;
+}
+.add-icon:hover{
+    background-color:transparent ;
+    border: solid 2px rgb(57, 93, 187);
+    color: rgb(57, 93, 187);
+}
+.discount-image{
+    width: 40px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.add-discount{
+    width: 50px;
+}
+.total-cost{
+    position: relative;
+    
+}
+.total-cost::after{
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    display: none;
+}
+.layer-succes{
+    flex-direction: column;
+    gap: 30px;
+    border-radius: 10px;
+}
+@media screen and (max-width:768px) {
+    .clear-btn,.submit{
+        font-size: .85rem;
+    }
+    .clearbtn{
+        font-size: .7rem;
+    }
+    .elsala{
+        font-size: 1rem !important;
+    }
+    h3{
+        font-size: 1.1rem;
+    }
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-size: 16px;
+}
+
+.main-content{
+    background-image:linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), url(../assets/images/cosmic-background-with-colorful-laser-lights-perfect-digital-wallpaper.jpg);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.main-content .options{
+    background-image:linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), url(../assets/images/5106989.jpg);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.all-buttons button{
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    background-image: url(../assets/images/cosmic-background-with-colorful-laser-lights-perfect-digital-wallpaper.jpg) !important;
+    background-size: cover;
+    background-position: center center;
+    border: none;
+    color: white;
+    font-weight: 900;
+    text-shadow: 1px 1px 5px black;
+    border-radius: 10px;
+    transition: all .3s ease;
+}
+.all-buttons button:hover{
+    background-image:linear-gradient(rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.6)), url(../assets/images/cosmic-background-with-colorful-laser-lights-perfect-digital-wallpaper.jpg) !important;
+    color: white;
+}
+.all-buttons button:disabled{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0.7)),url(../assets/images/5106989.jpg);
+    background-size: cover;
+    background-position: center center;
+    color: gray;
+}
+.delete-btn,.update-btn{   
+    background-image: none;
+}
+.delete-btn{
+    background-color: rgb(62, 0, 0);
+}
+.delete-btn:hover{
+    background-image: none;
+    background-color: rgb(49, 0, 0);
+}
+.update-btn{
+    background-color: rgb(220, 154, 0);
+}
+.update-btn:hover{
+    background-color:rgb(136, 95, 0) ;
+    background-image: none;
+}
+@media screen and (max-width:768px) {
+    .main{
+        width: 99% !important;
+    }
+}
