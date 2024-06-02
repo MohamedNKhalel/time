@@ -171,6 +171,7 @@ function startTimer(deviceId, resume = false) {
     document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = false;
     localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
     localStorage.setItem(`startTime${deviceId}`,JSON.stringify(new Date(savedData.startTime).toLocaleTimeString()))
+    document.getElementById(`discountMenu${deviceId}`).classList.add('d-none');
 }
 
 
@@ -193,8 +194,10 @@ function stopTimer(deviceId) {
         document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.add('d-none');
         document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.remove('d-none');
         document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
-        updateDeviceTable(deviceId, savedData);
-        updateTotalCost(); // Ensure total cost is updated here as well
+        // updateDeviceTable(deviceId, savedData);
+        // updateTotalCost(); // Ensure total cost is updated here as well
+        document.getElementById(`discountMenu${deviceId}`).classList.remove('d-none');
+        document.querySelector(`#device${deviceId} button[onclick^="submit"]`).disabled = false;
     }
 }
 
@@ -282,6 +285,7 @@ function displaySavedTotalCost() {
         document.getElementById('totalCost').textContent = `${savedTotalCost} EGP`;
     }
 }
+
 function clearTableData() {
     if (confirm("Are you sure you want to clear all table data? This action cannot be undone.")) {
         window.location.reload();
@@ -472,6 +476,29 @@ function calculateMenuCost(deviceId) {
 
 }
 
+function calcDiscountCost(deviceId){
+    console.log("test");
+    let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
+    let discountValue = document.getElementById(`discount${deviceId}`).value
+    let afterDiscount =( savedData.cost - discountValue).toFixed()
+    document.getElementById(`discountCost${deviceId}`).innerHTML = afterDiscount + ` EGP`;
+    savedData.cost = afterDiscount;
+    localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
+}
+
+function submit(deviceId){
+    let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
+    document.getElementById(`discountMenu${deviceId}`).classList.add('d-none');
+    updateDeviceTable(deviceId, savedData);
+    updateTotalCost();
+    document.getElementById(`cost${deviceId}`).innerHTML = savedData.cost + " EGP";
+    let layer = document.getElementById(`layer${deviceId}`);
+    layer.classList.remove('d-none');
+    setTimeout(() => {
+        layer.classList.add('d-none');
+    }, 1000);
+    document.querySelector(`#device${deviceId} button[onclick^="submit"]`).disabled = true;
+}
 
 
 function calculateCost(deviceId, savedData) {

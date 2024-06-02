@@ -13,14 +13,18 @@
     <div class="main">
         <h1 class="text-center text-uppercase title">El-Dra3 Bayez System</h1>
         <div class="mb-4 d-flex justify-content-between align-items-center">
-          <a class="text-decoration-none text-white fs-4 fw-bolder" href="elsala.html"> <i class="fa fa-arrow-left me-2"></i>الذهاب الي الصاله</a>
+          <a class="text-decoration-none text-white fs-4 fw-bolder elsala" href="elsala.html"> <i class="fa fa-arrow-left me-2"></i>الذهاب الي الصاله</a>
           <button class="clearbtn" onclick="clearAllTimers()">Clear All Devices Data</button>
         </div>
         <!-- Device blocks -->
           <div class="row g-4">
             <!-- Device 1 -->
             <div class="col-lg-4 col-md-6">
-              <div id="device1" class="device">
+              <div id="device1" class="device position-relative">
+                <div id="layer1" class="layer-succes position-absolute top-0 start-0 end-0 bottom-0 bg-success z-3 d-flex justify-content-center align-items-center  d-none">
+                  <i class="fa-regular fa-circle-check fa-4x"></i>
+                  <h3>Successfully added to the table</h3>
+                </div>
                 <h2 class="text-center fw-bolder text-uppercase">Device 1</h2>
                 
                 <div class="d-flex justify-content-between align-items-center">
@@ -121,12 +125,26 @@
 
                 <!-- End Menu -->
                 <div>Total Cost: <span id="cost1">0</span></div>
-                <button class="clear-btn" onclick="clearTimer(1)">Clear Data</button>
+                <div id="discountMenu1" class="discount-menu d-none p-3 rounded-2">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="position-relative"><input id="discount1" type="number" placeholder="Add Discount"> <img src="assets/images/discount-svgrepo-com.svg" class="discount-image" alt=""></div>
+                    <i onclick="calcDiscountCost(1)" class="fa fa-plus fa-2x ms-2 add-icon"></i>
+                  </div>
+                  <div class="mt-2">After Discount: <span id="discountCost1">0</span></div>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <button  class="submit w-100" onclick="submit(1)" disabled>Submit</button>
+                  <button  class="clear-btn w-100" onclick="clearTimer(1)">Clear Data</button>
+                </div>
               </div>
             </div>
             <!-- Device 2 -->
             <div class="col-lg-4 col-md-6">
-              <div id="device2" class="device">
+              <div id="device2" class="device ">
+                <div id="layer2" class="layer-succes position-absolute top-0 start-0 end-0 bottom-0 bg-success z-3 d-flex justify-content-center align-items-center d-none">
+                  <i class="fa-regular fa-circle-check fa-4x"></i>
+                  <h3>Successfully added to the table</h3>
+                </div>
                 <h2 class="text-center fw-bolder text-uppercase">Device 2</h2>
                 <div class="d-flex justify-content-between align-items-center">
                   <button class="w-100" onclick="startTimer(2)">Start</button>
@@ -224,12 +242,26 @@
                 </div>
                 <!-- End Menu -->
                 <div>Total Cost: <span id="cost2">0</span></div>
-                <button class="clear-btn" onclick="clearTimer(2)">Clear Data</button>
+                <div id="discountMenu2" class="discount-menu d-none p-3 rounded-2">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="position-relative"><input id="discount2" type="number" placeholder="Add Discount"> <img src="assets/images/discount-svgrepo-com.svg" class="discount-image" alt=""></div>
+                    <i onclick="calcDiscountCost(2)" class="fa fa-plus fa-2x ms-2 add-icon"></i>
+                  </div>
+                  <div class="mt-2">After Discount: <span id="discountCost2">0</span></div>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <button class="submit w-100" onclick="submit(2)" disabled>Submit</button>
+                  <button class="clear-btn w-100" onclick="clearTimer(2)">Clear Data</button>
+                </div>
             </div>
             </div>
             <!-- Device 3 -->
             <div class="col-lg-4 col-md-6">
               <div id="device3" class="device">
+                <div id="layer3" class="layer-succes position-absolute top-0 start-0 end-0 bottom-0 bg-success z-3 d-flex justify-content-center align-items-center d-none">
+                  <i class="fa-regular fa-circle-check fa-4x"></i>
+                  <h3>Successfully added to the table</h3>
+                </div>
                 <h2 class="text-center fw-bolder text-uppercase">Device 3</h2>
                 <div class="d-flex justify-content-between align-items-center">
                   <button class="w-100" onclick="startTimer(3)">Start</button>
@@ -327,12 +359,26 @@
                 </div>
                 <!-- End Menu -->
                 <div>Total Cost: <span id="cost3">0</span></div>
-                <button class="clear-btn" onclick="clearTimer(3)">Clear Data</button>
+                <div id="discountMenu3" class="discount-menu d-none p-3 rounded-2">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="position-relative"><input id="discount3" type="number" placeholder="Add Discount"> <img src="assets/images/discount-svgrepo-com.svg" class="discount-image" alt=""></div>
+                    <i onclick="calcDiscountCost(3)" class="fa fa-plus fa-2x ms-2 add-icon"></i>
+                  </div>
+                  <div class="mt-2">After Discount: <span id="discountCost3">0</span></div>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <button class="submit w-100" onclick="submit(3)" disabled>Submit</button>
+                  <button class="clear-btn w-100" onclick="clearTimer(3)">Clear Data</button>
+                </div>
             </div>
             </div>
             <!-- Device 4 -->
             <div class="col-lg-4 col-md-6">
               <div id="device4" class="device">
+                <div id="layer4" class="layer-succes position-absolute top-0 start-0 end-0 bottom-0 bg-success z-3 d-flex justify-content-center align-items-center d-none">
+                  <i class="fa-regular fa-circle-check fa-4x"></i>
+                  <h3>Successfully added to the table</h3>
+                </div>
                 <h2 class="text-center fw-bolder text-uppercase">Device 4</h2>
                 <div class="d-flex justify-content-between align-items-center">
                   <button class="w-100" onclick="startTimer(4)">Start</button>
@@ -430,12 +476,26 @@
                 </div>
                 <!-- End Menu -->
                 <div>Total Cost: <span id="cost4">0</span></div>
-                <button class="clear-btn" onclick="clearTimer(4)">Clear Data</button>
+                <div id="discountMenu4" class="discount-menu d-none p-3 rounded-2">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="position-relative"><input id="discount4" type="number" placeholder="Add Discount"> <img src="assets/images/discount-svgrepo-com.svg" class="discount-image" alt=""></div>
+                    <i onclick="calcDiscountCost(4)" class="fa fa-plus fa-2x ms-2 add-icon"></i>
+                  </div>
+                  <div class="mt-2">After Discount: <span id="discountCost4">0</span></div>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <button class="submit w-100" onclick="submit(4)" disabled>Submit</button>
+                  <button class="clear-btn w-100" onclick="clearTimer(4)">Clear Data</button>
+                </div>
             </div>
             </div>
             <!-- Device 5 -->
             <div class="col-lg-4 col-md-6">
               <div id="device5" class="device">
+                <div id="layer5" class="layer-succes position-absolute top-0 start-0 end-0 bottom-0 bg-success z-3 d-flex justify-content-center align-items-center d-none">
+                  <i class="fa-regular fa-circle-check fa-4x"></i>
+                  <h3>Successfully added to the table</h3>
+                </div>
                 <h2 class="text-center fw-bolder text-uppercase">Device 5</h2>
                 <div class="d-flex justify-content-between align-items-center">
                   <button class="w-100" onclick="startTimer(5)">Start</button>
@@ -533,12 +593,26 @@
                 </div>
                 <!-- End Menu -->
                 <div>Total Cost: <span id="cost5">0</span></div>
-                <button class="clear-btn" onclick="clearTimer(5)">Clear Data</button>
+                <div id="discountMenu5" class="discount-menu d-none p-3 rounded-2">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="position-relative"><input id="discount5" type="number" placeholder="Add Discount"> <img src="assets/images/discount-svgrepo-com.svg" class="discount-image" alt=""></div>
+                    <i onclick="calcDiscountCost(5)" class="fa fa-plus fa-2x ms-2 add-icon"></i>
+                  </div>
+                  <div class="mt-2">After Discount: <span id="discountCost5">0</span></div>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <button class="submit w-100" onclick="submit(5)" disabled>Submit</button>
+                  <button class="clear-btn w-100" onclick="clearTimer(5)">Clear Data</button>
+                </div>
             </div>
             </div>
             <!-- Device 6 -->
             <div class="col-lg-4 col-md-6">
               <div id="device6" class="device">
+                <div id="layer6" class="layer-succes position-absolute top-0 start-0 end-0 bottom-0 bg-success z-3 d-flex justify-content-center align-items-center d-none">
+                  <i class="fa-regular fa-circle-check fa-4x"></i>
+                  <h3>Successfully added to the table</h3>
+                </div>
                 <h2 class="text-center fw-bolder text-uppercase">Device 6</h2>
                 <div class="d-flex justify-content-between align-items-center">
                   <button class="w-100" onclick="startTimer(6)">Start</button>
@@ -636,7 +710,17 @@
                 </div>
                 <!-- End Menu -->
                 <div>Total Cost: <span id="cost6">0</span></div>
-                <button class="clear-btn" onclick="clearTimer(6)">Clear Data</button>
+                <div id="discountMenu6" class="discount-menu d-none p-3 rounded-2">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="position-relative"><input id="discount6" type="number" placeholder="Add Discount"> <img src="assets/images/discount-svgrepo-com.svg" class="discount-image" alt=""></div>
+                    <i onclick="calcDiscountCost(6)" class="fa fa-plus fa-2x ms-2 add-icon"></i>
+                  </div>
+                  <div class="mt-2">After Discount: <span id="discountCost6">0</span></div>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <button class="submit w-100" onclick="submit(6)" disabled>Submit</button>
+                  <button class="clear-btn w-100" onclick="clearTimer(6)">Clear Data</button>
+                </div>
             </div>
             </div>
           </div>
