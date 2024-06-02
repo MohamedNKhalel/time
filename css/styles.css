@@ -11,6 +11,7 @@ body {
 }
 .main-content{
     direction: rtl;
+    min-height: 100vh;
 }
 .main-nav{
     width: 100%;
