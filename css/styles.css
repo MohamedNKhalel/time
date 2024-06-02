@@ -58,7 +58,7 @@ body {
         font-size: .9rem;
     }
     .summary-table{
-        font-size: 14px;
+        font-size: 11px;
     }
     .summary-buttons button{
         width: 100%;
@@ -81,29 +81,8 @@ body {
     background-image: linear-gradient(to right,black,rgb(228, 143, 143),#690606,#2F1328,#2E0100,#1C1918);
     bottom: -10px;
     left: 0;
-    /* animation: moves .6s infinite; */
 }
-/* @keyframes moves {
-    0%{
-    background-image: linear-gradient(to right,black,white,#690606,#2F1328,#2E0100,#1C1918);
-    }
-    20%{
-        background-image: linear-gradient(to right,#690606,white,black,#2F1328,#2E0100,#1C1918);
 
-    }
-    40%{
-        background-image: linear-gradient(to right,#2F1328,#690606,white,black,#2E0100,#1C1918);
-    }
-    60%{
-        background-image: linear-gradient(to right,#2E0100,#690606,#2F1328,white,black,#1C1918);
-    }
-    80%{
-        background-image: linear-gradient(to right,#1C1918,#690606,#2F1328,#2E0100,white,black);
-    }
-    100%{
-        background-image: linear-gradient(to right,black,white,#690606,#2F1328,#2E0100,#1C1918);
-    }
-} */
 label{
     display: block;
 }
@@ -292,6 +271,7 @@ option {
 .layer-succes{
     flex-direction: column;
     gap: 30px;
+    border-radius: 10px;
 }
 @media screen and (max-width:768px) {
     .clear-btn,.submit{
