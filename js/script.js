@@ -36,6 +36,36 @@ document.querySelectorAll('.show-drinks-btn, .hide-drinks-btn').forEach(button =
     });
 });
 
+document.querySelectorAll('.main-nav-link').forEach((link)=>{
+    link.addEventListener('click',()=>{
+        changeActiveLink(link)
+    })
+})
+
+function changeActiveLink(link){
+    document.querySelector(".main-nav .active").classList.remove("active")
+    link.classList.add('active')
+}
+function showDevices(){
+    document.querySelector('.device-blocks').classList.remove('d-none')
+    document.querySelector('.summary-table').classList.add('d-none')
+    document.querySelector('.main-elsala').classList.add('d-none')
+
+}
+function showSummaryTable(){
+    document.querySelector('.summary-table').classList.remove('d-none')
+    document.querySelector('.device-blocks').classList.add('d-none')
+    document.querySelector('.main-elsala').classList.add('d-none')
+
+
+}
+function showSala(){
+
+    document.querySelector('.main-elsala').classList.remove('d-none')
+    document.querySelector('.device-blocks').classList.add('d-none')
+    document.querySelector('.summary-table').classList.add('d-none')
+
+}
 function init() {
     rebuildTable();
     displaySavedTotalCost();
@@ -196,8 +226,6 @@ function stopTimer(deviceId) {
         document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.add('d-none');
         document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.remove('d-none');
         document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
-        // updateDeviceTable(deviceId, savedData);
-        // updateTotalCost(); // Ensure total cost is updated here as well
         document.getElementById(`discountMenu${deviceId}`).classList.remove('d-none');
         document.querySelector(`#device${deviceId} button[onclick^="submit"]`).disabled = false;
     }
@@ -429,7 +457,6 @@ function clearAllTimers() {
 
 
 function clearTimer(deviceId) {
-    if (confirm(`Are you sure you want to clear the data for device ${deviceId}? This action cannot be undone.`)) {
         clearInterval(timers[deviceId]);
         localStorage.removeItem(`device${deviceId}`);
         localStorage.removeItem(`startTime${deviceId}`);
@@ -448,9 +475,6 @@ function clearTimer(deviceId) {
         document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
         document.querySelector(`#device${deviceId} button[onclick^="submit"]`).disabled = true;
         document.getElementById(`discountMenu${deviceId}`).classList.add('d-none');
-
-
-    }
 }
 
 function loadMenuCosts() {
@@ -504,6 +528,7 @@ function submit(deviceId){
         layer.classList.add('d-none');
     }, 1000);
     document.querySelector(`#device${deviceId} button[onclick^="submit"]`).disabled = true;
+    clearTimer(deviceId)
 }
 
 

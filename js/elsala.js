@@ -24,7 +24,6 @@ drinkInput.addEventListener("input",()=>{
             document.getElementById('drinkSuggest').classList.remove('d-none')
             document.getElementById('drinkSuggest').innerHTML = drinks[i]
             document.getElementById('drinkSuggest').addEventListener('click',(e)=>{
-                // console.log(e.target.innerHTML);
                 drinkInput.value =e.target.innerHTML;
             })
         }
@@ -61,12 +60,12 @@ function displayTable(arr){
     let cartoona=``;
     for(let i =0 ; i<allCustomers.length ; i++){
         cartoona+=`
-        <tr>
+                        <tr>
                             <td>${allCustomers[i].name}</td>
                             <td>${allCustomers[i].price}</td>
                             <td>${allCustomers[i].drink}</td>
-                            <td><button onclick="deleteCustomer(${i})" class="btn btn-danger">مسح</button></td>
-                            <td><button onclick="updateCustomer(${i})" class="btn btn-warning">تعديل</button></td>
+                            <td><button onclick="deleteCustomer(${i})" class="delete-btn">مسح</button></td>
+                            <td><button onclick="updateCustomer(${i})" class="update-btn">تعديل</button></td>
                         </tr>
         `
     }

@@ -9,7 +9,31 @@ body {
     font-size: 20px;
 
 }
-
+.main-content{
+    direction: rtl;
+}
+.main-nav{
+    width: 100%;
+    padding: 10px;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.main-nav-item{
+    margin-right: 20px;
+}
+.main-nav-link{
+    padding: 10px;
+    text-decoration: none;
+    color: white;
+}
+.active{
+    background-color: #09c;
+    color: white !important;
+    border-radius: 10px;
+}
 .title{
     padding: 15px;
     border-radius: 10px;
@@ -44,11 +68,29 @@ body {
 }
 .summary-table{
     font-size: 16px;
+    min-height: 100vh;
 }
 .summary-buttons button{
     font-size: 1em ;
 }
-  
+
+.drinks-table{
+    box-shadow: 0px 0px 1px 1px  black;
+    width: 100%;
+}
+.drinks-table th,td{
+    text-align: center;
+}
+.drinks-table th {
+    color: white;
+    background-color: rgb(93, 0, 0);
+}
+.drinks-table td {
+    color: white;
+    background-color: black;
+    border-bottom: solid white 1px;
+}
+
   /* Responsive table */
   @media (max-width: 768px) {
     .table th, .table td {
@@ -57,8 +99,14 @@ body {
     .clearbtn{
         font-size: .9rem;
     }
+    .delete-btn,.update-btn{
+        font-size: .6rem;
+    }
     .summary-table{
-        font-size: 11px;
+        font-size: 12px;
+    }
+    .drinks-table{
+        font-size: 13px;
     }
     .summary-buttons button{
         width: 100%;
@@ -96,11 +144,7 @@ input{
     border: none;
     border-radius: 10px;
 }
-.clearbtn{
-  display: block;
-  margin-left: auto;
-  margin-bottom: 10px;
-}
+
 .info-time{
     display: flex;
     flex-direction: column;
@@ -284,6 +328,74 @@ option {
         font-size: 1rem !important;
     }
     h3{
-        font-size: 1.3rem;
+        font-size: 1.1rem;
+    }
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-size: 16px;
+}
+
+.main-content{
+    background-image:linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), url(../assets/images/cosmic-background-with-colorful-laser-lights-perfect-digital-wallpaper.jpg);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.main-content .options{
+    background-image:linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), url(../assets/images/5106989.jpg);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.all-buttons button{
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    background-image: url(../assets/images/cosmic-background-with-colorful-laser-lights-perfect-digital-wallpaper.jpg) !important;
+    background-size: cover;
+    background-position: center center;
+    border: none;
+    color: white;
+    font-weight: 900;
+    text-shadow: 1px 1px 5px black;
+    border-radius: 10px;
+    transition: all .3s ease;
+}
+.all-buttons button:hover{
+    background-image:linear-gradient(rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.6)), url(../assets/images/cosmic-background-with-colorful-laser-lights-perfect-digital-wallpaper.jpg) !important;
+    color: white;
+}
+.all-buttons button:disabled{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0.7)),url(../assets/images/5106989.jpg);
+    background-size: cover;
+    background-position: center center;
+    color: gray;
+}
+.delete-btn,.update-btn{   
+    background-image: none;
+}
+.delete-btn{
+    background-color: rgb(62, 0, 0);
+}
+.delete-btn:hover{
+    background-image: none;
+    background-color: rgb(49, 0, 0);
+}
+.update-btn{
+    background-color: rgb(220, 154, 0);
+}
+.update-btn:hover{
+    background-color:rgb(136, 95, 0) ;
+    background-image: none;
+}
+@media screen and (max-width:768px) {
+    .main{
+        width: 99% !important;
     }
 }
