@@ -518,7 +518,7 @@ function calcDiscountCost(deviceId){
     let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
     let discountValue = document.getElementById(`discount${deviceId}`).value
     
-    if(discountValue <= savedData.cost){
+    if(discountValue.toFixed() < savedData.cost.toFixed(){
         let afterDiscount =( savedData.cost - discountValue).toFixed();
         document.getElementById(`cost${deviceId}`).innerHTML =  `${afterDiscount}  EGP`;
         document.getElementById(`discountCost${deviceId}`).innerHTML = `${discountValue} EGP`;
