@@ -515,11 +515,16 @@ function discountRequest(deviceId){
 
 }
 function calcDiscountCost(deviceId){
-    console.log("test");
+    alert("hamo test")
     let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
     let discountValue = document.getElementById(`discount${deviceId}`).value
-   
-    if(discountValue <= savedData.cost){
+    let afterDiscount =( savedData.cost - discountValue).toFixed()
+    document.getElementById(`discountCost${deviceId}`).innerHTML = afterDiscount + ` EGP`;
+    savedData.cost = afterDiscount;
+    localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
+    /*if(discountValue <= savedData.cost){
+        let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
+        let discountValue = document.getElementById(`discount${deviceId}`).value
         let afterDiscount =( savedData.cost - discountValue).toFixed();
         document.getElementById(`cost${deviceId}`).innerHTML =  `${afterDiscount}  EGP`;
         document.getElementById(`discountCost${deviceId}`).innerHTML = `${discountValue} EGP`;
@@ -535,7 +540,7 @@ function calcDiscountCost(deviceId){
     }
     else{
         alert(' كدا هتبقي مديون ع فكره , فكر تاني يابا')
-    }
+    }*/
 
 }
 
