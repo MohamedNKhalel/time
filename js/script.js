@@ -517,8 +517,6 @@ function discountRequest(deviceId){
 function calcDiscountCost(deviceId){ 
     let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
     let discountValue = document.getElementById(`discount${deviceId}`).value
-    
-    if(discountValue.toFixed() < savedData.cost.toFixed(){
         let afterDiscount =( savedData.cost - discountValue).toFixed();
         document.getElementById(`cost${deviceId}`).innerHTML =  `${afterDiscount}  EGP`;
         document.getElementById(`discountCost${deviceId}`).innerHTML = `${discountValue} EGP`;
@@ -531,10 +529,6 @@ function calcDiscountCost(deviceId){
         }, 1500);
         savedData.cost = afterDiscount;
         localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
-    }
-    else{
-        alert(' كدا هتبقي مديون ع فكره , فكر تاني يابا')
-    }
 
 }
 
