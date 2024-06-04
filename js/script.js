@@ -515,7 +515,7 @@ function discountRequest(deviceId){
 
 }
 function calcDiscountCost(deviceId){
-    alert("hamo test")
+    
     let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
     let discountValue = document.getElementById(`discount${deviceId}`).value
     let afterDiscount =( savedData.cost - discountValue).toFixed()
