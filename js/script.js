@@ -204,6 +204,8 @@ function startTimer(deviceId, resume = false) {
     localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
     localStorage.setItem(`startTime${deviceId}`,JSON.stringify(new Date(savedData.startTime).toLocaleTimeString()))
     document.getElementById(`discountMenu${deviceId}`).classList.add('d-none');
+    document.getElementById(`discountRequest${deviceId}`).classList.add('d-none');
+
 }
 
 
@@ -226,8 +228,10 @@ function stopTimer(deviceId) {
         document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.add('d-none');
         document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.remove('d-none');
         document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
-        document.getElementById(`discountMenu${deviceId}`).classList.remove('d-none');
         document.querySelector(`#device${deviceId} button[onclick^="submit"]`).disabled = false;
+        // document.getElementById(`discountMenu${deviceId}`).classList.remove('d-none');
+        document.getElementById(`discountRequest${deviceId}`).classList.remove('d-none');
+
     }
 }
 
@@ -506,17 +510,36 @@ function calculateMenuCost(deviceId) {
 
 }
 
+function discountRequest(deviceId){
+    document.getElementById(`discountMenu${deviceId}`).classList.toggle('d-none');
+
+}
 function calcDiscountCost(deviceId){
     console.log("test");
     let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
     let discountValue = document.getElementById(`discount${deviceId}`).value
-    let afterDiscount =( savedData.cost - discountValue).toFixed()
-    document.getElementById(`discountCost${deviceId}`).innerHTML = afterDiscount + ` EGP`;
-    savedData.cost = afterDiscount;
-    localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
+    let afterDiscount =( savedData.cost - discountValue).toFixed();
+    if(discountValue <= savedData.cost){
+        document.getElementById(`cost${deviceId}`).innerHTML =  `${afterDiscount}  EGP`;
+        document.getElementById(`discountCost${deviceId}`).innerHTML = `${discountValue} EGP`;
+        document.getElementById(`discountLayer${deviceId}`).classList.remove('d-none');
+        document.getElementById(`totalDiscount${deviceId}`).classList.remove('d-none');
+        setTimeout(() => {
+            document.getElementById(`discountLayer${deviceId}`).classList.add('d-none');
+            document.getElementById(`discountMenu${deviceId}`).classList.add('d-none');
+            document.getElementById(`discount${deviceId}`).value = '';
+        }, 1500);
+        savedData.cost = afterDiscount;
+        localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
+    }
+    else{
+        alert(' كدا هتبقي مديون ع فكره , فكر تاني يابا')
+    }
+
 }
 
 function submit(deviceId){
+    document.getElementById(`totalDiscount${deviceId}`).classList.add('d-none');
     let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
     document.getElementById(`discountMenu${deviceId}`).classList.add('d-none');
     updateDeviceTable(deviceId, savedData);
@@ -529,6 +552,9 @@ function submit(deviceId){
     }, 1000);
     document.querySelector(`#device${deviceId} button[onclick^="submit"]`).disabled = true;
     clearTimer(deviceId)
+    document.getElementById(`discountRequest${deviceId}`).classList.add('d-none');
+    document.getElementById(`discount${deviceId}`).value = ''
+
 }
 
 
