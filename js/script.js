@@ -322,10 +322,9 @@ function displaySavedTotalCost() {
 
 function clearTableData() {
     if (confirm("Are you sure you want to clear all table data? This action cannot be undone.")) {
-        window.location.reload();
         // Clear table rows from the DOM
         const table = document.getElementById("deviceSummary");
-        while (table.rows.length > 1) {  // Assuming the first row is the header
+        while (table.rows.length > 2) {  // Assuming the first row is the header
             table.deleteRow(1);
         }
 
@@ -514,10 +513,12 @@ function discountRequest(deviceId){
     document.getElementById(`discountMenu${deviceId}`).classList.toggle('d-none');
 
 }
-function calcDiscountCost(deviceId){ 
+function calcDiscountCost(deviceId){
+    console.log("test");
     let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
     let discountValue = document.getElementById(`discount${deviceId}`).value
-        let afterDiscount =( savedData.cost - discountValue).toFixed();
+    let afterDiscount =( savedData.cost - discountValue).toFixed();
+    if(afterDiscount >= 0){
         document.getElementById(`cost${deviceId}`).innerHTML =  `${afterDiscount}  EGP`;
         document.getElementById(`discountCost${deviceId}`).innerHTML = `${discountValue} EGP`;
         document.getElementById(`discountLayer${deviceId}`).classList.remove('d-none');
@@ -529,6 +530,10 @@ function calcDiscountCost(deviceId){
         }, 1500);
         savedData.cost = afterDiscount;
         localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
+    }
+    else{
+        alert(' كدا هتبقي مديون ع فكره , فكر تاني يابا')
+    }
 
 }
 
