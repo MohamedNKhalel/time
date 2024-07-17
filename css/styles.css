@@ -9,6 +9,9 @@ body {
     font-size: 20px;
 
 }
+.device-blocks{
+    min-height: 71.5vh;
+}
 .main-content{
     direction: rtl;
     min-height: 100vh;
@@ -69,7 +72,7 @@ body {
 }
 .summary-table{
     font-size: 16px;
-    min-height: 100vh;
+    min-height: 67.2vh;
 }
 .summary-buttons button{
     font-size: 1em ;
@@ -319,8 +322,8 @@ option {
     border-radius: 10px;
 }
 @media screen and (max-width:768px) {
-    .clear-btn,.submit{
-        font-size: .85rem;
+    .clear-btn,.submit,.add-btn{
+        font-size: .7rem;
     }
     .clearbtn{
         font-size: .7rem;
@@ -328,12 +331,12 @@ option {
     .elsala{
         font-size: 1rem !important;
     }
-    h3{
+    .layer-succes h3{
         font-size: 1.1rem;
     }
 }
 @media screen and (min-width:992px) and (max-width:1300px) {
-    .clear-btn,.submit{
+    .clear-btn,.submit,.add-btn{
         font-size: .85rem;
     }
     .clearbtn{
@@ -346,6 +349,7 @@ option {
         font-size: 1.3rem;
     }
 }
+
 
 body {
     font-family: Arial, sans-serif;
@@ -411,5 +415,21 @@ body {
 @media screen and (max-width:768px) {
     .main{
         width: 99% !important;
+    }
+}
+.add-btn{
+    background-color: #09c;
+    background-image: none;
+    color:rgb(49, 0, 0);
+    text-shadow: none;
+    transition: all .5s ease;
+}
+.add-btn:hover{
+    background-color: rgb(4, 68, 89);
+    background-image: none;
+}
+.main-nav-item{
+    a{
+        cursor: pointer;
     }
 }

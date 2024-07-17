@@ -1,40 +1,183 @@
 let timers = {};
+let devices = [] 
+let counter = 0 
 
-document.querySelectorAll('.show-drinks-bar, .hide-drinks-bar').forEach(bar=>{
-    bar.addEventListener('click',function(){
-        let device = this.closest('.device'); // Find the closest parent '.device' container
-        let drinksMenu = device.querySelector('.drinks-menu');
-        let showBtn = device.querySelector('.show-drinks-bar');
-        let hideBtn = device.querySelector('.hide-drinks-bar');
-        drinksMenu.classList.toggle('d-none');
-        showBtn.classList.toggle('d-none');
-        hideBtn.classList.toggle('d-none');
-    })
-})
-document.querySelectorAll('.show-others-bar, .hide-others-bar').forEach(bar=>{
-    bar.addEventListener('click',function(){
-        let device = this.closest('.device'); // Find the closest parent '.device' container
-        let drinksMenu = device.querySelector('.others-menu');
-        let showBtn = device.querySelector('.show-others-bar');
-        let hideBtn = device.querySelector('.hide-others-bar');
-        drinksMenu.classList.toggle('d-none');
-        showBtn.classList.toggle('d-none');
-        hideBtn.classList.toggle('d-none');
-    })
-})
+function addDevice(){
+    counter ++;
+    devices.push(`<div class="col-lg-4 col-md-6">
+            <div id="device${counter}" class="device position-relative">
+              <div id="layer${counter}" class="layer-succes position-absolute top-0 start-0 end-0 bottom-0 bg-success z-3 d-flex justify-content-center align-items-center  d-none">
+                <i class="fa-regular fa-circle-check fa-4x"></i>
+                <h3>Successfully added to the table</h3>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                  <h2 class="text-center fw-bolder text-uppercase">Device ${counter}</h2>
+                  <i onclick="deleteDevice(${counter-1})" class="fa-solid fa-trash-can fa-2x"></i>
+                </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <button class="w-100" onclick="startTimer(${counter})">Start</button>
+                <button title="pause" onclick="pauseTimer(${counter})" id="pauseTimer${counter}" disabled><i class="fa fa-pause fa-xl"></i></button>
+                <button title="play" type="button" class="d-none" onclick="resumeTimer(${counter})" id="continueTimer${counter}" disabled><i class="fa fa-play fa-xl "></i></button>
+              </div>
+              <button onclick="stopTimer(${counter})" disabled>Stop</button>
 
-document.querySelectorAll('.show-drinks-btn, .hide-drinks-btn').forEach(button => {
-    button.addEventListener("click", function() {
-        let device = this.closest('.device'); // Find the closest parent '.device' container
-        let drinksMenu = device.querySelector('.drinks'); // Select the drinks menu within this device
-        let showBtn = device.querySelector('.show-drinks-btn');
-        let hideBtn = device.querySelector('.hide-drinks-btn');
+              <div class="info-time">
+                <span><span class="start-time" id="startTime${counter}"></span></span>
+                <span><span class="pause-time" id="pauseTime${counter}"></span></span>
+              </div>
+              <div>Elapsed Time: <span id="elapsedTime${counter}">00:00:00</span></div>
+              <select title="rate" id="rateSelector${counter}" onchange="saveRateSelection(${counter})">
+                  <option  value="10">10 EGP/hour</option>
+                  <option  value="15">15 EGP/hour</option>
+                  <option  value="20">20 EGP/hour</option>
+                  <option  value="25">25 EGP/hour</option>
+                  <option  value="30">30 EGP/hour</option>
+                  <option  value="35">35 EGP/hour</option>
+                  <option  value="40">40 EGP/hour</option>
+              </select>
+              <!-- Start Menu -->
+              <div class="menu">
+                Menu:
+                <button  onclick="toggleMenu(this, '.drinks')" class="show-drinks-btn mb-2 d-block m-auto">Show Menu <i class="fa-solid fa-caret-down fa-xl"></i></button>
+                <button  onclick="toggleMenu(this, '.drinks')" class="hide-drinks-btn mb-2 d-none m-auto">Hide Menu <i class="fa-solid fa-caret-up fa-xl"></i></button>
+                <div class="drinks d-none ">
+                  <div class="p-3 bg-dark rounded-2 shadow">
+                    <div class="bg-dark p-3 rounded-3 all-drinks shadow">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="h4 pt-2">Drinks :</h2>
+                        <i  onclick="toggleDrinks(this)"  class="fa-solid fa-caret-down fa-xl show-drinks-bar"></i>
+                        <i  onclick="toggleDrinks(this)"  class="fa-solid fa-caret-up fa-xl d-none hide-drinks-bar"></i>
+                      </div>
+                      <div class="d-none drinks-menu">
+                        <div class="my-2">
+                          <label>Soda Small (15 EGP)</label>
+                          <input title="drink" class="drink-input" data-device-id="${counter}" id="sodaS${counter}" type="number" value="0">
+                        </div>
+                        <div class="my-2">
+                          <label>Soda Large (20 EGP)</label>
+                          <input title="drink" class="drink-input" data-device-id="${counter}" type="number" id="sodaL${counter}" min="0" value="0">
+                        </div>
+                        <div class="my-2">
+                          <label>Sokhn  (10 EGP)</label>
+                          <input title="drink" class="drink-input" data-device-id="${counter}" type="number" id="sokhn${counter}" min="0" value="0">
+                        </div>
+                        <div class="my-2">
+                          <label>Coffee (15 EGP)</label>
+                          <input title="drink" class="drink-input" data-device-id="${counter}" type="number" id="coffee${counter}" min="0" value="0">
+                        </div>
+                        <div class="my-2">
+                          <label>Cappuccino (15 EGP):</label>
+                          <input title="drink" class="drink-input" data-device-id="${counter}" type="number" id="cappuccino${counter}" value="0">
+                        </div>
+                        <div class="my-2">
+                          <label>French Coffee (25 EGP):</label>
+                          <input title="drink" class="drink-input" data-device-id="${counter}" type="number" id="frenchCoffee${counter}" value="0">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="bg-dark p-3 rounded-3 mt-2 all-others shadow">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="h4 pt-2">Others :</h2>
+                        <i onclick="toggleOthers(this)"  class="fa-solid fa-caret-down fa-xl show-others-bar"></i>
+                        <i onclick="toggleOthers(this)"  class="fa-solid fa-caret-up d-none fa-xl hide-others-bar"></i>
+                      </div>
+                      <div class="d-none others-menu">
+                        <div>
+                          <label for="sandwich">Sandwich (15 EGP)</label>
+                          <input title="sandwich" class="drink-input" data-device-id="${counter}" type="number" id="sandwich${counter}" min="0" value="0">
+                        </div>
+                        <div class="my-2">
+                          <label>Net Card (5 EGP):</label>
+                          <input title="drink" class="drink-input" data-device-id="${counter}" type="number" id="netCard${counter}" value="0">
+                        </div>
+                        <div class="my-2">
+                          <label>Half Hour PS4 (10 EGP):</label>
+                          <input title="drink" class="drink-input" data-device-id="${counter}" type="number" id="halfHourPS4${counter}" value="0">
+                        </div>
+                        <div class="my-2">
+                          <label>Hour PS4 (20 EGP):</label>
+                          <input title="drink" class="drink-input" data-device-id="${counter}" type="number" id="hourPS4${counter}" value="0">
+                        </div>
+                        <div class="my-2">
+                          <label>Cleaning (3 EGP):</label>
+                          <input title="drink" class="drink-input" data-device-id="${counter}" type="number" id="cleaning${counter}" value="0">
+                        </div>
+                      </div>
+                    </div>
+                    <button onclick="calculateMenuCost(${counter})" class="w-100 m-auto mt-2 calc-menu">Show menu cost</button>
+                    <div class="mt-2">Menu Cost: <span id="costm${counter}">0</span></div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Menu -->
+              <div id="totalDiscount${counter}" class="mt-2 d-none">Discount Value: <span id="discountCost${counter}">0</span></div>
+              <div>Total Cost: <span id="cost${counter}">0</span></div>
+              <h4 id="discountRequest${counter}" onclick="discountRequest(${counter})" class="h5 d-flex justify-content-between align-items-center d-none"><span>Add Discount ?</span> <i class="fa fa-plus-circle fa-xl"></i></h4>
+              <div id="discountMenu${counter}" class="discount-menu  p-3 rounded-2 position-relative d-none">
+                <div class="d-flex justify-content-between align-items-center  ">
+                  <div class="position-relative"><input id="discount${counter}" type="number" placeholder="Enter Discount Value"> <img src="assets/images/discount-svgrepo-com.svg" class="discount-image" alt=""></div>
+                  <i onclick="calcDiscountCost(${counter})" class="fa fa-plus fa-2x ms-2 add-icon"></i>
+                  <div id="discountLayer${counter}" class="d-none discount-layer position-absolute d-flex justify-content-center align-items-center bg-success rounded-2 top-0 bottom-0 start-0 end-0">
+                    <h2>Discount Added</h2>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <button  class="submit w-100" onclick="submit(${counter})" disabled>Submit</button>
+              </div>
+            </div>
+        </div>`);
+    let devicesJson = JSON.stringify(devices);
+    localStorage.setItem('devices',devicesJson)
+    console.log(devices);
+    displayDevices();
+}
+function deleteDevice(index){
+        devices.splice(index, 1);
+        localStorage.setItem('devices',JSON.stringify(devices))
+        displayDevices()
+        console.log(index);
+        counter --;
+}
+function displayDevices(){
+    document.getElementById('deviceContainer').innerHTML = devices
+}
+function toggleMenu(button, menuSelector) {
+    let menu = button.parentElement.querySelector(menuSelector); // Find the menu within the parent container
+    let showBtn = button.parentElement.querySelector('.show-' + menuSelector.replace('.', ''));
+    let hideBtn = button.parentElement.querySelector('.hide-' + menuSelector.replace('.', ''));
 
-        drinksMenu.classList.toggle('d-none');
-        showBtn.classList.toggle('d-none');
-        hideBtn.classList.toggle('d-none');
-    });
-});
+    menu.classList.toggle('d-none');
+    showBtn.classList.toggle('d-none');
+    hideBtn.classList.toggle('d-none');
+}
+
+function toggleDrinks(bar) {
+    let device = bar.closest('.device'); // Find the closest parent '.device' container
+    let drinksMenu = device.querySelector('.drinks-menu');
+    let showBtn = device.querySelector('.show-drinks-bar');
+    let hideBtn = device.querySelector('.hide-drinks-bar');
+
+    drinksMenu.classList.toggle('d-none');
+    showBtn.classList.toggle('d-none');
+    hideBtn.classList.toggle('d-none');
+}
+
+
+function toggleOthers(bar) {
+    let device = bar.closest('.device'); // Find the closest parent '.device' container
+    let othersMenu = device.querySelector('.others-menu');
+    let showBtn = device.querySelector('.show-others-bar');
+    let hideBtn = device.querySelector('.hide-others-bar');
+
+    othersMenu.classList.toggle('d-none');
+    showBtn.classList.toggle('d-none');
+    hideBtn.classList.toggle('d-none');
+}
+
+
+
+
 
 document.querySelectorAll('.main-nav-link').forEach((link)=>{
     link.addEventListener('click',()=>{
@@ -67,6 +210,12 @@ function showSala(){
 
 }
 function init() {
+    if(localStorage.getItem('devices') != null){
+        devices = JSON.parse(localStorage.getItem('devices'))
+        displayDevices();
+
+        console.log(devices);
+    }
     rebuildTable();
     displaySavedTotalCost();
     for (let deviceId = 1; deviceId <= 6; deviceId++) {
@@ -93,22 +242,23 @@ function init() {
                 document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.remove('d-none')
             } 
             else {
-                document.getElementById(`elapsedTime${deviceId}`).textContent = formatTime(savedData.elapsedTime);
-                document.getElementById(`cost${deviceId}`).textContent = `${savedData.cost} EGP`;
+                document.getElementById(`elapsedTime${deviceId}`).innerHTML = formatTime(savedData.elapsedTime);
+                document.getElementById(`cost${deviceId}`).innerHTML = `${savedData.cost} EGP`;
                 document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
                 document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
                 document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
                 document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = false;
             }
-        } else {
-            // Ensure all controls are reset to a default state if no saved data exists
-            document.getElementById(`elapsedTime${deviceId}`).textContent = "00:00:00";
-            document.getElementById(`cost${deviceId}`).textContent = "0.00 EGP";
-            document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
-            document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
-            document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
-            document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
-        }
+        } 
+        // else {
+        //     // Ensure all controls are reset to a default state if no saved data exists
+        //     document.getElementById(`elapsedTime${deviceId}`).innerHTML = "00:00:00";
+        //     document.getElementById(`cost${deviceId}`).innerHTML = "0.00 EGP";
+        //     document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
+        //     document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
+        //     document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
+        //     document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
+        // }
         loadDrinkQuantities(deviceId);  // Load the drink quantities for each device
     }
     getStartandPausedTime();
@@ -192,7 +342,7 @@ function startTimer(deviceId, resume = false) {
     if (!resume) {
         savedData.startTime = new Date().toISOString();
         savedData.elapsedTime = 0;
-        document.getElementById(`startTime${deviceId}`).textContent ="Start Time : " + new Date(savedData.startTime).toLocaleTimeString();
+        document.getElementById(`startTime${deviceId}`).innerHTML ="Start Time : " + new Date(savedData.startTime).toLocaleTimeString();
     }
 
     timers[deviceId] = setInterval(() => updateElapsedTime(deviceId), 1000);
@@ -247,12 +397,12 @@ function updateDeviceTable(deviceId, data) {
     const timeCell = row.insertCell(4);
     const costCell = row.insertCell(5);
 
-    idCell.textContent = `Device ${deviceId}`;
-    dateCell.textContent = data.date;
-    startTimeCell.textContent = new Date(data.startTime).toLocaleTimeString();
-    endTimeCell.textContent = new Date(data.endTime).toLocaleTimeString();
-    timeCell.textContent = formatTime(data.elapsedTime);
-    costCell.textContent = `${data.cost} EGP`;
+    idCell.innerHTML = `Device ${deviceId}`;
+    dateCell.innerHTML = data.date;
+    startTimeCell.innerHTML = new Date(data.startTime).toLocaleTimeString();
+    endTimeCell.innerHTML = new Date(data.endTime).toLocaleTimeString();
+    timeCell.innerHTML = formatTime(data.elapsedTime);
+    costCell.innerHTML = `${data.cost} EGP`;
 
     let tableData = JSON.parse(localStorage.getItem('tableData')) || [];
     tableData.push({
@@ -285,12 +435,12 @@ function rebuildTable() {
             const timeCell = row.insertCell(4);
             const costCell = row.insertCell(5);
 
-            idCell.textContent = `Device ${data.deviceId}`;
-            dateCell.textContent = data.date;
-            startTimeCell.textContent = new Date(data.startTime).toLocaleTimeString();
-            endTimeCell.textContent = new Date(data.endTime).toLocaleTimeString();
-            timeCell.textContent = formatTime(data.elapsedTime);
-            costCell.textContent = `${data.cost} EGP`;
+            idCell.innerHTML = `Device ${data.deviceId}`;
+            dateCell.innerHTML = data.date;
+            startTimeCell.innerHTML = new Date(data.startTime).toLocaleTimeString();
+            endTimeCell.innerHTML = new Date(data.endTime).toLocaleTimeString();
+            timeCell.innerHTML = formatTime(data.elapsedTime);
+            costCell.innerHTML = `${data.cost} EGP`;
         });
 
         // Update the total cost after rebuilding the table
@@ -305,10 +455,10 @@ function updateTotalCost() {
     let total = 0;
     const costCells = document.querySelectorAll('#deviceSummary tbody td:nth-child(6)'); // Select all cost cells in the table body
     costCells.forEach(cell => {
-        total += parseFloat(cell.textContent.replace(' EGP', ''));
+        total += parseFloat(cell.innerHTML.replace(' EGP', ''));
     });
     localStorage.setItem('totalCost', total.toFixed(2)); // Save the total cost to localStorage
-    document.getElementById('totalCost').textContent = `${total.toFixed(2)} EGP`; // Display the updated total cost
+    document.getElementById('totalCost').innerHTML = `${total.toFixed(2)} EGP`; // Display the updated total cost
 }
 
 
@@ -316,7 +466,7 @@ function updateTotalCost() {
 function displaySavedTotalCost() {
     const savedTotalCost = localStorage.getItem('totalCost');
     if (savedTotalCost) {
-        document.getElementById('totalCost').textContent = `${savedTotalCost} EGP`;
+        document.getElementById('totalCost').innerHTML = `${savedTotalCost} EGP`;
     }
 }
 
@@ -333,7 +483,7 @@ function clearTableData() {
         localStorage.removeItem('totalCost');
 
         // Reset total cost display
-        document.getElementById('totalCost').textContent = '0.00 EGP';
+        document.getElementById('totalCost').innerHTML = '0.00 EGP';
     }
 }
 function getCurrentDate() {
@@ -387,7 +537,7 @@ function pauseTimer(deviceId) {
 
         localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
 
-        document.getElementById(`pauseTime${deviceId}`).textContent = "Paused at : " + new Date(savedData.pauseTime).toLocaleTimeString();
+        document.getElementById(`pauseTime${deviceId}`).innerHTML = "Paused at : " + new Date(savedData.pauseTime).toLocaleTimeString();
         
         document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = false;
         document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.remove('d-none');
@@ -422,7 +572,7 @@ function resumeTimer(deviceId) {
 function updateElapsedTime(deviceId) {
     let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
     const elapsedTime = Math.floor((new Date() - new Date(savedData.startTime)) / 1000);
-    document.getElementById(`elapsedTime${deviceId}`).textContent = formatTime(elapsedTime);
+    document.getElementById(`elapsedTime${deviceId}`).innerHTML = formatTime(elapsedTime);
     savedData.elapsedTime = elapsedTime;
     localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
 }
@@ -442,11 +592,11 @@ function clearAllTimers() {
             localStorage.removeItem(`device${deviceId}`);
             localStorage.removeItem(`startTime${deviceId}`);
             localStorage.removeItem(`pauseTime${deviceId}`);
-            document.getElementById(`startTime${deviceId}`).textContent = "";
-            document.getElementById(`pauseTime${deviceId}`).textContent = "";
-            document.getElementById(`elapsedTime${deviceId}`).textContent = "00:00:00";
-            document.getElementById(`cost${deviceId}`).textContent = "0.00 EGP";
-            document.getElementById(`costm${deviceId}`).textContent = "0.00 EGP";
+            document.getElementById(`startTime${deviceId}`).innerHTML = "";
+            document.getElementById(`pauseTime${deviceId}`).innerHTML = "";
+            document.getElementById(`elapsedTime${deviceId}`).innerHTML = "00:00:00";
+            document.getElementById(`cost${deviceId}`).innerHTML = "0.00 EGP";
+            document.getElementById(`costm${deviceId}`).innerHTML = "0.00 EGP";
             document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
             document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
             document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
@@ -464,11 +614,11 @@ function clearTimer(deviceId) {
         localStorage.removeItem(`device${deviceId}`);
         localStorage.removeItem(`startTime${deviceId}`);
         localStorage.removeItem(`pauseTime${deviceId}`);
-        document.getElementById(`startTime${deviceId}`).textContent = "";
-        document.getElementById(`pauseTime${deviceId}`).textContent = "";
-        document.getElementById(`elapsedTime${deviceId}`).textContent = "00:00:00";
-        document.getElementById(`cost${deviceId}`).textContent = "0.00 EGP";
-        document.getElementById(`costm${deviceId}`).textContent = "0.00 EGP";
+        document.getElementById(`startTime${deviceId}`).innerHTML = "";
+        document.getElementById(`pauseTime${deviceId}`).innerHTML = "";
+        document.getElementById(`elapsedTime${deviceId}`).innerHTML = "00:00:00";
+        document.getElementById(`cost${deviceId}`).innerHTML = "0.00 EGP";
+        document.getElementById(`costm${deviceId}`).innerHTML = "0.00 EGP";
         resetDrinkQuantities(deviceId);
         document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
         document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
@@ -484,7 +634,7 @@ function loadMenuCosts() {
     for (let deviceId = 1; deviceId <= 6; deviceId++) {  // Assuming you have 6 devices
         const storedCost = localStorage.getItem(`menuCost${deviceId}`);
         if (storedCost !== null) {
-            document.getElementById(`costm${deviceId}`).textContent = `${storedCost} EGP`;
+            document.getElementById(`costm${deviceId}`).innerHTML = `${storedCost} EGP`;
         }
     }
 }
@@ -504,7 +654,7 @@ function calculateMenuCost(deviceId) {
     // Add more items as necessary
 
     const totalMenuCost = ( sodaS + sodaL + sokhn + coffee + cappuccino + frenchCoffee + netCard + halfHourPS4 + hourPS4 + sandwich + cleaning).toFixed(2);
-    document.getElementById(`costm${deviceId}`).textContent = `${totalMenuCost} EGP`; // Display the calculated cost
+    document.getElementById(`costm${deviceId}`).innerHTML = `${totalMenuCost} EGP`; // Display the calculated cost
     localStorage.setItem(`menuCost${deviceId}`, totalMenuCost);  // Save each device's menu cost separately
 
 }
@@ -574,7 +724,7 @@ function calculateCost(deviceId, savedData) {
     const sandwich = parseInt(document.getElementById(`sandwich${deviceId}`).value) * 15;
     const cleaning = parseInt(document.getElementById(`cleaning${deviceId}`).value) * 3;
     const totalCost = (costFromTime + sodaS + sodaL + sokhn + coffee + cappuccino + frenchCoffee + netCard + halfHourPS4 + hourPS4 + sandwich + cleaning).toFixed(2);
-    document.getElementById(`cost${deviceId}`).textContent = `${totalCost} EGP`;
+    document.getElementById(`cost${deviceId}`).innerHTML = `${totalCost} EGP`;
     savedData.cost = totalCost;
     localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
 }
