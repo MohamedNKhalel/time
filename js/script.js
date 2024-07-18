@@ -1,11 +1,55 @@
 let timers = {};
 let devices = [] 
 let counter = 0 
-let numOfDevices = document.getElementById('numOfDevices')
+let addDeviceLayer = document.querySelector('.add-device-layer')
+let addForm = document.querySelector('.add-form')
+let roomNumber = document.getElementById('roomNumber')
+let formBtn = document.getElementById('formBtn');
+let showAddBtn = document.getElementById('showAddBtn')
+let room ;
+showAddBtn.addEventListener('click',()=>{
+    addDeviceLayer.classList.toggle('d-none')
+})
+roomNumber.addEventListener('input',()=>{
+    if(roomNumber.value == ''){
+        formBtn.disabled = true
+    }
+    else{
+        formBtn.disabled = false
+
+    }
+})
+formBtn.addEventListener('click',()=>{
+    room = roomNumber.value;
+    if(deviceExists(room)){
+        // alert('This device number already exists.');
+        document.getElementById('existingRoom').innerHTML = `<span class="text-danger fw-bolder">room ${room}</span> already exist <i class="fa-solid fa-triangle-exclamation"></i>`
+    } else{
+        window.location.reload()
+        document.getElementById('existingRoom').innerHTML = ``
+        addDevice();
+        addDeviceLayer.classList.toggle('d-none')
+        roomNumber.value = ''
+    }
+})
+
+function deviceExists(room) {
+    return devices.some(device => device.id === room);
+}
+
+addDeviceLayer.addEventListener('click',()=>{
+    addDeviceLayer.classList.toggle('d-none')
+})
+addForm.addEventListener('click',(e)=>{
+    e.stopPropagation()
+})
+let numOfDevices = document.getElementById('numOfDevices');
+
+
 function addDevice(){
     counter ++;
     let device ={
-        id:counter
+        id:room
     }
     devices.push(device)
     let devicesJson = JSON.stringify(devices);
@@ -22,6 +66,7 @@ function deleteDevice(index){
     }
     else{
         if(confirm(`Are you sure you want to delete device${index+1} ?`)){
+            window.location.reload()
             devices.splice(index, 1);
             localStorage.setItem('devices',JSON.stringify(devices))
             displayDevices()
@@ -46,7 +91,7 @@ function displayDevices(){
                 <h3>Successfully added to the table</h3>
               </div>
               <div class="d-flex justify-content-between align-items-center">
-                  <h2 class="text-center fw-bolder text-uppercase device-num">Device ${devices[i].id}</h2>
+                  <h2 class="text-center fw-bolder text-uppercase device-num">Room ${devices[i].id}</h2>
                   <i onclick="deleteDevice(${i})" class="fa-solid fa-trash-can fa-2x"></i>
                 </div>
               <div class="d-flex justify-content-between align-items-center">

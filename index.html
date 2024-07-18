@@ -28,13 +28,26 @@
         <div class="device-blocks ">
           
           <div class="d-flex justify-content-between align-items-center">
-            <button type="button" class="add-btn d-block  my-3" onclick="addDevice()">Add Device <i class="fa-solid fa-plus fa-xl"></i></button>
+            <button type="button" class="add-btn d-block  my-3" id="showAddBtn" >Add Device <i class="fa-solid fa-plus fa-xl"></i></button>
             <button type="button" class="clearbtn d-block  my-3" onclick="clearAllTimers()">Clear All Devices Data</button>
           </div>
           <div>
             <span class="text-white">number of devices running : <span id="numOfDevices" class="text-info">0</span></span>
           </div>
-          <div class="row align-items-center g-4 mt-1" id="deviceContainer">
+          <div class="position-fixed top-0 bottom-0 start-0 end-0  add-device-layer d-flex justify-content-center align-items-center d-none ">
+            <div class=" w-50  shadow p-4 rounded-3 d-flex gap-4 flex-column add-form">
+              <h2 class="text-center text-white border-bottom">Room Control</h2>
+              <div class="form-floating">
+                <input class="form-control" type="number" id="roomNumber" placeholder="Enter room number" >
+                <label for="roomNumber" class="text-black mb-1">Room Number</label>
+              </div>
+              <div>
+                <button disabled id="formBtn" type="button" class="btn bg-primary d-block m-auto w-50">Add</button>
+              </div>
+              <p class="text-uppercase text-center  text-warning fs-5 " id="existingRoom"></p>
+            </div>
+          </div>
+          <div class="row  justify-content-center g-4 mt-1" id="deviceContainer">
             <!-- Device 1 -->
             
 

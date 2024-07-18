@@ -115,6 +115,9 @@ body {
     .summary-buttons button{
         width: 100%;
     }
+    .add-form{
+        width: 90% !important;
+    }
   }
 .main h1{
     color: #FBFADA;
@@ -438,5 +441,22 @@ body {
     &:hover{
         color: red;
         transform: scale(1.3) rotate(22deg);
+    }
+}
+.add-device-layer{
+    z-index: 999;
+background-color: rgba(255, 255, 255, 0.1);
+}
+.add-form{
+    background-image: linear-gradient(to right,rgba(0, 0, 0, 0.8),rgb(99, 0, 0,.8));
+    button{
+        background-image: none;
+        color: white;
+        transition: all .5s ease;
+        &:hover{
+            background-color: rgb(4, 68, 89) !important;
+            color: white;
+            background-image: none;
+        }
     }
 }
