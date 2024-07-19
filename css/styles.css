@@ -10,7 +10,7 @@ body {
 
 }
 .device-blocks{
-    min-height: 71.5vh;
+    min-height: 80vh;
 }
 .main-content{
     direction: rtl;
@@ -39,12 +39,13 @@ body {
     border-radius: 10px;
 }
 .title{
-    padding: 15px;
     border-radius: 10px;
-    background-image: linear-gradient(to right,rgba(0, 0, 0, 0.774),rgba(68, 0, 0, 0.889));
+    /* background-image: linear-gradient(to right,rgba(0, 0, 0, 0.774),rgba(68, 0, 0, 0.889)); */
     color: white !important;
     font-weight: 700;
-    margin-bottom: 20px;
+    img{
+        width: 150px;
+    }
 
 }
 .table {
@@ -72,7 +73,7 @@ body {
 }
 .summary-table{
     font-size: 16px;
-    min-height: 67.2vh;
+    min-height: 80vh;
 }
 .summary-buttons button{
     font-size: 1em ;
@@ -125,7 +126,25 @@ body {
 }
 .device-num{
     position: relative;
-    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.running-device, .not-running-device{
+    font-size: 16px;
+    text-transform: uppercase;
+}
+.running-device{
+    color: green !important;
+}
+.not-running-device{
+color: red !important;
+
+}
+.device-header{
+    img{
+        width: 80px;
+    }
 }
 .device-num::after{
     content: "";

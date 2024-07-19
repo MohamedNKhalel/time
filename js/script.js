@@ -90,9 +90,11 @@ function displayDevices(){
                 <i class="fa-regular fa-circle-check fa-4x"></i>
                 <h3>Successfully added to the table</h3>
               </div>
-              <div class="d-flex justify-content-between align-items-center">
-                  <h2 class="text-center fw-bolder text-uppercase device-num">Room ${devices[i].id}</h2>
-                  <i onclick="deleteDevice(${i})" class="fa-solid fa-trash-can fa-2x"></i>
+              
+              <div class="d-flex justify-content-between  align-items-center device-header">
+                <span class="running-device d-none d-flex justify-content-between align-items-center gap-1 text-success text-uppercase"><i class="fa-solid fa-circle  ms-1 fa-beat "></i> On</span> <span class="not-running-device d-flex justify-content-between align-items-center gap-1 text-danger "><i class="fa-solid fa-circle ms-1 "></i>off</span>
+                <h2 class="fw-bolder text-uppercase  device-num ">Room ${devices[i].id}</h2>
+                <i onclick="deleteDevice(${i})" class="fa-solid  p-4 fa-trash-can fa-2x"></i>
                 </div>
               <div class="d-flex justify-content-between align-items-center">
                 <button class="w-100" onclick="startTimer(${devices[i].id})">Start</button>
@@ -437,6 +439,9 @@ function startTimer(deviceId, resume = false) {
     }
 
     timers[deviceId] = setInterval(() => updateElapsedTime(deviceId), 1000);
+    document.querySelector(`#device${deviceId} .running-device`).classList.remove('d-none')
+    document.querySelector(`#device${deviceId} .not-running-device`).classList.add('d-none')
+
     document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = true;
     document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = false;
     document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = false;
@@ -462,6 +467,9 @@ function stopTimer(deviceId) {
         savedData.running = false;
         savedData.paused = false; // Clear paused state
         localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
+
+        document.querySelector(`#device${deviceId} .not-running-device`).classList.remove('d-none')
+        document.querySelector(`#device${deviceId} .running-device`).classList.add('d-none')
 
         document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
         document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
