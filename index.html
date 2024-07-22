@@ -3,137 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Playstation management system">
-    <title>El-Dra3 Bayez</title>
-    <link rel="shortcut icon" href="assets/images/logojpg.png" type="image/x-icon">
-    <link rel="stylesheet" href="css/all.min.css">
+    <title>log in</title>
+    <meta name="description" content="Log in page for Playstation management system">
+    <link rel="shortcut icon" href="assets/images/controller.png" type="image/x-icon">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/login.css">
+
 </head>
-<body >
-    <div class="main">
-        <div class="title text-center">
-          <img  width="120" src="assets/images/logojpg.png" alt="">
+<body>
+    <section class="login py-4 d-flex justify-content-center align-items-center flex-column position-relative">
+        <div class="shape">
+            <img src="assets/images/shape.png"  alt="">
         </div>
-        <ul class="main-nav text-center m-auto mt-2 mt-lg-0 d-flex list-unstyled shadow border-bottom p-3 my-3">
-          <li class="main-nav-item ">
-            <a onclick="showDevices()" class="main-nav-link active">Devices</a>
-          </li>
-          <li class="main-nav-item">
-            <a onclick="showSummaryTable()" class="main-nav-link">Summary</a>
-          </li>
-          <li class="main-nav-item">
-            <a onclick="showSala()" class="main-nav-link">الصاله</a>
-          </li>
-        </ul>
-        <!-- Device blocks -->
-          
-        <div class="device-blocks ">
-          
-          <div class="d-flex justify-content-between align-items-center">
-            <button type="button" class="add-btn d-block  my-3" id="showAddBtn" >Add Device <i class="fa-solid fa-plus fa-xl"></i></button>
-            <button type="button" class="clearbtn d-block  my-3" onclick="clearAllTimers()">Clear All Devices Data</button>
-          </div>
-          <div>
-            <span class="text-white">number of devices running : <span id="numOfDevices" class="text-info">0</span></span>
-          </div>
-          <div class="position-fixed top-0 bottom-0 start-0 end-0  add-device-layer d-flex justify-content-center align-items-center d-none ">
-            <div class=" w-50  shadow p-4 rounded-3 d-flex gap-4 flex-column add-form">
-              <h2 class="text-center text-white border-bottom">Room Control</h2>
-              <div class="form-floating">
-                <input class="form-control" type="number" id="roomNumber" placeholder="Enter room number" >
-                <label for="roomNumber" class="text-black mb-1">Room Number</label>
-              </div>
-              <div>
-                <button disabled id="formBtn" type="button" class="btn bg-primary d-block m-auto w-50">Add</button>
-              </div>
-              <p class="text-uppercase text-center  text-warning fs-5 " id="existingRoom"></p>
-            </div>
-          </div>
-          <div class="row  justify-content-center g-4 mt-1" id="deviceContainer">
-            
-          </div>
-        </div>
-          <div class="summary-table d-none mt-5">
-            <div class="text-white d-flex justify-content-between align-items-center p-2 rounded-2 shadow">
-              <h2>Devices Summary</h2>
-              <div class="summary-buttons">
-                <button class="btn-danger btn" onclick="clearTableData()">Clear Table</button>
-                <button class="btn btn-info" onclick="downloadPDF()">Download as PDF</button>
-              </div>
-            </div>
-            <table class="table position-relative" id="deviceSummary">
-              <thead class="text-center">
-                  <tr>
-                    <th>Device ID</th>
-                    <th>Date</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                    <th>Elapsed Time</th>
-                    <th>Cost</th>
-                  </tr>
-              </thead>
-              <tbody id="deviceRows">
-                  <!-- Device rows will be added dynamically here -->
-              </tbody>
-              <tfoot>
-                  <tr >
-                      <th colspan="5">Total Cost</th>
-                      <th id="totalCost">0 EGP</th>
-                  </tr>
-              </tfoot>
-            </table>
-          </div>
-          <div class="main-elsala  py-4 px-1 d-none ">
-            <div class="w-100 m-auto main-content shadow text-white p-3 rounded-3">
-                <div class="shadow p-4 options rounded-3">
-                    <div class="mb-4">
-                        <label for="nameInput">الاسم    :</label>
-                        <input class="form-control" id="nameInput" type="text" placeholder="اسم الزبون" >
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="login-text position-relative z-2">
+                        <h1>LOGGING</h1>
+                        <p class="text-muted"><span class="text-dark">Note : </span>enter the email you have taken from the admin</p>
+                        <div class="input-group ">
+                            <input type="email" class="input " id="Email" name="Email" placeholder="Example@example.com" autocomplete="on">
+                            <input class="button--submit" value="Enter" onclick="email()" type="submit">
+                        </div>
+                        <p class="text-danger" id="errMsg"></p>
                     </div>
-                    <div class="mb-4">
-                        <label for="drinkInput">المشروب :</label>
-                        <!-- <input class="form-control" id="drinkInput" type="text" placeholder="اسم المشروب" > -->
-                        <input  class="form-control mb-2" id="drinkInput" type="text" placeholder="هيشرب اي" >
-                        <span id="drinkSuggest" class="bg-info-subtle text-dark p-2 rounded-2 d-none"></span>
-                    </div>
-                    <div class="mb-4">
-                        <label for="priceInput">السعر   :</label>
-                        <input class="form-control" id="priceInput" type="number" placeholder="سعر اللي هيشربه" >
-                        
-                    </div>
-                    <div class="all-buttons">
-                        <button disabled id="addBtn" class="btn  w-50 d-block m-auto">اضافه</button>
-                        <button id="updateBtn" class="btn  d-none w-50 d-block m-auto">تحديث</button>
-                        <p id="errMsg" class="text-danger text-center d-none mb-0  mt-2">ادخل جميع الحقول</p>
-                    </div>
-                    <input type="hidden"  id="editIndex">
                 </div>
-                <div class="mt-4 shadow">
-                    <table class="drinks-table">
-                        <thead>
-                            <tr>
-                                <th>الاسم</th>
-                                <th>السعر</th>
-                                <th>المشروب</th>
-                                <th>مسح</th>
-                                <th>تعديل</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBody">
-                            
-                        </tbody>
-                    </table>
+                <div class="col-md-6" >
+                    <div>
+                        <img src="assets/images/controller.png" class="w-100 position-relative z-2" alt="">
+                    </div>
                 </div>
             </div>
-          </div>
-        <!-- Repeat the above block for additional devices -->
-    </div>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/elsala.js"></script>
-    <script src="js/script.js"></script>
+            <footer class="d-flex justify-content-center gap-3 align-items-center position-relative z-2">
+                <img  src="assets/images/ps4.png" alt="">
+                <span class="text-muted m-0"> <i class="fa-regular fa-copyright"></i> All rights reserved 2024</span>
+            </footer>
+        </div>
+        <!-- <div class="container w-75 d-none">
+            <div class="row  bg-black rounded-3 shadow align-items-center">
+                <div class="col-md-7 p-3">
+                    <div>
+                        <div class="mt-3">
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                                <label for="floatingInput">Email</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                                <label for="floatingPassword">Password</label>
+                            </div>
+                            <button type="button" class="d-block m-auto mt-4">
+                                E N T E R
+                                <div id="clip">
+                                    <div id="leftTop" class="corner"></div>
+                                    <div id="rightBottom" class="corner"></div>
+                                    <div id="rightTop" class="corner"></div>
+                                    <div id="leftBottom" class="corner"></div>
+                                </div>
+                                <span id="rightArrow" class="arrow"></span>
+                                <span id="leftArrow" class="arrow"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="p-5">
+                        <img src="assets/images/ps4.png" class="w-100" alt="">
+                    </div>
+                </div>
+        </div>
+        </div> -->
+    </section>
+    <script src="js/login.js"></script>
 </body>
 </html>

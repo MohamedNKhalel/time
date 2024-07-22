@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Playstation management system">
+    <title>El-Dra3 Bayez</title>
+    <link rel="shortcut icon" href="assets/images/logojpg.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body >
+    <div class="main">
+        
+        <nav class="navbar navbar-expand-sm  w-75 m-auto rounded-5 p-0">
+          <div class="container">
+            <a><div class="title text-center"><img  width="60" src="assets/images/logojpg.png" alt=""></div></a>
+            <button
+              class="navbar-toggler d-lg-none"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapsibleNavId"
+              aria-controls="collapsibleNavId"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse text-center" id="collapsibleNavId">
+              <ul class="main-nav text-center m-auto mt-2 mt-lg-0 d-flex list-unstyled">
+                <li class="main-nav-item ">
+                  <a onclick="showDevices()" class="main-nav-link active">Devices</a>
+                </li>
+                <li class="main-nav-item">
+                  <a onclick="showSummaryTable()" class="main-nav-link">Summary</a>
+                </li>
+                <li class="main-nav-item">
+                  <a onclick="showSala()" class="main-nav-link">الصاله</a>
+                </li>
+              </ul>
+              <ul class="navbar-nav  mt-2 mt-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link text-white" id="logOutBtn">Log Out <i class="fa-solid fa-right-from-bracket"></i></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        
+        <!-- Device blocks -->
+          
+        <div class="device-blocks ">
+          
+          <div class="d-flex justify-content-between align-items-center">
+            <button type="button" class="add-btn d-block  my-3" id="showAddBtn" >Add Device <i class="fa-solid fa-plus fa-xl"></i></button>
+            <button type="button" class="clearbtn d-block  my-3" onclick="clearAllTimers()">Clear All Devices Data</button>
+          </div>
+          <div>
+            <span class="text-white">number of devices running : <span id="numOfDevices" class="text-info">0</span></span>
+          </div>
+          <div class="position-fixed top-0 bottom-0 start-0 end-0  add-device-layer d-flex justify-content-center align-items-center d-none ">
+            <div class=" w-50  shadow p-4 rounded-3 d-flex gap-4 flex-column add-form">
+              <h2 class="text-center text-white border-bottom">Room Control</h2>
+              <div class="form-floating">
+                <input class="form-control" type="number" id="roomNumber" placeholder="Enter room number" >
+                <label for="roomNumber" class="text-black mb-1">Room Number</label>
+              </div>
+              <div>
+                <button disabled id="formBtn" type="button" class="btn bg-primary d-block m-auto w-50">Add</button>
+              </div>
+              <p class="text-uppercase text-center  text-warning fs-5 " id="existingRoom"></p>
+            </div>
+          </div>
+          <div class="row  justify-content-center g-4 mt-1" id="deviceContainer">
+            
+          </div>
+        </div>
+          <div class="summary-table d-none mt-5">
+            <div class="text-white d-flex justify-content-between align-items-center p-2 rounded-2 shadow">
+              <h2>Devices Summary</h2>
+              <div class="summary-buttons">
+                <button class="btn-danger btn" onclick="clearTableData()">Clear Table</button>
+                <button class="btn btn-info" onclick="downloadPDF()">Download as PDF</button>
+              </div>
+            </div>
+            <table class="table position-relative" id="deviceSummary">
+              <thead class="text-center">
+                  <tr>
+                    <th>Device ID</th>
+                    <th>Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Elapsed Time</th>
+                    <th>Cost</th>
+                  </tr>
+              </thead>
+              <tbody id="deviceRows">
+                  <!-- Device rows will be added dynamically here -->
+              </tbody>
+              <tfoot>
+                  <tr >
+                      <th colspan="5">Total Cost</th>
+                      <th id="totalCost">0 EGP</th>
+                  </tr>
+              </tfoot>
+            </table>
+          </div>
+          <div class="main-elsala  py-4 px-1 d-none ">
+            <div class="w-100 m-auto main-content shadow text-white p-3 rounded-3">
+                <div class="shadow p-4 options rounded-3">
+                    <div class="mb-4">
+                        <label for="nameInput">الاسم    :</label>
+                        <input class="form-control" id="nameInput" type="text" placeholder="اسم الزبون" >
+                    </div>
+                    <div class="mb-4">
+                        <label for="drinkInput">المشروب :</label>
+                        <!-- <input class="form-control" id="drinkInput" type="text" placeholder="اسم المشروب" > -->
+                        <input  class="form-control mb-2" id="drinkInput" type="text" placeholder="هيشرب اي" >
+                        <span id="drinkSuggest" class="bg-info-subtle text-dark p-2 rounded-2 d-none"></span>
+                    </div>
+                    <div class="mb-4">
+                        <label for="priceInput">السعر   :</label>
+                        <input class="form-control" id="priceInput" type="number" placeholder="سعر اللي هيشربه" >
+                        
+                    </div>
+                    <div class="all-buttons">
+                        <button disabled id="addBtn" class="btn  w-50 d-block m-auto">اضافه</button>
+                        <button id="updateBtn" class="btn  d-none w-50 d-block m-auto">تحديث</button>
+                        <p id="errMsg" class="text-danger text-center d-none mb-0  mt-2">ادخل جميع الحقول</p>
+                    </div>
+                    <input type="hidden"  id="editIndex">
+                </div>
+                <div class="mt-4 shadow">
+                    <table class="drinks-table">
+                        <thead>
+                            <tr>
+                                <th>الاسم</th>
+                                <th>السعر</th>
+                                <th>المشروب</th>
+                                <th>مسح</th>
+                                <th>تعديل</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+          </div>
+        <!-- Repeat the above block for additional devices -->
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/elsala.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

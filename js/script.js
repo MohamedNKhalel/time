@@ -7,6 +7,13 @@ let roomNumber = document.getElementById('roomNumber')
 let formBtn = document.getElementById('formBtn');
 let showAddBtn = document.getElementById('showAddBtn')
 let room ;
+
+
+document.getElementById('logOutBtn').addEventListener('click',()=>{
+    localStorage.removeItem('email')
+    location.reload()
+})
+
 showAddBtn.addEventListener('click',()=>{
     addDeviceLayer.classList.toggle('d-none')
 })
@@ -86,7 +93,7 @@ function displayDevices(){
     for(let i = 0; i < devices.length;i++){
         container+=`<div class="col-lg-4 col-md-6">
             <div id="device${devices[i].id}" class="device position-relative">
-              <div id="layer${devices[i].id}" class="layer-succes position-absolute top-0 start-0 end-0 bottom-0 bg-success z-3 d-flex justify-content-center align-items-center  d-none">
+                <div id="layer${devices[i].id}" class="layer-succes position-absolute top-0 start-0 end-0 bottom-0 bg-success z-3 d-flex justify-content-center align-items-center  d-none">
                 <i class="fa-regular fa-circle-check fa-4x"></i>
                 <h3>Successfully added to the table</h3>
               </div>
@@ -94,7 +101,11 @@ function displayDevices(){
               <div class="d-flex justify-content-between  align-items-center device-header">
                 <span class="running-device d-none d-flex justify-content-between align-items-center gap-1 text-success text-uppercase"><i class="fa-solid fa-circle  ms-1 fa-beat "></i> On</span> <span class="not-running-device d-flex justify-content-between align-items-center gap-1 text-danger "><i class="fa-solid fa-circle ms-1 "></i>off</span>
                 <h2 class="fw-bolder text-uppercase  device-num ">Room ${devices[i].id}</h2>
-                <i onclick="deleteDevice(${i})" class="fa-solid  p-4 fa-trash-can fa-2x"></i>
+                <div class="d-flex justify-content-center gap-3 p-2 align-items-center position-relative">
+                    <i title="Reset" onclick="resetDevice(${devices[i].id})" class="fa-solid fa-arrows-rotate fa-2x"></i>
+                    <span id="break"></span>
+                    <i title="Delete" onclick="deleteDevice(${i})" class="fa-solid fa-trash-can fa-2x"></i>
+                </div>
                 </div>
               <div class="d-flex justify-content-between align-items-center">
                 <button class="w-100" onclick="startTimer(${devices[i].id})">Start</button>
@@ -213,7 +224,14 @@ function displayDevices(){
     document.getElementById('deviceContainer').innerHTML = container
 }
 
+function resetDevice(i){
+    if(confirm(`are you sure you want to delete device${i} data`)){
+        clearTimer(i)
+        
+    
 
+    }
+}
 
 function toggleMenu(button, menuSelector) {
     let menu = button.parentElement.querySelector(menuSelector); // Find the menu within the parent container
@@ -283,6 +301,9 @@ function showSala(){
 
 }
 function init() {
+    if(localStorage.getItem('email') != 'eldra3bayez@ps.com'){
+        window.location.href = '../index.html'
+    }
     if(localStorage.getItem('devices') != null){
         devices = JSON.parse(localStorage.getItem('devices'))
         counter = JSON.parse(localStorage.getItem('counterOfDevices'))
@@ -709,7 +730,15 @@ function clearAllTimers() {
 
 
 function clearTimer(deviceId) {
+    let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
         clearInterval(timers[deviceId]);
+        document.getElementById(`discountMenu${deviceId}`).classList.add('d-none');
+        document.getElementById(`cost${deviceId}`).innerHTML = savedData.cost + " EGP";
+        document.getElementById(`discountRequest${deviceId}`).classList.add('d-none');
+        document.getElementById(`discount${deviceId}`).value = ''
+
+        document.querySelector(`#device${deviceId} .running-device`).classList.add('d-none')
+        document.querySelector(`#device${deviceId} .not-running-device`).classList.remove('d-none')
         localStorage.removeItem(`device${deviceId}`);
         localStorage.removeItem(`startTime${deviceId}`);
         localStorage.removeItem(`pauseTime${deviceId}`);
