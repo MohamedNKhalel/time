@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=VT323&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=VT323&display=swap");
 
-.login{
-  background-image: linear-gradient(#D85CCB,#FEE999);
+.login {
+  background-image: linear-gradient(#d85ccb, #fee999);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -11,8 +11,8 @@
   min-height: 100vh;
 }
 /* fluid */
-.shape img{
-  width:50%;
+.shape img {
+  width: 50%;
   min-height: 100%;
   position: absolute;
   /* z-index: -1; */
@@ -20,7 +20,7 @@
   right: 0;
 }
 
-.login-text h1{
+.login-text h1 {
   font-size: 105px;
   color: black;
 }
@@ -43,38 +43,39 @@
 
 .button--submit {
   min-height: 50px;
-  padding: .5em 1em;
+  padding: 0.5em 1em;
   border: none;
   border-radius: 0 6px 6px 0;
   background-color: black;
   color: #fff;
   font-size: 15px;
   cursor: pointer;
-  transition: background-color .3s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .button--submit:hover {
   background-color: #5e5dcd;
 }
 
-.input:focus, .input:focus-visible {
+.input:focus,
+.input:focus-visible {
   border-color: black;
   outline: none;
 }
-footer img{
+footer img {
   width: 45px;
 }
 
-@media screen and (max-width:768px) {
-  .shape img{
+@media screen and (max-width: 768px) {
+  .shape img {
     width: 100%;
   }
 }
-@media screen and (max-width:992px) {
-  .shape img{
+@media screen and (max-width: 992px) {
+  .shape img {
     width: 80% !important;
   }
-  .input{
+  .input {
     min-width: 250px;
   }
 }
