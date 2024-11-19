@@ -1,9 +1,160 @@
-let nameInput=document.getElementById("nameInput"),drinkInput=document.getElementById("drinkInput"),priceInput=document.getElementById("priceInput"),addBtn=document.getElementById("addBtn"),updateBtn=document.getElementById("updateBtn"),updateIndex=document.getElementById("editIndex"),allCustomers=[],drinks=["\u0645\u0634\u0631\u0648\u0628 \u0633\u062E\u0646","\u0634\u0627\u064A"," \u0642\u0647\u0648\u0647 \u062A\u0631\u0643\u064A","\u0646\u0633\u0643\u0627\u0641\u064A\u0647","\u0633\u0627\u0642\u0639 \u0635\u063A\u064A\u0631","\u0633\u0627\u0642\u0639 \u0643\u0628\u064A\u0631","\u0642\u0647\u0648\u0647 \u0641\u0631\u0646\u0633\u0627\u0648\u064A","\u0643\u0627\u0628\u062A\u0634\u064A\u0646\u0648"],suggestedDrinks=[];drinkInput.addEventListener("input",()=>{for(let a=0;a<drinks.length;a++)drinks[a].includes(drinkInput.value)&&(document.getElementById("drinkSuggest").classList.remove("d-none"),document.getElementById("drinkSuggest").innerHTML=drinks[a],document.getElementById("drinkSuggest").addEventListener("click",()=>{drinkInput.value=drinks[a]}))}),null!=localStorage.getItem("customers")&&(allCustomers=JSON.parse(localStorage.getItem("customers")),displayTable(allCustomers)),document.getElementById("addBtn").addEventListener("click",()=>{addCustomer()});function addCustomer(){if(!0==validForm()){let a={name:nameInput.value,drink:drinkInput.value,price:priceInput.value};console.log(allCustomers),allCustomers.push(a),localStorage.setItem("customers",JSON.stringify(allCustomers)),displayTable(allCustomers),clearForm()}else console.log("false")}function displayTable(){let a=``;for(let b=0;b<allCustomers.length;b++)a+=`
-  <tr>
-      <td>${allCustomers[b].name}</td>
-      <td>${allCustomers[b].price}</td>
-      <td>${allCustomers[b].drink}</td>
-      <td><button onclick="deleteCustomer(${b})" class="delete-btn">مسح</button></td>
-      <td><button onclick="updateCustomer(${b})" class="update-btn">تعديل</button></td>
-  </tr>
-`;document.getElementById("tableBody").innerHTML=a}function clearForm(){nameInput.value="",priceInput.value="",drinkInput.value=""}function deleteCustomer(a){confirm("\u0645\u062A\u0623\u0643\u062F \u064A\u0627 \u0627\u0628\u0646\u064A\u061F")&&(allCustomers.splice(a,1),localStorage.setItem("customers",JSON.stringify(allCustomers)),displayTable(allCustomers))}function updateCustomer(a){addBtn.classList.replace("d-block","d-none"),updateBtn.classList.replace("d-none","d-block"),nameInput.value=allCustomers[a].name,priceInput.value=allCustomers[a].price,drinkInput.value=allCustomers[a].drink,updateIndex=a,console.log(updateIndex)}function updateNewInformation(){if(!0==validForm()){let a={name:nameInput.value,price:priceInput.value,drink:drinkInput.value};allCustomers[updateIndex].name=a.name,allCustomers[updateIndex].price=a.price,allCustomers[updateIndex].drink=a.drink,localStorage.setItem("customers",JSON.stringify(allCustomers)),displayTable(allCustomers),clearForm(),addBtn.classList.replace("d-none","d-block"),updateBtn.classList.replace("d-block","d-none")}}updateBtn.addEventListener("click",()=>{updateNewInformation()}),nameInput.addEventListener("input",validForm),drinkInput.addEventListener("input",validForm),priceInput.addEventListener("input",validForm);function validForm(){return nameInput.value&&priceInput.value&&""!=drinkInput.value?(addBtn.disabled=!1,document.getElementById("errMsg").classList.replace("d-block","d-none"),!0):(addBtn.disabled=!0,document.getElementById("errMsg").classList.replace("d-none","d-block"),!1)}
+let nameInput = document.getElementById('nameInput');
+let drinkInput = document.getElementById('drinkInput');
+let priceInput = document.getElementById('priceInput');
+let addBtn = document.getElementById("addBtn");
+let updateBtn = document.getElementById("updateBtn");
+let updateIndex = document.getElementById('editIndex');
+let allCustomers = [];
+let drinks =[
+    'مشروب سخن',
+    'شاي',
+    ' قهوه تركي',
+    'نسكافيه',
+    'ساقع صغير',
+    'ساقع كبير',
+    'قهوه فرنساوي',
+    'كابتشينو',
+    
+];
+document.querySelector('.loading').classList.remove('d-none')
+
+
+drinkInput.addEventListener("input",()=>{
+    for(let i = 0 ; i<drinks.length ; i++){
+        if(drinks[i].includes(drinkInput.value)){
+            document.getElementById('drinkSuggest').classList.remove('d-none')
+            document.getElementById('drinkSuggest').innerHTML = drinks[i]
+            document.getElementById('drinkSuggest').addEventListener('click',(e)=>{
+                drinkInput.value =e.target.innerHTML;
+            })
+        }
+    }
+})
+
+
+if(localStorage.getItem('customers') != null){
+    allCustomers = JSON.parse(localStorage.getItem('customers'))
+    displayTable(allCustomers)
+}
+document.getElementById('addBtn').addEventListener('click',()=>{
+    addCustomer();
+})
+function addCustomer(){
+    if(validForm()==true){
+        let customer = {
+            name : nameInput.value,
+            drink : drinkInput.value,
+            price : priceInput.value,
+        }
+        console.log(allCustomers);
+        allCustomers.push(customer);
+        localStorage.setItem('customers',JSON.stringify(allCustomers));
+        displayTable(allCustomers);
+        clearForm();
+    }
+    else{
+        console.log("false");
+    }
+}
+
+function displayTable(arr){
+    let cartoona=``;
+    for(let i =0 ; i<allCustomers.length ; i++){
+        cartoona+=`
+                        <tr>
+                            <td>${allCustomers[i].name}</td>
+                            <td>${allCustomers[i].price}</td>
+                            <td>${allCustomers[i].drink}</td>
+                            <td><button onclick="deleteCustomer(${i})" class="delete-btn">مسح</button></td>
+                            <td><button onclick="updateCustomer(${i})" class="update-btn">تعديل</button></td>
+                        </tr>
+        `
+    }
+    document.getElementById('tableBody').innerHTML = cartoona;
+}
+
+function clearForm(){
+    nameInput.value =''
+    priceInput.value =''
+    drinkInput.value =''
+}
+
+function deleteCustomer(index){
+    if(confirm("متأكد يا ابني؟")){
+        allCustomers.splice(index,1)
+        localStorage.setItem('customers',JSON.stringify(allCustomers));
+        displayTable(allCustomers)
+    }
+    
+}
+
+
+function updateCustomer(index){
+    addBtn.classList.replace('d-block','d-none')
+    updateBtn.classList.replace('d-none','d-block')
+    nameInput.value = allCustomers[index].name;
+    priceInput.value = allCustomers[index].price;
+    drinkInput.value = allCustomers[index].drink;
+
+    updateIndex = index;
+    console.log(updateIndex);
+}
+
+function updateNewInformation(){
+    if(validForm()== true){
+        let newUpdatedCustomer = {
+            name : nameInput.value,
+            price : priceInput.value,
+            drink : drinkInput.value,
+        }
+        allCustomers[updateIndex].name = newUpdatedCustomer.name;
+        allCustomers[updateIndex].price = newUpdatedCustomer.price;
+        allCustomers[updateIndex].drink = newUpdatedCustomer.drink;
+        localStorage.setItem("customers",JSON.stringify(allCustomers));
+        displayTable(allCustomers);
+    clearForm();
+    
+    addBtn.classList.replace('d-none','d-block')
+    updateBtn.classList.replace('d-block','d-none')
+    }
+    
+}
+updateBtn.addEventListener('click',()=>{
+    updateNewInformation()
+})
+
+nameInput.addEventListener('input',validForm);
+drinkInput.addEventListener('input',validForm);
+priceInput.addEventListener('input',validForm);
+function validForm(){
+    if(nameInput.value && priceInput.value && drinkInput.value != ''){
+        addBtn.disabled = false;
+        document.getElementById('errMsg').classList.replace('d-block','d-none')
+        return true;
+    }
+    else{
+        addBtn.disabled = true;
+        document.getElementById('errMsg').classList.replace('d-none','d-block')
+        return false;
+    }
+}
+const text = 'Summary table'
+const summaryTitle= document.getElementById('summaryTitle');
+let index = 0;
+function letterAnimate(){  
+    if(index < text.length){
+        summaryTitle.textContent += text.charAt(index);
+        index++
+        setTimeout(() => {
+            letterAnimate()
+        }, 100);
+    }
+    else{
+        index = 0;
+        setTimeout(()=>{
+            summaryTitle.textContent = ''
+            letterAnimate()
+        },1000)
+    }
+}
+letterAnimate()

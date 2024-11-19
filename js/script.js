@@ -1,32 +1,128 @@
-let room,timers={},devices=[],counter=0,addDeviceLayer=document.querySelector(".add-device-layer"),addForm=document.querySelector(".add-form"),roomNumber=document.getElementById("roomNumber"),formBtn=document.getElementById("formBtn"),showAddBtn=document.getElementById("showAddBtn");document.getElementById("logOutBtn").addEventListener("click",()=>{localStorage.removeItem("email"),location.reload()}),showAddBtn.addEventListener("click",()=>{addDeviceLayer.classList.toggle("d-none")}),roomNumber.addEventListener("input",()=>{formBtn.disabled=!(""!=roomNumber.value)}),formBtn.addEventListener("click",()=>{room=roomNumber.value,deviceExists(room)?document.getElementById("existingRoom").innerHTML=`<span class="text-danger fw-bolder">room ${room}</span> already exist <i class="fa-solid fa-triangle-exclamation"></i>`:(window.location.reload(),document.getElementById("existingRoom").innerHTML=``,addDevice(),addDeviceLayer.classList.toggle("d-none"),roomNumber.value="")});function deviceExists(a){return devices.some(b=>b.id===a)}addDeviceLayer.addEventListener("click",()=>{addDeviceLayer.classList.toggle("d-none")}),addForm.addEventListener("click",a=>{a.stopPropagation()});let numOfDevices=document.getElementById("numOfDevices");function addDevice(){counter++;let a={id:room};devices.push(a);let b=JSON.stringify(devices);localStorage.setItem("devices",b),localStorage.setItem("counterOfDevices",counter),numOfDevices.innerHTML=counter,displayDevices()}function deleteDevice(a){let b=JSON.parse(localStorage.getItem(`device${a+1}`));b?alert("\u0645\u064A\u0646\u0641\u0639\u0634 \u0648\u0627\u0644\u062C\u0647\u0627\u0632 \u0634\u063A\u0627\u0644 , \u0627\u0642\u0641\u0644\u0647 \u0627\u0644\u0627\u0648\u0644"):confirm(`Are you sure you want to delete device${a+1} ?`)?(window.location.reload(),devices.splice(a,1),localStorage.setItem("devices",JSON.stringify(devices)),displayDevices(),counter=devices.length,localStorage.setItem("counterOfDevices",counter),numOfDevices.innerHTML=counter):alert("\u062C\u062F\u0639 \u064A\u0633\u0637\u0627")}function displayDevices(){numOfDevices.innerHTML=counter;let a=``;for(let b=0;b<devices.length;b++)a+=`<div class="col-lg-4 col-md-6">
-            <div id="device${devices[b].id}" class="device position-relative">
-                <div id="layer${devices[b].id}" class="layer-succes position-absolute top-0 start-0 end-0 bottom-0 bg-success z-3 d-flex justify-content-center align-items-center  d-none">
+let timers = {};
+let devices = [] 
+let counter = 0 
+let addDeviceLayer = document.querySelector('.add-device-layer')
+let addForm = document.querySelector('.add-form')
+let roomNumber = document.getElementById('roomNumber')
+let formBtn = document.getElementById('formBtn');
+let showAddBtn = document.getElementById('showAddBtn')
+let room ;
+let loggedUser = JSON.parse(localStorage.getItem('user'))
+document.querySelector('.loading').classList.remove('d-none')
+
+document.getElementById('logOutBtn').addEventListener('click',()=>{
+    localStorage.removeItem('user')
+    location.reload()
+})
+
+showAddBtn.addEventListener('click',()=>{
+    addDeviceLayer.classList.toggle('d-none')
+})
+roomNumber.addEventListener('input',()=>{
+    if(roomNumber.value == ''){
+        formBtn.disabled = true
+    }
+    else{
+        formBtn.disabled = false
+
+    }
+})
+formBtn.addEventListener('click',()=>{
+    room = roomNumber.value;
+    if(deviceExists(room)){
+        // alert('This device number already exists.');
+        document.getElementById('existingRoom').innerHTML = `<span class="text-danger fw-bolder">room ${room}</span> already exist <i class="fa-solid fa-triangle-exclamation"></i>`
+    } else{
+        window.location.reload()
+        document.getElementById('existingRoom').innerHTML = ``
+        addDevice();
+        addDeviceLayer.classList.toggle('d-none')
+        roomNumber.value = ''
+    }
+})
+
+function deviceExists(room) {
+    return devices.some(device => device.id === room);
+}
+
+addDeviceLayer.addEventListener('click',()=>{
+    addDeviceLayer.classList.toggle('d-none')
+})
+addForm.addEventListener('click',(e)=>{
+    e.stopPropagation()
+})
+let numOfDevices = document.getElementById('numOfDevices');
+
+
+function addDevice(){
+sessionStorage.setItem('token',"dsdsdsdsdsdsdsd")
+
+    counter ++;
+    let device ={
+        id:room
+    }
+    devices.push(device)
+    let devicesJson = JSON.stringify(devices);
+    localStorage.setItem('devices',devicesJson)
+    localStorage.setItem('counterOfDevices',counter)
+    numOfDevices.innerHTML = counter
+    displayDevices();
+}
+function deleteDevice(index){
+    let savedData = JSON.parse(localStorage.getItem(`device${index+1}`));
+    
+    if(savedData){
+        alert("مينفعش والجهاز شغال , اقفله الاول")
+    }
+    else{
+        if(confirm(`Are you sure you want to delete device${index+1} ?`)){
+            window.location.reload()
+            devices.splice(index, 1);
+            localStorage.setItem('devices',JSON.stringify(devices))
+            displayDevices()
+            counter = devices.length;
+            localStorage.setItem('counterOfDevices',counter)
+            numOfDevices.innerHTML = counter;
+        }
+        else{
+            alert('جدع يسطا')
+        }
+    }
+        
+}
+function displayDevices(){
+    numOfDevices.innerHTML = counter
+    let container = ``
+    for(let i = 0; i < devices.length;i++){
+        container+=`<div class="col-lg-4 col-md-6">
+            <div id="device${devices[i].id}" class="device position-relative">
+                <div id="layer${devices[i].id}" class="layer-succes position-absolute top-0 start-0 end-0 bottom-0 bg-success z-3 d-flex justify-content-center align-items-center  d-none">
                 <i class="fa-regular fa-circle-check fa-4x"></i>
-                <h3>Successfully added to the table</h3>
-              </div>
+                <h3>Done</h3>
+            </div>
               
               <div class="d-flex justify-content-between  align-items-center device-header">
                 <span class="running-device d-none d-flex justify-content-between align-items-center gap-1 text-success text-uppercase"><i class="fa-solid fa-circle  ms-1 fa-beat "></i> On</span> <span class="not-running-device d-flex justify-content-between align-items-center gap-1 text-danger "><i class="fa-solid fa-circle ms-1 "></i>off</span>
-                <h2 class="fw-bolder text-uppercase  device-num ">Room ${devices[b].id}</h2>
+                <h2 class="fw-bolder h4 text-uppercase  device-num ">Room ${devices[i].id}</h2>
                 <div class="d-flex justify-content-center gap-3 p-2 align-items-center position-relative">
-                    <i title="Reset" onclick="resetDevice(${devices[b].id})" class="fa-solid fa-arrows-rotate fa-2x"></i>
+                    <i title="Reset" onclick="resetDevice(${devices[i].id})" class="fa-solid fa-arrows-rotate fa-xl"></i>
                     <span id="break"></span>
-                    <i title="Delete" onclick="deleteDevice(${b})" class="fa-solid fa-trash-can fa-2x"></i>
+                    <i title="Delete" onclick="deleteDevice(${i})" class="fa-solid fa-trash-can fa-xl"></i>
                 </div>
                 </div>
-              <div class="d-flex justify-content-between align-items-center">
-                <button class="w-100" onclick="startTimer(${devices[b].id})">Start</button>
-                <button title="pause" onclick="pauseTimer(${devices[b].id})" id="pauseTimer${devices[b].id}" disabled><i class="fa fa-pause fa-xl"></i></button>
-                <button title="play" type="button" class="d-none" onclick="resumeTimer(${devices[b].id})" id="continueTimer${devices[b].id}" disabled><i class="fa fa-play fa-xl "></i></button>
+              <div class="d-flex justify-content-between align-items-center gap-3">
+                <button class="w-100 starting-time" onclick="startTimer(${devices[i].id})">Start</button>
+                <button class="pausing-time" title="pause" onclick="pauseTimer(${devices[i].id})" id="pauseTimer${devices[i].id}" disabled><i class="fa fa-pause fa-xl"></i></button>
+                <button title="play" type="button" class="d-none continue-time" onclick="resumeTimer(${devices[i].id})" id="continueTimer${devices[i].id}" disabled><i class="fa fa-play fa-xl "></i></button>
               </div>
-              <button onclick="stopTimer(${devices[b].id})" disabled>Stop</button>
+              <button class="stop-time" onclick="stopTimer(${devices[i].id})" disabled>Stop</button>
 
               <div class="info-time">
-                <span><span class="start-time" id="startTime${devices[b].id}"></span></span>
-                <span><span class="pause-time" id="pauseTime${devices[b].id}"></span></span>
+                <span><span class="start-time d-none" id="startTime${devices[i].id}"></span></span>
+                <span><span class="pause-time d-none" id="pauseTime${devices[i].id}"></span></span>
               </div>
-              <div>Elapsed Time: <span id="elapsedTime${devices[b].id}">00:00:00</span></div>
-              <select title="rate" id="rateSelector${devices[b].id}" onchange="saveRateSelection(${devices[b].id})">
+              <div class="elapsed-time"><span>Elapsed Time </span><span class="my-elapse"  id="elapsedTime${devices[i].id}">00:00:00</span></div>
+              <select title="rate" id="rateSelector${devices[i].id}" onchange="saveRateSelection(${devices[i].id})">
                   <option  value="10">10 EGP/hour</option>
                   <option  value="15">15 EGP/hour</option>
                   <option  value="20">20 EGP/hour</option>
@@ -37,93 +133,746 @@ let room,timers={},devices=[],counter=0,addDeviceLayer=document.querySelector(".
               </select>
               <!-- Start Menu -->
               <div class="menu">
-                Menu:
-                <button  onclick="toggleMenu(this, '.drinks')" class="show-drinks-btn mb-2 d-block m-auto">Show Menu <i class="fa-solid fa-caret-down fa-xl"></i></button>
-                <button  onclick="toggleMenu(this, '.drinks')" class="hide-drinks-btn mb-2 d-none m-auto">Hide Menu <i class="fa-solid fa-caret-up fa-xl"></i></button>
+                <button  onclick="toggleMenu(this, '.drinks')" class="show-drinks-btn mb-2 ">Show Menu <i class="fa-solid fa-caret-down fa-xl"></i></button>
                 <div class="drinks d-none ">
-                  <div class="p-3 bg-dark rounded-2 shadow">
-                    <div class="bg-dark p-3 rounded-3 all-drinks shadow">
+                  <div class="p-3 all-menu rounded-5 shadow">
+                    <div class=" p-3 rounded-4 all-drinks shadow">
                       <div class="d-flex justify-content-between align-items-center">
                         <h2 class="h4 pt-2">Drinks :</h2>
                         <i  onclick="toggleDrinks(this)"  class="fa-solid fa-caret-down fa-xl show-drinks-bar"></i>
                         <i  onclick="toggleDrinks(this)"  class="fa-solid fa-caret-up fa-xl d-none hide-drinks-bar"></i>
                       </div>
                       <div class="d-none drinks-menu">
-                        <div class="my-2">
+                        <div class="my-2 menu-item">
                           <label>Soda Small (15 EGP)</label>
-                          <input title="drink" class="drink-input" data-device-id="${devices[b].id}" id="sodaS${devices[b].id}" type="number" value="0"  onchange="saveDrinkQuantities(${devices[b].id})">
+                          <input min="0" title="drink" class="drink-input" data-device-id="${devices[i].id}" id="sodaS${devices[i].id}" type="number" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
                         </div>
-                        <div class="my-2">
+                        <div class="my-2 menu-item">
                           <label>Soda Large (20 EGP)</label>
-                          <input title="drink" class="drink-input" data-device-id="${devices[b].id}" type="number" id="sodaL${devices[b].id}" min="0" value="0"  onchange="saveDrinkQuantities(${devices[b].id})">
+                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i].id}" type="number" id="sodaL${devices[i].id}" min="0" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
                         </div>
-                        <div class="my-2">
+                        <div class="my-2 menu-item">
                           <label>Sokhn  (10 EGP)</label>
-                          <input title="drink" class="drink-input" data-device-id="${devices[b].id}" type="number" id="sokhn${devices[b].id}" min="0" value="0"  onchange="saveDrinkQuantities(${devices[b].id})">
+                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i].id}" type="number" id="sokhn${devices[i].id}" min="0" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
                         </div>
-                        <div class="my-2">
+                        <div class="my-2 menu-item">
                           <label>Coffee (15 EGP)</label>
-                          <input title="drink" class="drink-input" data-device-id="${devices[b].id}" type="number" id="coffee${devices[b].id}" min="0" value="0"  onchange="saveDrinkQuantities(${devices[b].id})">
+                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i].id}" type="number" id="coffee${devices[i].id}" min="0" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
                         </div>
-                        <div class="my-2">
+                        <div class="my-2 menu-item">
                           <label>Cappuccino (15 EGP):</label>
-                          <input title="drink" class="drink-input" data-device-id="${devices[b].id}" type="number" id="cappuccino${devices[b].id}" value="0"  onchange="saveDrinkQuantities(${devices[b].id})">
+                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i].id}" type="number" id="cappuccino${devices[i].id}" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
                         </div>
-                        <div class="my-2">
+                        <div class="my-2 menu-item">
                           <label>French Coffee (25 EGP):</label>
-                          <input title="drink" class="drink-input" data-device-id="${devices[b].id}" type="number" id="frenchCoffee${devices[b].id}" value="0"  onchange="saveDrinkQuantities(${devices[b].id})">
+                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i].id}" type="number" id="frenchCoffee${devices[i].id}" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
                         </div>
                       </div>
                     </div>
-                    <div class="bg-dark p-3 rounded-3 mt-2 all-others shadow">
+                    <div class=" p-3 rounded-4 mt-2 all-others shadow">
                       <div class="d-flex justify-content-between align-items-center">
                         <h2 class="h4 pt-2">Others :</h2>
                         <i onclick="toggleOthers(this)"  class="fa-solid fa-caret-down fa-xl show-others-bar"></i>
                         <i onclick="toggleOthers(this)"  class="fa-solid fa-caret-up d-none fa-xl hide-others-bar"></i>
                       </div>
                       <div class="d-none others-menu">
-                        <div>
+                        <div class=" menu-item">
                           <label for="sandwich">Sandwich (15 EGP)</label>
-                          <input title="sandwich" class="drink-input" data-device-id="${devices[b].id}" type="number" id="sandwich${devices[b].id}" min="0" value="0"  onchange="saveDrinkQuantities(${devices[b].id})">
+                          <input  min="0" title="sandwich" class="drink-input" data-device-id="${devices[i].id}" type="number" id="sandwich${devices[i].id}" min="0" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
                         </div>
-                        <div class="my-2">
+                        <div class="my-2 menu-item">
                           <label>Net Card (5 EGP):</label>
-                          <input title="drink" class="drink-input" data-device-id="${devices[b].id}" type="number" id="netCard${devices[b].id}" value="0"  onchange="saveDrinkQuantities(${devices[b].id})">
+                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i].id}" type="number" id="netCard${devices[i].id}" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
                         </div>
-                        <div class="my-2">
+                        <div class="my-2 menu-item">
                           <label>Half Hour PS4 (10 EGP):</label>
-                          <input title="drink" class="drink-input" data-device-id="${devices[b].id}" type="number" id="halfHourPS4${devices[b].id}" value="0"  onchange="saveDrinkQuantities(${devices[b].id})">
+                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i].id}" type="number" id="halfHourPS4${devices[i].id}" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
                         </div>
-                        <div class="my-2">
+                        <div class="my-2 menu-item">
                           <label>Hour PS4 (20 EGP):</label>
-                          <input title="drink" class="drink-input" data-device-id="${devices[b].id}" type="number" id="hourPS4${devices[b].id}" value="0"  onchange="saveDrinkQuantities(${devices[b].id})">
+                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i].id}" type="number" id="hourPS4${devices[i].id}" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
                         </div>
-                        <div class="my-2">
+                        <div class="my-2 menu-item">
                           <label>Cleaning (3 EGP):</label>
-                          <input title="drink" class="drink-input" data-device-id="${devices[b].id}" type="number" id="cleaning${devices[b].id}" value="0"  onchange="saveDrinkQuantities(${devices[b].id})">
+                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i].id}" type="number" id="cleaning${devices[i].id}" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
                         </div>
                       </div>
                     </div>
-                    <button onclick="calculateMenuCost(${devices[b].id})" class="w-100 m-auto mt-2 calc-menu">Show menu cost</button>
-                    <div class="mt-2">Menu Cost: <span id="costm${devices[b].id}">0</span></div>
+                    <button onclick="calculateMenuCost(${devices[i].id})" class="w-100 m-auto mt-2 calc-menu">SHOW COST <i class="fa-solid fa-calculator"></i></button>
+                    <div class="mt-2">Menu Cost: <span id="costm${devices[i].id}">0</span></div>
                   </div>
                 </div>
               </div>
               <!-- End Menu -->
-              <div id="totalDiscount${devices[b].id}" class="mt-2 d-none">Discount Value: <span id="discountCost${devices[b].id}">0</span></div>
-              <div>Total Cost: <span id="cost${devices[b].id}">0</span></div>
-              <h4 id="discountRequest${devices[b].id}" onclick="discountRequest(${devices[b].id})" class="h5 d-flex justify-content-between align-items-center d-none"><span>Add Discount ?</span> <i class="fa fa-plus-circle fa-xl"></i></h4>
-              <div id="discountMenu${devices[b].id}" class="discount-menu  p-3 rounded-2 position-relative d-none">
-                <div class="d-flex justify-content-between align-items-center  ">
-                  <div class="position-relative"><input id="discount${devices[b].id}" type="number" placeholder="Enter Discount Value"> <img src="assets/images/discount-svgrepo-com.svg" class="discount-image" alt=""></div>
-                  <i onclick="calcDiscountCost(${devices[b].id})" class="fa fa-plus fa-2x ms-2 add-icon"></i>
-                  <div id="discountLayer${devices[b].id}" class="d-none discount-layer position-absolute d-flex justify-content-center align-items-center bg-success rounded-2 top-0 bottom-0 start-0 end-0"> 
-                    <h2>Discount Added</h2>
-                  </div>
+              <div id="totalDiscount${devices[i].id}" class="mt-2 d-none">Discount Value: <span id="discountCost${devices[i].id}">0</span></div>
+              <div class="time-cost"><span>Total Cost:</span> <span class="my-cost" id="cost${devices[i].id}">0</span></div>
+              <h4 id="discountRequest${devices[i].id}" onclick="discountRequest(${devices[i].id})" class="h5 d-flex justify-content-between align-items-center d-none"><span>Add Discount ?</span> <i class="fa fa-plus-circle fa-xl"></i></h4>
+              <div id="discountMenu${devices[i].id}" class="discount-menu position-relative  d-none">
+                <div class="d-flex justify-content-between align-items-center discount-input ">
+                    <button onclick="calcDiscountCost(${devices[i].id})" type="button" class="add-discount">Add</button>
+                    <div class="position-relative "> <input min="0" id="discount${devices[i].id}" type="number" placeholder="Enter Discount Value"> </div>
+                    <div id="discountLayer${devices[i].id}" class="d-none discount-layer position-absolute d-flex justify-content-center align-items-center bg-success rounded-2 top-0 bottom-0 start-0 end-0">
+                        <h2>Discount Added</h2>
+                </div>
                 </div>
               </div>
               <div class="d-flex justify-content-between">
-                <button  class="submit w-100" onclick="submit(${devices[b].id})" disabled>Submit</button>
+                <button  class="submit w-100" onclick="submit(${devices[i].id})" disabled>Submit</button>
               </div>
             </div>
-        </div>`;document.getElementById("deviceContainer").innerHTML=a}function resetDevice(a){confirm(`are you sure you want to delete device${a} data`)&&clearTimer(a)}function toggleMenu(a,b){let c=a.parentElement.querySelector(b),d=a.parentElement.querySelector(".show-"+b.replace(".","")),e=a.parentElement.querySelector(".hide-"+b.replace(".",""));c.classList.toggle("d-none"),d.classList.toggle("d-none"),e.classList.toggle("d-none")}function toggleDrinks(a){let b=a.closest(".device"),c=b.querySelector(".drinks-menu"),d=b.querySelector(".show-drinks-bar"),e=b.querySelector(".hide-drinks-bar");c.classList.toggle("d-none"),d.classList.toggle("d-none"),e.classList.toggle("d-none")}function toggleOthers(a){let b=a.closest(".device"),c=b.querySelector(".others-menu"),d=b.querySelector(".show-others-bar"),e=b.querySelector(".hide-others-bar");c.classList.toggle("d-none"),d.classList.toggle("d-none"),e.classList.toggle("d-none")}document.querySelectorAll(".main-nav-link").forEach(a=>{a.addEventListener("click",()=>{changeActiveLink(a)})});function changeActiveLink(a){document.querySelector(".main-nav .active").classList.remove("active"),a.classList.add("active")}function showDevices(){document.querySelector(".device-blocks").classList.remove("d-none"),document.querySelector(".summary-table").classList.add("d-none"),document.querySelector(".main-elsala").classList.add("d-none")}function showSummaryTable(){document.querySelector(".summary-table").classList.remove("d-none"),document.querySelector(".device-blocks").classList.add("d-none"),document.querySelector(".main-elsala").classList.add("d-none")}function showSala(){document.querySelector(".main-elsala").classList.remove("d-none"),document.querySelector(".device-blocks").classList.add("d-none"),document.querySelector(".summary-table").classList.add("d-none")}function init(){"eldra3bayez@ps.com"!=localStorage.getItem("email")&&(window.location.href="index.html"),null!=localStorage.getItem("devices")&&(devices=JSON.parse(localStorage.getItem("devices")),counter=JSON.parse(localStorage.getItem("counterOfDevices")),displayDevices()),rebuildTable(),displaySavedTotalCost();for(let a,b=1;b<=devices.length;b++)a=localStorage.getItem(`device${b}`),a&&(a=JSON.parse(a),a.running?(startTimer(b,new Date(a.startTime)),document.querySelector(`#device${b} button[onclick^="startTimer"]`).disabled=!0,document.querySelector(`#device${b} button[onclick^="stopTimer"]`).disabled=!1,document.querySelector(`#device${b} button[onclick^="pauseTimer"]`).disabled=!1,document.querySelector(`#device${b} button[onclick^="resumeTimer"]`).disabled=!0,document.querySelector(`#device${b} button[onclick^="pauseTimer"]`).classList.remove("d-none"),document.querySelector(`#device${b} button[onclick^="resumeTimer"]`).classList.add("d-none")):!1==a.running&&!0==a.paused?(document.querySelector(`#device${b} button[onclick^="startTimer"]`).disabled=!0,document.querySelector(`#device${b} button[onclick^="stopTimer"]`).disabled=!1,document.querySelector(`#device${b} button[onclick^="pauseTimer"]`).disabled=!0,document.querySelector(`#device${b} button[onclick^="pauseTimer"]`).classList.add("d-none"),document.querySelector(`#device${b} button[onclick^="resumeTimer"]`).disabled=!1,document.querySelector(`#device${b} button[onclick^="resumeTimer"]`).classList.remove("d-none")):(document.getElementById(`elapsedTime${b}`).innerHTML=formatTime(a.elapsedTime),document.getElementById(`cost${b}`).innerHTML=`${a.cost} EGP`,document.querySelector(`#device${b} button[onclick^="startTimer"]`).disabled=!1,document.querySelector(`#device${b} button[onclick^="stopTimer"]`).disabled=!0,document.querySelector(`#device${b} button[onclick^="pauseTimer"]`).disabled=!0,document.querySelector(`#device${b} button[onclick^="resumeTimer"]`).disabled=!1)),loadDrinkQuantities(b);getStartandPausedTime(),loadRateSelections(),loadMenuCosts()}document.querySelectorAll(".drink-input").forEach(a=>{a.addEventListener("change",a=>{const b=a.target.dataset.deviceId;saveDrinkQuantities(b)})});function saveRateSelection(a){var b=document.getElementById(`rateSelector${a}`),c=b.value;localStorage.setItem(`rateSelection${a}`,c)}function loadRateSelections(){for(let d=1;d<=devices.length;d++){var a=localStorage.getItem(`rateSelection${d}`);if(a)for(var b=document.getElementById(`rateSelector${d}`),c=0;c<b.options.length;c++)if(b.options[c].value===a){b.selectedIndex=c;break}}}function saveDrinkQuantities(a){["sodaS","sodaL","sokhn","coffee","cappuccino","frenchCoffee","netCard","halfHourPS4","hourPS4","sandwich","cleaning"].forEach(b=>{let c=document.getElementById(`${b}${a}`).value;localStorage.setItem(`${b}${a}`,c)})}function loadDrinkQuantities(a){["sodaS","sodaL","sokhn","coffee","cappuccino","frenchCoffee","netCard","halfHourPS4","hourPS4","sandwich","cleaning"].forEach(b=>{let c=localStorage.getItem(`${b}${a}`);c&&(document.getElementById(`${b}${a}`).value=c)})}function getStartandPausedTime(){console.log("testPause");for(let a=0;a<=devices.length;a++)null!=localStorage.getItem(`startTime${a}`)&&(document.getElementById(`startTime${a}`).innerHTML="Start Time : "+JSON.parse(localStorage.getItem(`startTime${a}`))),null!=localStorage.getItem(`pauseTime${a}`)&&(document.getElementById(`pauseTime${a}`).innerHTML="Paused at : "+JSON.parse(localStorage.getItem(`pauseTime${a}`)))}function startTimer(a,b=!1){let c=JSON.parse(localStorage.getItem(`device${a}`))||{startTime:new Date().toISOString(),elapsedTime:0,cost:0,running:!0,date:getCurrentDate()};b||(c.startTime=new Date().toISOString(),c.elapsedTime=0,document.getElementById(`startTime${a}`).innerHTML="Start Time : "+new Date(c.startTime).toLocaleTimeString()),timers[a]=setInterval(()=>updateElapsedTime(a),1e3),document.querySelector(`#device${a} .running-device`).classList.remove("d-none"),document.querySelector(`#device${a} .not-running-device`).classList.add("d-none"),document.querySelector(`#device${a} button[onclick^="startTimer"]`).disabled=!0,document.querySelector(`#device${a} button[onclick^="stopTimer"]`).disabled=!1,document.querySelector(`#device${a} button[onclick^="pauseTimer"]`).disabled=!1,document.querySelector(`#device${a} button[onclick^="submit"]`).disabled=!0,localStorage.setItem(`device${a}`,JSON.stringify(c)),localStorage.setItem(`startTime${a}`,JSON.stringify(new Date(c.startTime).toLocaleTimeString())),document.getElementById(`discountMenu${a}`).classList.add("d-none"),document.getElementById(`discountRequest${a}`).classList.add("d-none")}function stopTimer(a){if(confirm("Are you sure you want to stop the timer?")){clearInterval(timers[a]);let b=JSON.parse(localStorage.getItem(`device${a}`));calculateCost(a,b),b.endTime=new Date().toISOString(),b.running=!1,b.paused=!1,localStorage.setItem(`device${a}`,JSON.stringify(b)),document.querySelector(`#device${a} .not-running-device`).classList.remove("d-none"),document.querySelector(`#device${a} .running-device`).classList.add("d-none"),document.querySelector(`#device${a} button[onclick^="startTimer"]`).disabled=!1,document.querySelector(`#device${a} button[onclick^="stopTimer"]`).disabled=!0,document.querySelector(`#device${a} button[onclick^="resumeTimer"]`).disabled=!0,document.querySelector(`#device${a} button[onclick^="resumeTimer"]`).classList.add("d-none"),document.querySelector(`#device${a} button[onclick^="pauseTimer"]`).classList.remove("d-none"),document.querySelector(`#device${a} button[onclick^="pauseTimer"]`).disabled=!0,document.querySelector(`#device${a} button[onclick^="submit"]`).disabled=!1,document.getElementById(`discountRequest${a}`).classList.remove("d-none")}}function updateDeviceTable(a,b){const c=document.getElementById("deviceSummary").getElementsByTagName("tbody")[0],d=c.insertRow(0),e=d.insertCell(0),f=d.insertCell(1),g=d.insertCell(2),h=d.insertCell(3),i=d.insertCell(4),j=d.insertCell(5);e.innerHTML=`Device ${a}`,f.innerHTML=b.date,g.innerHTML=new Date(b.startTime).toLocaleTimeString(),h.innerHTML=new Date(b.endTime).toLocaleTimeString(),i.innerHTML=formatTime(b.elapsedTime),j.innerHTML=`${b.cost} EGP`;let k=JSON.parse(localStorage.getItem("tableData"))||[];k.push({deviceId:a,date:b.date,startTime:b.startTime,endTime:b.endTime,elapsedTime:b.elapsedTime,cost:b.cost}),localStorage.setItem("tableData",JSON.stringify(k)),updateTotalCost()}function rebuildTable(){const a=JSON.parse(localStorage.getItem("tableData"));if(a){const b=document.getElementById("deviceSummary").getElementsByTagName("tbody")[0];b.innerHTML="",a.forEach(a=>{const c=b.insertRow(0),d=c.insertCell(0),e=c.insertCell(1),f=c.insertCell(2),g=c.insertCell(3),h=c.insertCell(4),i=c.insertCell(5);d.innerHTML=`Device ${a.deviceId}`,e.innerHTML=a.date,f.innerHTML=new Date(a.startTime).toLocaleTimeString(),g.innerHTML=new Date(a.endTime).toLocaleTimeString(),h.innerHTML=formatTime(a.elapsedTime),i.innerHTML=`${a.cost} EGP`}),updateTotalCost()}}function updateTotalCost(){let a=0;const b=document.querySelectorAll("#deviceSummary tbody td:nth-child(6)");b.forEach(b=>{a+=parseFloat(b.innerHTML.replace(" EGP",""))}),localStorage.setItem("totalCost",a.toFixed(2)),document.getElementById("totalCost").innerHTML=`${a.toFixed(2)} EGP`}function displaySavedTotalCost(){const a=localStorage.getItem("totalCost");a&&(document.getElementById("totalCost").innerHTML=`${a} EGP`)}function clearTableData(){if(confirm("Are you sure you want to clear all table data? This action cannot be undone.")){for(const a=document.getElementById("deviceSummary");2<a.rows.length;)a.deleteRow(1);localStorage.removeItem("tableData"),localStorage.removeItem("totalCost"),document.getElementById("totalCost").innerHTML="0.00 EGP"}}function getCurrentDate(){const a=new Date,b=(a.getDate()+"").padStart(2,"0"),c=(a.getMonth()+1+"").padStart(2,"0"),d=a.getFullYear();return`${b}/${c}/${d}`}let pdfCounter=0;function downloadPDF(){pdfCounter++,localStorage.setItem("pdfCounter",pdfCounter);let a=pdfCounter;const{jsPDF:b}=window.jspdf,c=new b;c.setFont("helvetica","normal");const d=getCurrentDate();c.text(`Date: ${d}`,14,10),c.autoTable({html:"#deviceSummary",theme:"striped",startY:20,margin:{top:10,bottom:10}}),c.text("ElDra3 Bayez Devices Summary Report",14,c.lastAutoTable.finalY+10),a=localStorage.getItem("pdfCounter"),c.save(`DeviceSummary${a}.pdf`)}function pauseTimer(a){if(timers[a]){clearInterval(timers[a]),updateElapsedTime(a);let b=JSON.parse(localStorage.getItem(`device${a}`));b.running=!1,b.paused=!0,b.pauseTime=new Date().toISOString(),localStorage.setItem(`device${a}`,JSON.stringify(b)),document.getElementById(`pauseTime${a}`).innerHTML="Paused at : "+new Date(b.pauseTime).toLocaleTimeString(),document.querySelector(`#device${a} button[onclick^="resumeTimer"]`).disabled=!1,document.querySelector(`#device${a} button[onclick^="resumeTimer"]`).classList.remove("d-none"),document.querySelector(`#device${a} button[onclick^="pauseTimer"]`).disabled=!0,document.querySelector(`#device${a} button[onclick^="pauseTimer"]`).classList.add("d-none"),localStorage.setItem(`pauseTime${a}`,JSON.stringify(new Date(b.pauseTime).toLocaleTimeString()))}}function resumeTimer(a){let b=JSON.parse(localStorage.getItem(`device${a}`));if(!b.running){let c=new Date,d=1e3*b.elapsedTime;b.startTime=new Date(c-d).toISOString(),b.paused=!1,b.running=!0,localStorage.setItem(`device${a}`,JSON.stringify(b)),startTimer(a,!0),document.querySelector(`#device${a} button[onclick^="resumeTimer"]`).disabled=!0,document.querySelector(`#device${a} button[onclick^="resumeTimer"]`).classList.add("d-none"),document.querySelector(`#device${a} button[onclick^="pauseTimer"]`).disabled=!1,document.querySelector(`#device${a} button[onclick^="pauseTimer"]`).classList.remove("d-none")}}function updateElapsedTime(a){let b=JSON.parse(localStorage.getItem(`device${a}`));const c=Math.floor((new Date-new Date(b.startTime))/1e3);document.getElementById(`elapsedTime${a}`).innerHTML=formatTime(c),b.elapsedTime=c,localStorage.setItem(`device${a}`,JSON.stringify(b))}function formatTime(a){if(isNaN(a))return"00:00:00";const b=Math.floor(a/3600),c=Math.floor(a%3600/60);return[b,c,a%60].map(a=>10>a?"0"+a:a).join(":")}function clearAllTimers(){if(confirm("Are you sure you want to clear all timers? This action cannot be undone."))for(let a=1;a<=devices.length;a++)clearInterval(timers[a]),localStorage.removeItem(`device${a}`),localStorage.removeItem(`startTime${a}`),localStorage.removeItem(`pauseTime${a}`),document.getElementById(`startTime${a}`).innerHTML="",document.getElementById(`pauseTime${a}`).innerHTML="",document.getElementById(`elapsedTime${a}`).innerHTML="00:00:00",document.getElementById(`cost${a}`).innerHTML="0.00 EGP",document.getElementById(`costm${a}`).innerHTML="0.00 EGP",document.querySelector(`#device${a} button[onclick^="startTimer"]`).disabled=!1,document.querySelector(`#device${a} button[onclick^="stopTimer"]`).disabled=!0,document.querySelector(`#device${a} button[onclick^="resumeTimer"]`).disabled=!0,document.querySelector(`#device${a} button[onclick^="resumeTimer"]`).classList.add("d-none"),document.querySelector(`#device${a} button[onclick^="pauseTimer"]`).classList.remove("d-none"),document.querySelector(`#device${a} button[onclick^="pauseTimer"]`).disabled=!0,resetDrinkQuantities(a)}function clearTimer(a){let b=JSON.parse(localStorage.getItem(`device${a}`));clearInterval(timers[a]),document.getElementById(`discountMenu${a}`).classList.add("d-none"),document.getElementById(`cost${a}`).innerHTML=b.cost+" EGP",document.getElementById(`discountRequest${a}`).classList.add("d-none"),document.getElementById(`discount${a}`).value="",document.querySelector(`#device${a} .running-device`).classList.add("d-none"),document.querySelector(`#device${a} .not-running-device`).classList.remove("d-none"),localStorage.removeItem(`device${a}`),localStorage.removeItem(`startTime${a}`),localStorage.removeItem(`pauseTime${a}`),document.getElementById(`startTime${a}`).innerHTML="",document.getElementById(`pauseTime${a}`).innerHTML="",document.getElementById(`elapsedTime${a}`).innerHTML="00:00:00",document.getElementById(`cost${a}`).innerHTML="0.00 EGP",document.getElementById(`costm${a}`).innerHTML="0.00 EGP",resetDrinkQuantities(a),document.querySelector(`#device${a} button[onclick^="startTimer"]`).disabled=!1,document.querySelector(`#device${a} button[onclick^="stopTimer"]`).disabled=!0,document.querySelector(`#device${a} button[onclick^="resumeTimer"]`).disabled=!0,document.querySelector(`#device${a} button[onclick^="resumeTimer"]`).classList.add("d-none"),document.querySelector(`#device${a} button[onclick^="pauseTimer"]`).classList.remove("d-none"),document.querySelector(`#device${a} button[onclick^="pauseTimer"]`).disabled=!0,document.querySelector(`#device${a} button[onclick^="submit"]`).disabled=!0,document.getElementById(`discountMenu${a}`).classList.add("d-none")}function loadMenuCosts(){for(let a=1;a<=devices.length;a++){const b=localStorage.getItem(`menuCost${a}`);null!==b&&(document.getElementById(`costm${a}`).innerHTML=`${b} EGP`)}}function calculateMenuCost(a){const b=15*parseInt(document.getElementById(`sodaS${a}`).value,10),c=20*parseInt(document.getElementById(`sodaL${a}`).value,10),d=10*parseInt(document.getElementById(`sokhn${a}`).value,10),e=15*parseInt(document.getElementById(`coffee${a}`).value,10),f=15*parseInt(document.getElementById(`cappuccino${a}`).value),g=25*parseInt(document.getElementById(`frenchCoffee${a}`).value),h=5*parseInt(document.getElementById(`netCard${a}`).value),i=10*parseInt(document.getElementById(`halfHourPS4${a}`).value),j=20*parseInt(document.getElementById(`hourPS4${a}`).value),k=15*parseInt(document.getElementById(`sandwich${a}`).value),l=3*parseInt(document.getElementById(`cleaning${a}`).value),m=(b+c+d+e+f+g+h+i+j+k+l).toFixed(2);document.getElementById(`costm${a}`).innerHTML=`${m} EGP`,localStorage.setItem(`menuCost${a}`,m)}function discountRequest(a){document.getElementById(`discountMenu${a}`).classList.toggle("d-none")}function calcDiscountCost(a){console.log("test");let b=JSON.parse(localStorage.getItem(`device${a}`)),c=document.getElementById(`discount${a}`).value,d=(b.cost-c).toFixed();0<=d?(document.getElementById(`cost${a}`).innerHTML=`${d}  EGP`,document.getElementById(`discountCost${a}`).innerHTML=`${c} EGP`,document.getElementById(`discountLayer${a}`).classList.remove("d-none"),document.getElementById(`totalDiscount${a}`).classList.remove("d-none"),setTimeout(()=>{document.getElementById(`discountLayer${a}`).classList.add("d-none"),document.getElementById(`discountMenu${a}`).classList.add("d-none"),document.getElementById(`discount${a}`).value=""},1500),b.cost=d,localStorage.setItem(`device${a}`,JSON.stringify(b))):alert(" \u0643\u062F\u0627 \u0647\u062A\u0628\u0642\u064A \u0645\u062F\u064A\u0648\u0646 \u0639 \u0641\u0643\u0631\u0647 , \u0641\u0643\u0631 \u062A\u0627\u0646\u064A \u064A\u0627\u0628\u0627")}function submit(a){document.getElementById(`totalDiscount${a}`).classList.add("d-none");let b=JSON.parse(localStorage.getItem(`device${a}`));document.getElementById(`discountMenu${a}`).classList.add("d-none"),updateDeviceTable(a,b),updateTotalCost(),document.getElementById(`cost${a}`).innerHTML=b.cost+" EGP";let c=document.getElementById(`layer${a}`);c.classList.remove("d-none"),setTimeout(()=>{c.classList.add("d-none")},1e3),document.querySelector(`#device${a} button[onclick^="submit"]`).disabled=!0,clearTimer(a),document.getElementById(`discountRequest${a}`).classList.add("d-none"),document.getElementById(`discount${a}`).value=""}function calculateCost(a,b){const c=b.elapsedTime/3600,d=parseFloat(document.getElementById(`rateSelector${a}`).value),e=15*parseInt(document.getElementById(`sodaS${a}`).value,10),f=20*parseInt(document.getElementById(`sodaL${a}`).value,10),g=10*parseInt(document.getElementById(`sokhn${a}`).value,10),h=15*parseInt(document.getElementById(`coffee${a}`).value,10),i=15*parseInt(document.getElementById(`cappuccino${a}`).value),j=25*parseInt(document.getElementById(`frenchCoffee${a}`).value),k=5*parseInt(document.getElementById(`netCard${a}`).value),l=10*parseInt(document.getElementById(`halfHourPS4${a}`).value),m=20*parseInt(document.getElementById(`hourPS4${a}`).value),n=15*parseInt(document.getElementById(`sandwich${a}`).value),o=3*parseInt(document.getElementById(`cleaning${a}`).value),p=(c*d+e+f+g+h+i+j+k+l+m+n+o).toFixed(2);document.getElementById(`cost${a}`).innerHTML=`${p} EGP`,b.cost=p,localStorage.setItem(`device${a}`,JSON.stringify(b))}function calculateDrinkCost(a){const b=parseFloat(document.getElementById(`drinkSelector${a}`).value),c=parseInt(document.getElementById(`drinkQuantity${a}`).value,10);return b*c}function resetDrinkQuantities(a){["sodaS","sodaL","sokhn","coffee","cappuccino","frenchCoffee","netCard","halfHourPS4","hourPS4","sandwich","cleaning"].forEach(b=>{document.getElementById(`${b}${a}`).value=0,localStorage.removeItem(`${b}${a}`),localStorage.removeItem(`menuCost${a}`)})}window.onload=init;
+        </div>`
+    }
+    document.getElementById('deviceContainer').innerHTML = container
+}
+
+function resetDevice(i){
+    if(confirm(`are you sure you want to delete device${i} data`)){
+        clearTimer(i)
+    }
+}
+
+function toggleMenu(button, menuSelector) {
+    let menu = button.parentElement.querySelector(menuSelector); // Find the menu within the parent container
+    let showBtn = button.parentElement.querySelector('.show-' + menuSelector.replace('.', ''));
+    let hideBtn = button.parentElement.querySelector('.hide-' + menuSelector.replace('.', ''));
+
+    menu.classList.toggle('d-none');
+    showBtn.classList.toggle('d-none');
+    hideBtn.classList.toggle('d-none');
+}
+
+function toggleDrinks(bar) {
+    let device = bar.closest('.device'); // Find the closest parent '.device' container
+    let drinksMenu = device.querySelector('.drinks-menu');
+    let showBtn = device.querySelector('.show-drinks-bar');
+    let hideBtn = device.querySelector('.hide-drinks-bar');
+
+    drinksMenu.classList.toggle('d-none');
+    showBtn.classList.toggle('d-none');
+    hideBtn.classList.toggle('d-none');
+}
+
+
+function toggleOthers(bar) {
+    let device = bar.closest('.device'); // Find the closest parent '.device' container
+    let othersMenu = device.querySelector('.others-menu');
+    let showBtn = device.querySelector('.show-others-bar');
+    let hideBtn = device.querySelector('.hide-others-bar');
+
+    othersMenu.classList.toggle('d-none');
+    showBtn.classList.toggle('d-none');
+    hideBtn.classList.toggle('d-none');
+}
+
+
+
+
+
+document.querySelectorAll('.main-nav-link').forEach((link)=>{
+    link.addEventListener('click',()=>{
+        changeActiveLink(link)
+    })
+})
+
+function changeActiveLink(link){
+    document.querySelector(".main-nav .active").classList.remove("active")
+    link.classList.add('active')
+}
+function showDevices(){
+    document.querySelector('.device-blocks').classList.remove('d-none')
+    document.querySelector('.summary-table').classList.add('d-none')
+    document.querySelector('.main-elsala').classList.add('d-none')
+
+}
+function showSummaryTable(){
+    document.querySelector('.summary-table').classList.remove('d-none')
+    document.querySelector('.device-blocks').classList.add('d-none')
+    document.querySelector('.main-elsala').classList.add('d-none')
+
+
+}
+function showSala(){
+
+    document.querySelector('.main-elsala').classList.remove('d-none')
+    document.querySelector('.device-blocks').classList.add('d-none')
+    document.querySelector('.summary-table').classList.add('d-none')
+
+}
+function init() {
+    
+    if(!localStorage.getItem('user')){
+        window.location.href = './index.html'
+    }
+
+    if(localStorage.getItem('devices') != null){
+        devices = JSON.parse(localStorage.getItem('devices'))
+        counter = JSON.parse(localStorage.getItem('counterOfDevices'))
+        displayDevices();
+    }
+    
+    rebuildTable();
+    displaySavedTotalCost();
+    for (let deviceId = 1; deviceId <= devices.length; deviceId++) {
+        let savedData = localStorage.getItem(`device${deviceId}`);
+        if (savedData) {
+            savedData = JSON.parse(savedData);
+            if (savedData.running) {
+                startTimer(deviceId, new Date(savedData.startTime));
+                document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = true;
+                document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = false;
+                document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = false;
+                document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
+                document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.remove('d-none');
+                document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.add('d-none')
+
+
+            }
+            else if(savedData.running==false && savedData.paused == true){
+                document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = true;
+                document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = false;
+                document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
+                document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.add('d-none');
+                document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = false;
+                document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.remove('d-none')
+            } 
+            else {
+                document.getElementById(`elapsedTime${deviceId}`).innerHTML = formatTime(savedData.elapsedTime);
+                document.getElementById(`cost${deviceId}`).innerHTML = `${savedData.cost} EGP`;
+                document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
+                document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
+                document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
+                document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = false;
+            }
+        } 
+        loadDrinkQuantities(deviceId);  // Load the drink quantities for each device
+    }
+    getStartandPausedTime();
+    loadRateSelections(); 
+    loadMenuCosts(); // This call should happen once for all device setups, ensure it's placed correctly as per your logic
+}
+
+document.querySelectorAll('.drink-input').forEach(input => {
+    input.addEventListener('change', (event) => {
+        const deviceId = event.target.dataset.deviceId; // Assuming you have a data-device-id attribute
+        saveDrinkQuantities(deviceId);
+    });
+});
+
+
+function saveRateSelection(deviceId) {
+    var rateSelector = document.getElementById(`rateSelector${deviceId}`);
+    var selectedRate = rateSelector.value;
+    localStorage.setItem(`rateSelection${deviceId}`, selectedRate);
+}
+
+function loadRateSelections() {
+    for (let deviceId = 1; deviceId <= devices.length; deviceId++) {
+        var savedRate = localStorage.getItem(`rateSelection${deviceId}`);
+        if (savedRate) {
+            var rateSelector = document.getElementById(`rateSelector${deviceId}`);
+            // Loop through options to find the one with the saved value
+            for (var i = 0; i < rateSelector.options.length; i++) {
+                if (rateSelector.options[i].value === savedRate) {
+                    rateSelector.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+// function loadDrinkQuantities(deviceId) {
+//     // Load saved drink quantities from localStorage
+//     const drinkIds = ['sodaS', 'sodaL', 'sokhn', 'coffee', 'cappuccino', 'frenchCoffee', 'netCard', 'halfHourPS4', 'hourPS4','sandwich','cleaning'];
+//     drinkIds.forEach(drinkId => {
+//         let savedQuantity = localStorage.getItem(`${drinkId}${deviceId}`);
+//         if (savedQuantity) {
+//             document.getElementById(`${drinkId}${deviceId}`).value = savedQuantity;
+//         }
+//     });
+// }
+
+// function saveDrinkQuantities(deviceId) {
+//     // Save current drink quantities to localStorage
+//     const drinkIds = ['sodaS', 'sodaL', 'sokhn', 'coffee', 'cappuccino', 'frenchCoffee', 'netCard', 'halfHourPS4', 'hourPS4','sandwich','cleaning'];
+//     drinkIds.forEach(drinkId => {
+//         let quantity = document.getElementById(`${drinkId}${deviceId}`).value;
+//         localStorage.setItem(`${drinkId}${deviceId}`, quantity);
+//         console.log(q);
+//     });
+// }
+function saveDrinkQuantities(deviceId) {
+    // Save current drink quantities to localStorage
+    const drinkIds = ['sodaS', 'sodaL', 'sokhn', 'coffee', 'cappuccino', 'frenchCoffee', 'netCard', 'halfHourPS4', 'hourPS4', 'sandwich', 'cleaning'];
+    drinkIds.forEach(drinkId => {
+        let quantity = document.getElementById(`${drinkId}${deviceId}`).value;
+        localStorage.setItem(`${drinkId}${deviceId}`, quantity);
+    });
+}
+
+function loadDrinkQuantities(deviceId) {
+    // Load saved drink quantities from localStorage
+    const drinkIds = ['sodaS', 'sodaL', 'sokhn', 'coffee', 'cappuccino', 'frenchCoffee', 'netCard', 'halfHourPS4', 'hourPS4', 'sandwich', 'cleaning'];
+    drinkIds.forEach(drinkId => {
+        let savedQuantity = localStorage.getItem(`${drinkId}${deviceId}`);
+        if (savedQuantity) {
+            document.getElementById(`${drinkId}${deviceId}`).value = savedQuantity;
+        }
+    });
+}
+
+function getStartandPausedTime(){
+    console.log("testPause");
+    for(let i = 0 ; i<=devices.length ; i++){
+        if(localStorage.getItem(`startTime${i}`) != null){
+            document.getElementById(`startTime${i}`).innerHTML ="Start Time : " + JSON.parse(localStorage.getItem(`startTime${i}`))
+            document.getElementById(`startTime${i}`).classList.remove('d-none')
+        }
+        if(localStorage.getItem(`pauseTime${i}`) != null){
+            document.getElementById(`pauseTime${i}`).innerHTML ="Paused at : " + JSON.parse(localStorage.getItem(`pauseTime${i}`));
+            document.getElementById(`pauseTime${i}`).classList.remove('d-none')
+        }
+    }
+}
+
+
+function startTimer(deviceId, resume = false) {
+    let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`)) || {
+        startTime: new Date().toISOString(),
+        elapsedTime: 0,
+        cost: 0,
+        running: true,
+        date: getCurrentDate()
+    };
+
+    if (!resume) {
+        savedData.startTime = new Date().toISOString();
+        savedData.elapsedTime = 0;
+        document.getElementById(`startTime${deviceId}`).innerHTML ="Start Time : " + new Date(savedData.startTime).toLocaleTimeString();
+        document.getElementById(`startTime${deviceId}`).classList.remove('d-none');
+
+    }
+
+    timers[deviceId] = setInterval(() => updateElapsedTime(deviceId), 1000);
+    document.querySelector(`#device${deviceId} .running-device`).classList.remove('d-none')
+    document.querySelector(`#device${deviceId} .not-running-device`).classList.add('d-none')
+
+    document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = true;
+    document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = false;
+    document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = false;
+    document.querySelector(`#device${deviceId} button[onclick^="submit"]`).disabled = true;
+
+    localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
+    localStorage.setItem(`startTime${deviceId}`,JSON.stringify(new Date(savedData.startTime).toLocaleTimeString()))
+    document.getElementById(`discountMenu${deviceId}`).classList.add('d-none');
+    document.getElementById(`discountRequest${deviceId}`).classList.add('d-none');
+
+}
+
+
+
+
+function stopTimer(deviceId) {
+    if (confirm("Are you sure you want to stop the timer?")) {
+        clearInterval(timers[deviceId]);
+        let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
+        calculateCost(deviceId, savedData);
+
+        savedData.endTime = new Date().toISOString();
+        savedData.running = false;
+        savedData.paused = false; // Clear paused state
+        localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
+
+        document.querySelector(`#device${deviceId} .not-running-device`).classList.remove('d-none')
+        document.querySelector(`#device${deviceId} .running-device`).classList.add('d-none')
+
+        document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
+        document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
+        document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
+        document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.add('d-none');
+        document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.remove('d-none');
+        document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
+        document.querySelector(`#device${deviceId} button[onclick^="submit"]`).disabled = false;
+        // document.getElementById(`discountMenu${deviceId}`).classList.remove('d-none');
+        document.getElementById(`discountRequest${deviceId}`).classList.remove('d-none');
+
+    }
+}
+
+
+
+function updateDeviceTable(deviceId, data) {
+    const table = document.getElementById("deviceSummary").getElementsByTagName('tbody')[0];
+    const row = table.insertRow(0);
+    const idCell = row.insertCell(0);
+    const dateCell = row.insertCell(1);
+    const startTimeCell = row.insertCell(2);
+    const endTimeCell = row.insertCell(3);
+    const timeCell = row.insertCell(4);
+    const costCell = row.insertCell(5);
+
+    idCell.innerHTML = `Device ${deviceId}`;
+    dateCell.innerHTML = data.date;
+    startTimeCell.innerHTML = new Date(data.startTime).toLocaleTimeString();
+    endTimeCell.innerHTML = new Date(data.endTime).toLocaleTimeString();
+    timeCell.innerHTML = formatTime(data.elapsedTime);
+    costCell.innerHTML = `${data.cost} EGP`;
+
+    let tableData = JSON.parse(localStorage.getItem('tableData')) || [];
+    tableData.push({
+        deviceId: deviceId,
+        date: data.date,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        elapsedTime: data.elapsedTime,
+        cost: data.cost
+    });
+    localStorage.setItem('tableData', JSON.stringify(tableData));
+
+    // Update the total cost
+    updateTotalCost();
+}
+
+
+
+function rebuildTable() {
+    const tableData = JSON.parse(localStorage.getItem('tableData'));
+    if (tableData) {
+        const table = document.getElementById("deviceSummary").getElementsByTagName('tbody')[0];
+        table.innerHTML = ""; // Clear the table body before rebuilding
+        tableData.forEach(data => {
+            const row = table.insertRow(0);
+            const idCell = row.insertCell(0);
+            const dateCell = row.insertCell(1);
+            const startTimeCell = row.insertCell(2);
+            const endTimeCell = row.insertCell(3);
+            const timeCell = row.insertCell(4);
+            const costCell = row.insertCell(5);
+
+            idCell.innerHTML = `Device ${data.deviceId}`;
+            dateCell.innerHTML = data.date;
+            startTimeCell.innerHTML = new Date(data.startTime).toLocaleTimeString();
+            endTimeCell.innerHTML = new Date(data.endTime).toLocaleTimeString();
+            timeCell.innerHTML = formatTime(data.elapsedTime);
+            costCell.innerHTML = `${data.cost} EGP`;
+        });
+
+        // Update the total cost after rebuilding the table
+        updateTotalCost();
+    }
+}
+
+
+
+
+function updateTotalCost() {
+    let total = 0;
+    const costCells = document.querySelectorAll('#deviceSummary tbody td:nth-child(6)'); // Select all cost cells in the table body
+    costCells.forEach(cell => {
+        total += parseFloat(cell.innerHTML.replace(' EGP', ''));
+    });
+    localStorage.setItem('totalCost', total.toFixed(2)); // Save the total cost to localStorage
+    document.getElementById('totalCost').innerHTML = `${total.toFixed(2)} EGP`; // Display the updated total cost
+}
+
+
+
+function displaySavedTotalCost() {
+    const savedTotalCost = localStorage.getItem('totalCost');
+    if (savedTotalCost) {
+        document.getElementById('totalCost').innerHTML = `${savedTotalCost} EGP`;
+    }
+}
+
+function clearTableData() {
+    if (confirm("Are you sure you want to clear all table data? This action cannot be undone.")) {
+        // Clear table rows from the DOM
+        const table = document.getElementById("deviceSummary");
+        while (table.rows.length > 2) {  // Assuming the first row is the header
+            table.deleteRow(1);
+        }
+
+        // Clear table data from localStorage
+        localStorage.removeItem('tableData');
+        localStorage.removeItem('totalCost');
+
+        // Reset total cost display
+        document.getElementById('totalCost').innerHTML = '0.00 EGP';
+    }
+}
+function getCurrentDate() {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+    const year = today.getFullYear();
+    return `${day}/${month}/${year}`; // Formats date as DD/MM/YYYY
+}
+let pdfCounter = 0;
+function downloadPDF() {
+    pdfCounter++;
+    localStorage.setItem("pdfCounter",pdfCounter)
+    let i = pdfCounter;
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    // Set font for better compatibility
+    doc.setFont('helvetica', 'normal');
+
+    // Get the current date
+    const date = getCurrentDate();
+
+    // Optionally add a header with the date
+    doc.text(`Date: ${date}`, 14, 10); // Adjust the position as needed
+
+    // Capture the HTML table and use AutoTable to add it to the PDF
+    doc.autoTable({
+        html: '#deviceSummary',
+        theme: 'striped',
+        startY: 20, // Make sure this starts below your date text
+        margin: { top: 10, bottom: 10 }
+    });
+
+    // Optionally add a footer or any additional text
+    doc.text("ElDra3 Bayez Devices Summary Report", 14, doc.lastAutoTable.finalY + 10); // Adjust the position as needed
+
+    // Save the PDF
+    i = localStorage.getItem('pdfCounter')
+    doc.save(`DeviceSummary${i}.pdf`);
+}
+
+
+function pauseTimer(deviceId) {
+    if (timers[deviceId]) {
+        clearInterval(timers[deviceId]);
+        updateElapsedTime(deviceId);
+        let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
+        savedData.running = false;
+        savedData.paused = true;
+        savedData.pauseTime = new Date().toISOString();
+
+        localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
+
+        document.getElementById(`pauseTime${deviceId}`).innerHTML = "Paused at : " + new Date(savedData.pauseTime).toLocaleTimeString();
+        document.getElementById(`pauseTime${deviceId}`).classList.remove('d-none')
+        
+        document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = false;
+        document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.remove('d-none');
+        document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
+        document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.add('d-none');
+        localStorage.setItem(`pauseTime${deviceId}`,JSON.stringify(new Date(savedData.pauseTime).toLocaleTimeString()))
+    }
+}
+
+
+function resumeTimer(deviceId) {
+    let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
+    if (!savedData.running) {
+        let currentTime = new Date();
+        let elapsedTimeInMs = savedData.elapsedTime * 1000;
+        savedData.startTime = new Date(currentTime - elapsedTimeInMs).toISOString();
+        savedData.paused = false; // Clear paused state
+        savedData.running = true;
+
+        localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
+
+        startTimer(deviceId, true); // Resume with true to keep current elapsed time
+        document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
+        document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.add('d-none');
+        document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = false;
+        document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.remove('d-none');
+    }
+}
+
+
+
+function updateElapsedTime(deviceId) {
+    let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
+    const elapsedTime = Math.floor((new Date() - new Date(savedData.startTime)) / 1000);
+    document.getElementById(`elapsedTime${deviceId}`).innerHTML = formatTime(elapsedTime);
+    savedData.elapsedTime = elapsedTime;
+    localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
+}
+function formatTime(seconds) {
+    if (isNaN(seconds)) {
+        return "00:00:00"; // Returns a default time if input is invalid
+    }
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return [hrs, mins, secs].map(v => v < 10 ? "0" + v : v).join(":");
+}
+function clearAllTimers() {
+    if (confirm("Are you sure you want to clear all timers? This action cannot be undone.")) {
+        for (let deviceId = 1; deviceId <= devices.length; deviceId++) {
+            clearInterval(timers[deviceId]);
+            localStorage.removeItem(`device${deviceId}`);
+            localStorage.removeItem(`startTime${deviceId}`);
+            localStorage.removeItem(`pauseTime${deviceId}`);
+            document.getElementById(`startTime${deviceId}`).innerHTML = "";
+            document.getElementById(`pauseTime${deviceId}`).innerHTML = "";
+            document.getElementById(`startTime${deviceId}`).classList.add('d-none');
+            document.getElementById(`PauseTime${deviceId}`).classList.add('d-none');
+            document.getElementById(`elapsedTime${deviceId}`).innerHTML = "00:00:00";
+            document.getElementById(`cost${deviceId}`).innerHTML = "0.00 EGP";
+            document.getElementById(`costm${deviceId}`).innerHTML = "0.00 EGP";
+            document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
+            document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
+            document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
+            document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.add('d-none');
+            document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.remove('d-none');
+            document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
+            resetDrinkQuantities(deviceId);
+        }
+    }
+}
+
+
+function clearTimer(deviceId) {
+    let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
+        clearInterval(timers[deviceId]);
+        document.getElementById(`discountMenu${deviceId}`).classList.add('d-none');
+        document.getElementById(`cost${deviceId}`).innerHTML = savedData.cost + " EGP";
+        document.getElementById(`discountRequest${deviceId}`).classList.add('d-none');
+        document.getElementById(`discount${deviceId}`).value = ''
+
+        document.querySelector(`#device${deviceId} .running-device`).classList.add('d-none')
+        document.querySelector(`#device${deviceId} .not-running-device`).classList.remove('d-none')
+        localStorage.removeItem(`device${deviceId}`);
+        localStorage.removeItem(`startTime${deviceId}`);
+        localStorage.removeItem(`pauseTime${deviceId}`);
+        document.getElementById(`startTime${deviceId}`).innerHTML = "";
+        document.getElementById(`pauseTime${deviceId}`).innerHTML = "";
+        document.getElementById(`startTime${deviceId}`).classList.add('d-none');
+        document.getElementById(`PauseTime${deviceId}`).classList.add('d-none');
+        document.getElementById(`elapsedTime${deviceId}`).innerHTML = "00:00:00";
+        document.getElementById(`cost${deviceId}`).innerHTML = "0.00 EGP";
+        document.getElementById(`costm${deviceId}`).innerHTML = "0.00 EGP";
+        resetDrinkQuantities(deviceId);
+        document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
+        document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
+        document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
+        document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.add('d-none');
+        document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.remove('d-none');
+        document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
+        document.querySelector(`#device${deviceId} button[onclick^="submit"]`).disabled = true;
+        document.getElementById(`discountMenu${deviceId}`).classList.add('d-none');
+}
+
+function loadMenuCosts() {
+    for (let deviceId = 1; deviceId <= devices.length; deviceId++) {  // Assuming you have 6 devices
+        const storedCost = localStorage.getItem(`menuCost${deviceId}`);
+        if (storedCost !== null) {
+            document.getElementById(`costm${deviceId}`).innerHTML = `${storedCost} EGP`;
+        }
+    }
+}
+
+function calculateMenuCost(deviceId) {
+    const sodaS = parseInt(document.getElementById(`sodaS${deviceId}`).value, 10) * 15;
+    const sodaL = parseInt(document.getElementById(`sodaL${deviceId}`).value, 10) * 20;
+    const sokhn = parseInt(document.getElementById(`sokhn${deviceId}`).value, 10) * 10;
+    const coffee = parseInt(document.getElementById(`coffee${deviceId}`).value, 10) * 15;
+    const cappuccino = parseInt(document.getElementById(`cappuccino${deviceId}`).value) * 15;
+    const frenchCoffee = parseInt(document.getElementById(`frenchCoffee${deviceId}`).value) * 25;
+    const netCard = parseInt(document.getElementById(`netCard${deviceId}`).value) * 5;
+    const halfHourPS4 = parseInt(document.getElementById(`halfHourPS4${deviceId}`).value) * 10;
+    const hourPS4 = parseInt(document.getElementById(`hourPS4${deviceId}`).value) * 20;
+    const sandwich = parseInt(document.getElementById(`sandwich${deviceId}`).value) * 15;
+    const cleaning = parseInt(document.getElementById(`cleaning${deviceId}`).value) * 3;
+    // Add more items as necessary
+
+    const totalMenuCost = ( sodaS + sodaL + sokhn + coffee + cappuccino + frenchCoffee + netCard + halfHourPS4 + hourPS4 + sandwich + cleaning).toFixed(2);
+    document.getElementById(`costm${deviceId}`).innerHTML = `${totalMenuCost} EGP`; // Display the calculated cost
+    localStorage.setItem(`menuCost${deviceId}`, totalMenuCost);  // Save each device's menu cost separately
+
+}
+
+function discountRequest(deviceId){
+    document.getElementById(`discountMenu${deviceId}`).classList.toggle('d-none');
+
+}
+function calcDiscountCost(deviceId){
+    console.log("test");
+    let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
+    let discountValue = document.getElementById(`discount${deviceId}`).value
+    let afterDiscount =( savedData.cost - discountValue).toFixed();
+    if(afterDiscount >= 0){
+        document.getElementById(`cost${deviceId}`).innerHTML =  `${afterDiscount}  EGP`;
+        document.getElementById(`discountCost${deviceId}`).innerHTML = `${discountValue} EGP`;
+        document.getElementById(`discountLayer${deviceId}`).classList.remove('d-none');
+        document.getElementById(`totalDiscount${deviceId}`).classList.remove('d-none');
+        setTimeout(() => {
+            document.getElementById(`discountLayer${deviceId}`).classList.add('d-none');
+            document.getElementById(`discountMenu${deviceId}`).classList.add('d-none');
+            document.getElementById(`discount${deviceId}`).value = '';
+        }, 1500);
+        savedData.cost = afterDiscount;
+        localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
+    }
+    else{
+        alert(' كدا هتبقي مديون ع فكره , فكر تاني يابا')
+    }
+
+}
+
+function submit(deviceId){
+    document.getElementById(`totalDiscount${deviceId}`).classList.add('d-none');
+    let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
+    document.getElementById(`discountMenu${deviceId}`).classList.add('d-none');
+    updateDeviceTable(deviceId, savedData);
+    updateTotalCost();
+    document.getElementById(`cost${deviceId}`).innerHTML = savedData.cost + " EGP";
+    let layer = document.getElementById(`layer${deviceId}`);
+    layer.classList.remove('d-none');
+    setTimeout(() => {
+        layer.classList.add('d-none');
+    }, 1000);
+    document.querySelector(`#device${deviceId} button[onclick^="submit"]`).disabled = true;
+    clearTimer(deviceId)
+    document.getElementById(`discountRequest${deviceId}`).classList.add('d-none');
+    document.getElementById(`discount${deviceId}`).value = ''
+
+}
+
+
+function calculateCost(deviceId, savedData) {
+    const elapsedTime = savedData.elapsedTime / 3600; // convert seconds to hours
+    const rate = parseFloat(document.getElementById(`rateSelector${deviceId}`).value);
+    const costFromTime = elapsedTime * rate;
+    // Sum up costs from drinks
+    const sodaS = parseInt(document.getElementById(`sodaS${deviceId}`).value, 10) * 15;
+    const sodaL = parseInt(document.getElementById(`sodaL${deviceId}`).value, 10) * 20;
+    const sokhn = parseInt(document.getElementById(`sokhn${deviceId}`).value, 10) * 10;
+    const coffee = parseInt(document.getElementById(`coffee${deviceId}`).value, 10) * 15;
+    const cappuccino = parseInt(document.getElementById(`cappuccino${deviceId}`).value) * 15;
+    const frenchCoffee = parseInt(document.getElementById(`frenchCoffee${deviceId}`).value) * 25;
+    const netCard = parseInt(document.getElementById(`netCard${deviceId}`).value) * 5;
+    const halfHourPS4 = parseInt(document.getElementById(`halfHourPS4${deviceId}`).value) * 10;
+    const hourPS4 = parseInt(document.getElementById(`hourPS4${deviceId}`).value) * 20;
+    const sandwich = parseInt(document.getElementById(`sandwich${deviceId}`).value) * 15;
+    const cleaning = parseInt(document.getElementById(`cleaning${deviceId}`).value) * 3;
+    const totalCost = (costFromTime + sodaS + sodaL + sokhn + coffee + cappuccino + frenchCoffee + netCard + halfHourPS4 + hourPS4 + sandwich + cleaning).toFixed(2);
+    document.getElementById(`cost${deviceId}`).innerHTML = `${totalCost} EGP`;
+    savedData.cost = totalCost;
+    localStorage.setItem(`device${deviceId}`, JSON.stringify(savedData));
+}
+
+function calculateDrinkCost(deviceId) {
+  const drinkPrice = parseFloat(document.getElementById(`drinkSelector${deviceId}`).value);
+  const quantity = parseInt(document.getElementById(`drinkQuantity${deviceId}`).value, 10);
+  return drinkPrice * quantity;
+}
+
+function resetDrinkQuantities(deviceId) {
+    const drinkIds = ['sodaS', 'sodaL', 'sokhn', 'coffee', 'cappuccino', 'frenchCoffee', 'netCard', 'halfHourPS4', 'hourPS4','sandwich','cleaning'];
+    drinkIds.forEach(drinkId => {
+        document.getElementById(`${drinkId}${deviceId}`).value = 0;
+        localStorage.removeItem(`${drinkId}${deviceId}`);
+        localStorage.removeItem(`menuCost${deviceId}`);
+    });
+}
+
+window.onload = function(){
+    init()
+    document.querySelector('.loading').classList.add('d-none')
+
+};

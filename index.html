@@ -1,78 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>log in</title>
-    <meta name="description" content="Playstation management system" />
-    <meta name="keywords" content="playstaion , cafe , gaming">
-    <meta name="author" content="Mohamed Khalel">
-    <meta name="robots" content="index, follow">
-    <link
-      rel="shortcut icon"
-      href="assets/images/controller.png"
-      type="image/x-icon"
-    />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/all.min.css" />
-    <link rel="stylesheet" href="css/login.css" />
-  </head>
-  <body>
-    <section
-      class="login py-4 d-flex justify-content-center align-items-center flex-column position-relative"
-    >
-      <div class="shape">
-        <img src="assets/images/shape.png" alt="" />
-      </div>
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-md-6">
-            <div class="login-text position-relative z-2">
-              <h1>LOGGING</h1>
-              <p class="text-muted">
-                <span class="text-dark">Note : </span>enter the email you have
-                taken from the admin
-              </p>
-              <div class="input-group">
-                <input
-                  type="email"
-                  class="input"
-                  id="Email"
-                  name="Email"
-                  placeholder="Example@example.com"
-                  autocomplete="on"
-                />
-                <input
-                  class="button--submit"
-                  value="Enter"
-                  onclick="email()"
-                  type="submit"
-                />
-              </div>
-              <p class="text-danger" id="errMsg"></p>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div>
-              <img
-                src="assets/images/controller.png"
-                class="w-100 position-relative z-2"
-                alt=""
-              />
-            </div>
-          </div>
+    <meta name="description" content="Log in page for Playstation management system">
+    <link rel="shortcut icon" href="assets/images/controller.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/login.css">
+
+</head>
+<body>
+    <section class="login py-4 py-lg-0 d-flex justify-content-center align-items-center flex-column position-relative">
+        <div class="shape">
+            <img src="assets/images/shape.png"  alt="">
         </div>
-        <footer
-          class="d-flex justify-content-center gap-3 align-items-center position-relative z-2"
-        >
-          <img src="assets/images/ps4.png" alt="" />
-          <span class="text-muted m-0">
-            <i class="fa-regular fa-copyright"></i> All rights reserved
-            2024</span
-          >
-        </footer>
-      </div>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="login-text position-relative z-2">
+                        <h1>LOGGING</h1>
+                        <p class="text-muted"><span class="text-dark">Note : </span>enter the email you have taken from the admin</p>
+                        <div class="input-group ">
+                            <input type="email" class="input " id="Email" name="Email" placeholder="Example@example.com" autocomplete="on">
+                            <input class="button--submit" value="Enter" onclick="login()" type="submit">
+                        </div>
+                        <p class="text-danger" id="errMsg"></p>
+                    </div>
+                </div>
+                <div class="col-md-6" >
+                    <div>
+                        <img src="assets/images/controller.png" class="w-100 position-relative z-2" alt="">
+                    </div>
+                </div>
+            </div>
+            <footer class="d-flex justify-content-center gap-3 align-items-center position-relative z-2">
+                <img  src="assets/images/ps4.png" alt="">
+                <span class="text-muted m-0"> <i class="fa-regular fa-copyright"></i> All rights reserved 2024</span>
+            </footer>
+        </div>
     </section>
     <script src="js/login.js"></script>
-  </body>
+</body>
 </html>
