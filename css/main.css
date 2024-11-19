@@ -523,6 +523,9 @@ td:hover {
         left: 10px;
         justify-content: center;
     }
+    .add-form{
+        width: 90% !important;
+    }
     .active{
         background-color: transparent;
         font-size: 16px;

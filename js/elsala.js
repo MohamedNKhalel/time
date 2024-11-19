@@ -16,8 +16,6 @@ let drinks =[
     'كابتشينو',
     
 ];
-document.querySelector('.loading').classList.remove('d-none')
-
 
 drinkInput.addEventListener("input",()=>{
     for(let i = 0 ; i<drinks.length ; i++){

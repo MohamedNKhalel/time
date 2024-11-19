@@ -422,7 +422,6 @@ function loadDrinkQuantities(deviceId) {
 }
 
 function getStartandPausedTime(){
-    console.log("testPause");
     for(let i = 0 ; i<=devices.length ; i++){
         if(localStorage.getItem(`startTime${i}`) != null){
             document.getElementById(`startTime${i}`).innerHTML ="Start Time : " + JSON.parse(localStorage.getItem(`startTime${i}`))
@@ -710,7 +709,9 @@ function clearAllTimers() {
             document.getElementById(`startTime${deviceId}`).innerHTML = "";
             document.getElementById(`pauseTime${deviceId}`).innerHTML = "";
             document.getElementById(`startTime${deviceId}`).classList.add('d-none');
-            document.getElementById(`PauseTime${deviceId}`).classList.add('d-none');
+            if(document.getElementById(`PauseTime${deviceId}`)){
+                document.getElementById(`PauseTime${deviceId}`).classList.add('d-none');
+            }
             document.getElementById(`elapsedTime${deviceId}`).innerHTML = "00:00:00";
             document.getElementById(`cost${deviceId}`).innerHTML = "0.00 EGP";
             document.getElementById(`costm${deviceId}`).innerHTML = "0.00 EGP";
@@ -874,5 +875,4 @@ function resetDrinkQuantities(deviceId) {
 window.onload = function(){
     init()
     document.querySelector('.loading').classList.add('d-none')
-
 };
