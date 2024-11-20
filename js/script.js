@@ -237,8 +237,6 @@ function toggleMenu(button, menuSelector) {
     let hideBtn = button.parentElement.querySelector('.hide-' + menuSelector.replace('.', ''));
 
     menu.classList.toggle('d-none');
-    showBtn.classList.toggle('d-none');
-    hideBtn.classList.toggle('d-none');
 }
 
 function toggleDrinks(bar) {
@@ -381,26 +379,6 @@ function loadRateSelections() {
     }
 }
 
-// function loadDrinkQuantities(deviceId) {
-//     // Load saved drink quantities from localStorage
-//     const drinkIds = ['sodaS', 'sodaL', 'sokhn', 'coffee', 'cappuccino', 'frenchCoffee', 'netCard', 'halfHourPS4', 'hourPS4','sandwich','cleaning'];
-//     drinkIds.forEach(drinkId => {
-//         let savedQuantity = localStorage.getItem(`${drinkId}${deviceId}`);
-//         if (savedQuantity) {
-//             document.getElementById(`${drinkId}${deviceId}`).value = savedQuantity;
-//         }
-//     });
-// }
-
-// function saveDrinkQuantities(deviceId) {
-//     // Save current drink quantities to localStorage
-//     const drinkIds = ['sodaS', 'sodaL', 'sokhn', 'coffee', 'cappuccino', 'frenchCoffee', 'netCard', 'halfHourPS4', 'hourPS4','sandwich','cleaning'];
-//     drinkIds.forEach(drinkId => {
-//         let quantity = document.getElementById(`${drinkId}${deviceId}`).value;
-//         localStorage.setItem(`${drinkId}${deviceId}`, quantity);
-//         console.log(q);
-//     });
-// }
 function saveDrinkQuantities(deviceId) {
     // Save current drink quantities to localStorage
     const drinkIds = ['sodaS', 'sodaL', 'sokhn', 'coffee', 'cappuccino', 'frenchCoffee', 'netCard', 'halfHourPS4', 'hourPS4', 'sandwich', 'cleaning'];
@@ -492,7 +470,6 @@ function stopTimer(deviceId) {
         document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.remove('d-none');
         document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
         document.querySelector(`#device${deviceId} button[onclick^="submit"]`).disabled = false;
-        // document.getElementById(`discountMenu${deviceId}`).classList.remove('d-none');
         document.getElementById(`discountRequest${deviceId}`).classList.remove('d-none');
 
     }
@@ -700,28 +677,29 @@ function formatTime(seconds) {
     return [hrs, mins, secs].map(v => v < 10 ? "0" + v : v).join(":");
 }
 function clearAllTimers() {
-    if (confirm("Are you sure you want to clear all timers? This action cannot be undone.")) {
+    if (confirm("Are you sure you want to clear all timers? This action cannot be undone.The Window Reload")) {
         for (let deviceId = 1; deviceId <= devices.length; deviceId++) {
+            document.getElementById(`startTime${deviceId}`).classList.add('d-none');
+            document.getElementById(`startTime${deviceId}`).innerHTML = "";
+            document.getElementById(`pauseTime${deviceId}`).innerHTML = "";
+            document.getElementById(`pauseTime${deviceId}`).classList.add('d-none');
             clearInterval(timers[deviceId]);
             localStorage.removeItem(`device${deviceId}`);
             localStorage.removeItem(`startTime${deviceId}`);
             localStorage.removeItem(`pauseTime${deviceId}`);
-            document.getElementById(`startTime${deviceId}`).innerHTML = "";
-            document.getElementById(`pauseTime${deviceId}`).innerHTML = "";
-            document.getElementById(`startTime${deviceId}`).classList.add('d-none');
-            if(document.getElementById(`PauseTime${deviceId}`)){
-                document.getElementById(`PauseTime${deviceId}`).classList.add('d-none');
-            }
-            document.getElementById(`elapsedTime${deviceId}`).innerHTML = "00:00:00";
-            document.getElementById(`cost${deviceId}`).innerHTML = "0.00 EGP";
             document.getElementById(`costm${deviceId}`).innerHTML = "0.00 EGP";
+            document.getElementById(`cost${deviceId}`).innerHTML = "0.00 EGP";
+            document.getElementById(`elapsedTime${deviceId}`).innerHTML = "00:00:00";
             document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
             document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
             document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
             document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.add('d-none');
             document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.remove('d-none');
             document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
+            document.querySelector(`#device${deviceId} .running-device`).classList.add('d-none')
+            document.querySelector(`#device${deviceId} .not-running-device`).classList.remove('d-none')
             resetDrinkQuantities(deviceId);
+            
         }
     }
 }
@@ -731,19 +709,20 @@ function clearTimer(deviceId) {
     let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
         clearInterval(timers[deviceId]);
         document.getElementById(`discountMenu${deviceId}`).classList.add('d-none');
-        document.getElementById(`cost${deviceId}`).innerHTML = savedData.cost + " EGP";
+        if(document.getElementById(`cost${deviceId}`).innerHTML = ''){
+            document.getElementById(`cost${deviceId}`).innerHTML = savedData.cost + " EGP";
+        }
         document.getElementById(`discountRequest${deviceId}`).classList.add('d-none');
         document.getElementById(`discount${deviceId}`).value = ''
-
+        document.getElementById(`startTime${deviceId}`).innerHTML = "";
+        document.getElementById(`startTime${deviceId}`).classList.add('d-none');
+        document.getElementById(`pauseTime${deviceId}`).innerHTML = "";
+        document.getElementById(`pauseTime${deviceId}`).classList.add('d-none');
         document.querySelector(`#device${deviceId} .running-device`).classList.add('d-none')
         document.querySelector(`#device${deviceId} .not-running-device`).classList.remove('d-none')
         localStorage.removeItem(`device${deviceId}`);
         localStorage.removeItem(`startTime${deviceId}`);
         localStorage.removeItem(`pauseTime${deviceId}`);
-        document.getElementById(`startTime${deviceId}`).innerHTML = "";
-        document.getElementById(`pauseTime${deviceId}`).innerHTML = "";
-        document.getElementById(`startTime${deviceId}`).classList.add('d-none');
-        document.getElementById(`PauseTime${deviceId}`).classList.add('d-none');
         document.getElementById(`elapsedTime${deviceId}`).innerHTML = "00:00:00";
         document.getElementById(`cost${deviceId}`).innerHTML = "0.00 EGP";
         document.getElementById(`costm${deviceId}`).innerHTML = "0.00 EGP";
@@ -830,7 +809,13 @@ function submit(deviceId){
     document.querySelector(`#device${deviceId} button[onclick^="submit"]`).disabled = true;
     clearTimer(deviceId)
     document.getElementById(`discountRequest${deviceId}`).classList.add('d-none');
-    document.getElementById(`discount${deviceId}`).value = ''
+    document.getElementById(`discount${deviceId}`).value = '';
+    document.getElementById(`startTime${deviceId}`).innerHTML = "";
+    document.getElementById(`startTime${deviceId}`).classList.add('d-none');
+    document.getElementById(`pauseTime${deviceId}`).innerHTML = "";
+    document.getElementById(`pauseTime${deviceId}`).classList.add('d-none');
+    localStorage.removeItem(`startTime${deviceId}`)
+    localStorage.removeItem(`pauseTime${deviceId}`)
 
 }
 
