@@ -8,27 +8,51 @@ let allCustomers = [];
 let drinks =[
     'مشروب سخن',
     'شاي',
-    ' قهوه تركي',
     'نسكافيه',
     'ساقع صغير',
     'ساقع كبير',
+    ' قهوه تركي',
     'قهوه فرنساوي',
     'كابتشينو',
-    
+    'ينسون',
+    'كركديه',
+    'لمون',
+    'حلبه',
+    'شاي باللبن',
 ];
+let suggestions = document.getElementById('drinkSuggest');
 
-drinkInput.addEventListener("input",()=>{
-    for(let i = 0 ; i<drinks.length ; i++){
-        if(drinks[i].includes(drinkInput.value)){
-            document.getElementById('drinkSuggest').classList.remove('d-none')
-            document.getElementById('drinkSuggest').innerHTML = drinks[i]
-            document.getElementById('drinkSuggest').addEventListener('click',(e)=>{
-                drinkInput.value =e.target.innerHTML;
-            })
-        }
+function getLastWord(input) {
+    const words = input.trim().split(' ');
+    return words[words.length - 1];
+}
+function updateInputField(selectedDrink) {
+    const inputValue = drinkInput.value.trim();
+    const words = inputValue.split(' ');
+    words[words.length - 1] = selectedDrink; // Replace the last word with the suggestion
+    drinkInput.value = words.join(' ') + ' '; // Add a space for new entries
+    suggestions.innerHTML = ''; // Clear suggestions
+}   
+
+drinkInput.addEventListener('input', function() {
+    const input = drinkInput.value.trim();
+    const lastWord = getLastWord(input);
+    suggestions.innerHTML = ''; // Clear previous suggestions
+    if (lastWord) {
+        // Filter drinks that start with the last word
+        const filteredDrinks = drinks.filter(drink => drink.startsWith(lastWord));
+        // Create and append suggestions
+        filteredDrinks.forEach(drink => {
+            const li = document.createElement('li');
+            li.textContent = drink;
+            // Add click event to select a suggestion
+            li.addEventListener('click', function() {
+                updateInputField(drink); // Update the input field with the suggestion
+            });
+            suggestions.appendChild(li);
+        });
     }
-})
-
+});
 
 if(localStorage.getItem('customers') != null){
     allCustomers = JSON.parse(localStorage.getItem('customers'))

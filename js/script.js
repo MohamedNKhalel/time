@@ -1,5 +1,6 @@
 let timers = {};
-let devices = [] 
+let devices = [];
+let devicesIds = [];
 let counter = 0 
 let addDeviceLayer = document.querySelector('.add-device-layer')
 let addForm = document.querySelector('.add-form')
@@ -28,9 +29,8 @@ roomNumber.addEventListener('input',()=>{
     }
 })
 formBtn.addEventListener('click',()=>{
-    room = roomNumber.value;
+    room = parseInt(roomNumber.value);
     if(deviceExists(room)){
-        // alert('This device number already exists.');
         document.getElementById('existingRoom').innerHTML = `<span class="text-danger fw-bolder">room ${room}</span> already exist <i class="fa-solid fa-triangle-exclamation"></i>`
     } else{
         window.location.reload()
@@ -42,7 +42,7 @@ formBtn.addEventListener('click',()=>{
 })
 
 function deviceExists(room) {
-    return devices.some(device => device.id === room);
+    return devices.some(id =>id === room);
 }
 
 addDeviceLayer.addEventListener('click',()=>{
@@ -55,32 +55,29 @@ let numOfDevices = document.getElementById('numOfDevices');
 
 
 function addDevice(){
-sessionStorage.setItem('token',"dsdsdsdsdsdsdsd")
-
     counter ++;
     let device ={
         id:room
     }
-    devices.push(device)
-    let devicesJson = JSON.stringify(devices);
-    localStorage.setItem('devices',devicesJson)
+    devicesIds.push(device)
+    localStorage.setItem('devices',JSON.stringify(devicesIds))
     localStorage.setItem('counterOfDevices',counter)
     numOfDevices.innerHTML = counter
     displayDevices();
 }
-function deleteDevice(index){
-    let savedData = JSON.parse(localStorage.getItem(`device${index+1}`));
+function deleteDevice(devicesId,index){
+    let savedData = JSON.parse(localStorage.getItem(`device${devicesId}`));
     
     if(savedData){
         alert("مينفعش والجهاز شغال , اقفله الاول")
     }
     else{
-        if(confirm(`Are you sure you want to delete device${index+1} ?`)){
+        if(confirm(`Are you sure you want to delete device ${devicesId} ?`)){
             window.location.reload()
-            devices.splice(index, 1);
-            localStorage.setItem('devices',JSON.stringify(devices))
+            devicesIds.splice(index, 1);
+            localStorage.setItem('devices',JSON.stringify(devicesIds))
             displayDevices()
-            counter = devices.length;
+            counter = devicesIds.length;
             localStorage.setItem('counterOfDevices',counter)
             numOfDevices.innerHTML = counter;
         }
@@ -88,41 +85,40 @@ function deleteDevice(index){
             alert('جدع يسطا')
         }
     }
-        
 }
+
 function displayDevices(){
     numOfDevices.innerHTML = counter
     let container = ``
     for(let i = 0; i < devices.length;i++){
         container+=`<div class="col-lg-4 col-md-6">
-            <div id="device${devices[i].id}" class="device position-relative">
-                <div id="layer${devices[i].id}" class="layer-succes position-absolute top-0 start-0 end-0 bottom-0 bg-success z-3 d-flex justify-content-center align-items-center  d-none">
+            <div id="device${devices[i]}" class="device position-relative">
+                <div id="layer${devices[i]}" class="layer-succes position-absolute top-0 start-0 end-0 bottom-0 bg-success z-3 d-flex justify-content-center align-items-center  d-none">
                 <i class="fa-regular fa-circle-check fa-4x"></i>
                 <h3>Done</h3>
             </div>
-              
               <div class="d-flex justify-content-between  align-items-center device-header">
                 <span class="running-device d-none d-flex justify-content-between align-items-center gap-1 text-success text-uppercase"><i class="fa-solid fa-circle  ms-1 fa-beat "></i> On</span> <span class="not-running-device d-flex justify-content-between align-items-center gap-1 text-danger "><i class="fa-solid fa-circle ms-1 "></i>off</span>
-                <h2 class="fw-bolder h4 text-uppercase  device-num ">Room ${devices[i].id}</h2>
+                <h2 class="fw-bolder h4 text-uppercase  device-num ">Room ${devices[i]}</h2>
                 <div class="d-flex justify-content-center gap-3 p-2 align-items-center position-relative">
-                    <i title="Reset" onclick="resetDevice(${devices[i].id})" class="fa-solid fa-arrows-rotate fa-xl"></i>
+                    <i title="Reset" onclick="resetDevice(${devices[i]})" class="fa-solid fa-arrows-rotate fa-xl"></i>
                     <span id="break"></span>
-                    <i title="Delete" onclick="deleteDevice(${i})" class="fa-solid fa-trash-can fa-xl"></i>
+                    <i title="Delete" onclick="deleteDevice(${devices[i]},${i})" class="fa-solid fa-trash-can fa-xl"></i>
                 </div>
                 </div>
               <div class="d-flex justify-content-between align-items-center gap-3">
-                <button class="w-100 starting-time" onclick="startTimer(${devices[i].id})">Start</button>
-                <button class="pausing-time" title="pause" onclick="pauseTimer(${devices[i].id})" id="pauseTimer${devices[i].id}" disabled><i class="fa fa-pause fa-xl"></i></button>
-                <button title="play" type="button" class="d-none continue-time" onclick="resumeTimer(${devices[i].id})" id="continueTimer${devices[i].id}" disabled><i class="fa fa-play fa-xl "></i></button>
+                <button class="w-100 starting-time" onclick="startTimer(${devices[i]})">Start</button>
+                <button class="pausing-time" title="pause" onclick="pauseTimer(${devices[i]})" id="pauseTimer${devices[i]}" disabled><i class="fa fa-pause fa-xl"></i></button>
+                <button title="play" type="button" class="d-none continue-time" onclick="resumeTimer(${devices[i]})" id="continueTimer${devices[i]}" disabled><i class="fa fa-play fa-xl "></i></button>
               </div>
-              <button class="stop-time" onclick="stopTimer(${devices[i].id})" disabled>Stop</button>
+              <button class="stop-time" onclick="stopTimer(${devices[i]})" disabled>Stop</button>
 
               <div class="info-time">
-                <span><span class="start-time d-none" id="startTime${devices[i].id}"></span></span>
-                <span><span class="pause-time d-none" id="pauseTime${devices[i].id}"></span></span>
+                <span><span class="start-time d-none" id="startTime${devices[i]}"></span></span>
+                <span><span class="pause-time d-none" id="pauseTime${devices[i]}"></span></span>
               </div>
-              <div class="elapsed-time"><span>Elapsed Time </span><span class="my-elapse"  id="elapsedTime${devices[i].id}">00:00:00</span></div>
-              <select title="rate" id="rateSelector${devices[i].id}" onchange="saveRateSelection(${devices[i].id})">
+              <div class="elapsed-time"><span>Elapsed Time </span><span class="my-elapse"  id="elapsedTime${devices[i]}">00:00:00</span></div>
+              <select title="rate" id="rateSelector${devices[i]}" onchange="saveRateSelection(${devices[i]})">
                   <option  value="10">10 EGP/hour</option>
                   <option  value="15">15 EGP/hour</option>
                   <option  value="20">20 EGP/hour</option>
@@ -145,27 +141,27 @@ function displayDevices(){
                       <div class="d-none drinks-menu">
                         <div class="my-2 menu-item">
                           <label>Soda Small (15 EGP)</label>
-                          <input min="0" title="drink" class="drink-input" data-device-id="${devices[i].id}" id="sodaS${devices[i].id}" type="number" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
+                          <input min="0" title="drink" class="drink-input" data-device-id="${devices[i]}" id="sodaS${devices[i]}" type="number" value="0"  onchange="saveDrinkQuantities(${devices[i]})">
                         </div>
                         <div class="my-2 menu-item">
                           <label>Soda Large (20 EGP)</label>
-                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i].id}" type="number" id="sodaL${devices[i].id}" min="0" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
+                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i]}" type="number" id="sodaL${devices[i]}" min="0" value="0"  onchange="saveDrinkQuantities(${devices[i]})">
                         </div>
                         <div class="my-2 menu-item">
                           <label>Sokhn  (10 EGP)</label>
-                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i].id}" type="number" id="sokhn${devices[i].id}" min="0" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
+                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i]}" type="number" id="sokhn${devices[i]}" min="0" value="0"  onchange="saveDrinkQuantities(${devices[i]})">
                         </div>
                         <div class="my-2 menu-item">
                           <label>Coffee (15 EGP)</label>
-                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i].id}" type="number" id="coffee${devices[i].id}" min="0" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
+                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i]}" type="number" id="coffee${devices[i]}" min="0" value="0"  onchange="saveDrinkQuantities(${devices[i]})">
                         </div>
                         <div class="my-2 menu-item">
                           <label>Cappuccino (15 EGP):</label>
-                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i].id}" type="number" id="cappuccino${devices[i].id}" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
+                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i]}" type="number" id="cappuccino${devices[i]}" value="0"  onchange="saveDrinkQuantities(${devices[i]})">
                         </div>
                         <div class="my-2 menu-item">
                           <label>French Coffee (25 EGP):</label>
-                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i].id}" type="number" id="frenchCoffee${devices[i].id}" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
+                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i]}" type="number" id="frenchCoffee${devices[i]}" value="0"  onchange="saveDrinkQuantities(${devices[i]})">
                         </div>
                       </div>
                     </div>
@@ -178,46 +174,46 @@ function displayDevices(){
                       <div class="d-none others-menu">
                         <div class=" menu-item">
                           <label for="sandwich">Sandwich (15 EGP)</label>
-                          <input  min="0" title="sandwich" class="drink-input" data-device-id="${devices[i].id}" type="number" id="sandwich${devices[i].id}" min="0" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
+                          <input  min="0" title="sandwich" class="drink-input" data-device-id="${devices[i]}" type="number" id="sandwich${devices[i]}" min="0" value="0"  onchange="saveDrinkQuantities(${devices[i]})">
                         </div>
                         <div class="my-2 menu-item">
                           <label>Net Card (5 EGP):</label>
-                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i].id}" type="number" id="netCard${devices[i].id}" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
+                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i]}" type="number" id="netCard${devices[i]}" value="0"  onchange="saveDrinkQuantities(${devices[i]})">
                         </div>
                         <div class="my-2 menu-item">
                           <label>Half Hour PS4 (10 EGP):</label>
-                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i].id}" type="number" id="halfHourPS4${devices[i].id}" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
+                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i]}" type="number" id="halfHourPS4${devices[i]}" value="0"  onchange="saveDrinkQuantities(${devices[i]})">
                         </div>
                         <div class="my-2 menu-item">
                           <label>Hour PS4 (20 EGP):</label>
-                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i].id}" type="number" id="hourPS4${devices[i].id}" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
+                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i]}" type="number" id="hourPS4${devices[i]}" value="0"  onchange="saveDrinkQuantities(${devices[i]})">
                         </div>
                         <div class="my-2 menu-item">
                           <label>Cleaning (3 EGP):</label>
-                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i].id}" type="number" id="cleaning${devices[i].id}" value="0"  onchange="saveDrinkQuantities(${devices[i].id})">
+                          <input min="0"  title="drink" class="drink-input" data-device-id="${devices[i]}" type="number" id="cleaning${devices[i]}" value="0"  onchange="saveDrinkQuantities(${devices[i]})">
                         </div>
                       </div>
                     </div>
-                    <button onclick="calculateMenuCost(${devices[i].id})" class="w-100 m-auto mt-2 calc-menu">SHOW COST <i class="fa-solid fa-calculator"></i></button>
-                    <div class="mt-2">Menu Cost: <span id="costm${devices[i].id}">0</span></div>
+                    <button onclick="calculateMenuCost(${devices[i]})" class="w-100 m-auto mt-2 calc-menu">SHOW COST <i class="fa-solid fa-calculator"></i></button>
+                    <div class="mt-2">Menu Cost: <span id="costm${devices[i]}">0</span></div>
                   </div>
                 </div>
               </div>
               <!-- End Menu -->
-              <div id="totalDiscount${devices[i].id}" class="mt-2 d-none">Discount Value: <span id="discountCost${devices[i].id}">0</span></div>
-              <div class="time-cost"><span>Total Cost:</span> <span class="my-cost" id="cost${devices[i].id}">0</span></div>
-              <h4 id="discountRequest${devices[i].id}" onclick="discountRequest(${devices[i].id})" class="h5 d-flex justify-content-between align-items-center d-none"><span>Add Discount ?</span> <i class="fa fa-plus-circle fa-xl"></i></h4>
-              <div id="discountMenu${devices[i].id}" class="discount-menu position-relative  d-none">
+              <div id="totalDiscount${devices[i]}" class="mt-2 d-none">Discount Value: <span id="discountCost${devices[i]}">0</span></div>
+              <div class="time-cost"><span>Total Cost:</span> <span class="my-cost" id="cost${devices[i]}">0</span></div>
+              <h4 id="discountRequest${devices[i]}" onclick="discountRequest(${devices[i]})" class="h5 d-flex justify-content-between align-items-center d-none"><span>Add Discount ?</span> <i class="fa fa-plus-circle fa-xl"></i></h4>
+              <div id="discountMenu${devices[i]}" class="discount-menu position-relative  d-none">
                 <div class="d-flex justify-content-between align-items-center discount-input ">
-                    <button onclick="calcDiscountCost(${devices[i].id})" type="button" class="add-discount">Add</button>
-                    <div class="position-relative "> <input min="0" id="discount${devices[i].id}" type="number" placeholder="Enter Discount Value"> </div>
-                    <div id="discountLayer${devices[i].id}" class="d-none discount-layer position-absolute d-flex justify-content-center align-items-center bg-success rounded-2 top-0 bottom-0 start-0 end-0">
+                    <button onclick="calcDiscountCost(${devices[i]})" type="button" class="add-discount">Add</button>
+                    <div class="position-relative "> <input min="0" id="discount${devices[i]}" type="number" placeholder="Enter Discount Value"> </div>
+                    <div id="discountLayer${devices[i]}" class="d-none discount-layer position-absolute d-flex justify-content-center align-items-center bg-success rounded-2 top-0 bottom-0 start-0 end-0">
                         <h2>Discount Added</h2>
                 </div>
                 </div>
               </div>
               <div class="d-flex justify-content-between">
-                <button  class="submit w-100" onclick="submit(${devices[i].id})" disabled>Submit</button>
+                <button  class="submit w-100" onclick="submit(${devices[i]})" disabled>Submit</button>
               </div>
             </div>
         </div>`
@@ -225,9 +221,9 @@ function displayDevices(){
     document.getElementById('deviceContainer').innerHTML = container
 }
 
-function resetDevice(i){
-    if(confirm(`are you sure you want to delete device${i} data`)){
-        clearTimer(i)
+function resetDevice(deviceId){
+    if(confirm(`are you sure you want to Reset device ${deviceId} data ?`)){
+        clearTimer(deviceId)
     }
 }
 
@@ -301,49 +297,50 @@ function init() {
     if(!localStorage.getItem('user')){
         window.location.href = './index.html'
     }
-
     if(localStorage.getItem('devices') != null){
-        devices = JSON.parse(localStorage.getItem('devices'))
+        devicesIds = JSON.parse(localStorage.getItem('devices'))
+        devices = devicesIds.map(device =>{return device.id })
         counter = JSON.parse(localStorage.getItem('counterOfDevices'))
         displayDevices();
     }
+
     
     rebuildTable();
     displaySavedTotalCost();
-    for (let deviceId = 1; deviceId <= devices.length; deviceId++) {
-        let savedData = localStorage.getItem(`device${deviceId}`);
-        if (savedData) {
-            savedData = JSON.parse(savedData);
-            if (savedData.running) {
-                startTimer(deviceId, new Date(savedData.startTime));
-                document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = true;
-                document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = false;
-                document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = false;
-                document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
-                document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.remove('d-none');
-                document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.add('d-none')
-
-
-            }
-            else if(savedData.running==false && savedData.paused == true){
-                document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = true;
-                document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = false;
-                document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
-                document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.add('d-none');
-                document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = false;
-                document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.remove('d-none')
-            } 
-            else {
-                document.getElementById(`elapsedTime${deviceId}`).innerHTML = formatTime(savedData.elapsedTime);
-                document.getElementById(`cost${deviceId}`).innerHTML = `${savedData.cost} EGP`;
-                document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
-                document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
-                document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
-                document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = false;
-            }
-        } 
-        loadDrinkQuantities(deviceId);  // Load the drink quantities for each device
-    }
+        for (let deviceId = 0; deviceId <= devices.length; deviceId++) {
+            if(localStorage.getItem(`device${devices[deviceId]}`)){
+                let savedData = localStorage.getItem(`device${devices[deviceId]}`);
+                if (savedData) {
+                    savedData = JSON.parse(savedData);
+                    if (savedData.running) {
+                        startTimer(devices[deviceId], new Date(savedData.startTime));
+                        document.querySelector(`#device${devices[deviceId]} button[onclick^="startTimer"]`).disabled = true;
+                        document.querySelector(`#device${devices[deviceId]} button[onclick^="stopTimer"]`).disabled = false;
+                        document.querySelector(`#device${devices[deviceId]} button[onclick^="pauseTimer"]`).disabled = false;
+                        document.querySelector(`#device${devices[deviceId]} button[onclick^="resumeTimer"]`).disabled = true;
+                        document.querySelector(`#device${devices[deviceId]} button[onclick^="pauseTimer"]`).classList.remove('d-none');
+                        document.querySelector(`#device${devices[deviceId]} button[onclick^="resumeTimer"]`).classList.add('d-none');
+                    }
+                    else if(savedData.running==false && savedData.paused == true){
+                        document.querySelector(`#device${devices[deviceId]} button[onclick^="startTimer"]`).disabled = true;
+                        document.querySelector(`#device${devices[deviceId]} button[onclick^="stopTimer"]`).disabled = false;
+                        document.querySelector(`#device${devices[deviceId]} button[onclick^="pauseTimer"]`).disabled = true;
+                        document.querySelector(`#device${devices[deviceId]} button[onclick^="pauseTimer"]`).classList.add('d-none');
+                        document.querySelector(`#device${devices[deviceId]} button[onclick^="resumeTimer"]`).disabled = false;
+                        document.querySelector(`#device${devices[deviceId]} button[onclick^="resumeTimer"]`).classList.remove('d-none')
+                    } 
+                    else {
+                        document.getElementById(`elapsedTime${devices[deviceId]}`).innerHTML = formatTime(savedData.elapsedTime);
+                        document.getElementById(`cost${devices[deviceId]}`).innerHTML = `${savedData.cost} EGP`;
+                        document.querySelector(`#device${devices[deviceId]} button[onclick^="startTimer"]`).disabled = false;
+                        document.querySelector(`#device${devices[deviceId]} button[onclick^="stopTimer"]`).disabled = true;
+                        document.querySelector(`#device${devices[deviceId]} button[onclick^="pauseTimer"]`).disabled = true;
+                        document.querySelector(`#device${devices[deviceId]} button[onclick^="resumeTimer"]`).disabled = false;
+                    }
+                } 
+                loadDrinkQuantities(devices[deviceId]);  // Load the drink quantities for each device
+                }
+        }
     getStartandPausedTime();
     loadRateSelections(); 
     loadMenuCosts(); // This call should happen once for all device setups, ensure it's placed correctly as per your logic
@@ -364,15 +361,17 @@ function saveRateSelection(deviceId) {
 }
 
 function loadRateSelections() {
-    for (let deviceId = 1; deviceId <= devices.length; deviceId++) {
-        var savedRate = localStorage.getItem(`rateSelection${deviceId}`);
-        if (savedRate) {
-            var rateSelector = document.getElementById(`rateSelector${deviceId}`);
-            // Loop through options to find the one with the saved value
-            for (var i = 0; i < rateSelector.options.length; i++) {
-                if (rateSelector.options[i].value === savedRate) {
-                    rateSelector.selectedIndex = i;
-                    break;
+    if(localStorage.getItem('devices')){
+        for (let deviceId = 0; deviceId <= devices.length; deviceId++) {
+            var savedRate = localStorage.getItem(`rateSelection${devices[deviceId]}`);
+            if (savedRate) {
+                var rateSelector = document.getElementById(`rateSelector${devices[deviceId]}`);
+                // Loop through options to find the one with the saved value
+                for (var i = 0; i < rateSelector.options.length; i++) {
+                    if (rateSelector.options[i].value === savedRate) {
+                        rateSelector.selectedIndex = i;
+                        break;
+                    }
                 }
             }
         }
@@ -401,13 +400,13 @@ function loadDrinkQuantities(deviceId) {
 
 function getStartandPausedTime(){
     for(let i = 0 ; i<=devices.length ; i++){
-        if(localStorage.getItem(`startTime${i}`) != null){
-            document.getElementById(`startTime${i}`).innerHTML ="Start Time : " + JSON.parse(localStorage.getItem(`startTime${i}`))
-            document.getElementById(`startTime${i}`).classList.remove('d-none')
+        if(localStorage.getItem(`startTime${devices[i]}`) != null){
+            document.getElementById(`startTime${devices[i]}`).innerHTML ="Start Time : " + JSON.parse(localStorage.getItem(`startTime${devices[i]}`))
+            document.getElementById(`startTime${devices[i]}`).classList.remove('d-none')
         }
-        if(localStorage.getItem(`pauseTime${i}`) != null){
-            document.getElementById(`pauseTime${i}`).innerHTML ="Paused at : " + JSON.parse(localStorage.getItem(`pauseTime${i}`));
-            document.getElementById(`pauseTime${i}`).classList.remove('d-none')
+        if(localStorage.getItem(`pauseTime${devices[i]}`) != null){
+            document.getElementById(`pauseTime${devices[i]}`).innerHTML ="Paused at : " + JSON.parse(localStorage.getItem(`pauseTime${devices[i]}`));
+            document.getElementById(`pauseTime${devices[i]}`).classList.remove('d-none')
         }
     }
 }
@@ -508,8 +507,6 @@ function updateDeviceTable(deviceId, data) {
     // Update the total cost
     updateTotalCost();
 }
-
-
 
 function rebuildTable() {
     const tableData = JSON.parse(localStorage.getItem('tableData'));
@@ -678,28 +675,30 @@ function formatTime(seconds) {
 }
 function clearAllTimers() {
     if (confirm("Are you sure you want to clear all timers? This action cannot be undone.The Window Reload")) {
-        for (let deviceId = 1; deviceId <= devices.length; deviceId++) {
-            document.getElementById(`startTime${deviceId}`).classList.add('d-none');
-            document.getElementById(`startTime${deviceId}`).innerHTML = "";
-            document.getElementById(`pauseTime${deviceId}`).innerHTML = "";
-            document.getElementById(`pauseTime${deviceId}`).classList.add('d-none');
-            clearInterval(timers[deviceId]);
-            localStorage.removeItem(`device${deviceId}`);
-            localStorage.removeItem(`startTime${deviceId}`);
-            localStorage.removeItem(`pauseTime${deviceId}`);
-            document.getElementById(`costm${deviceId}`).innerHTML = "0.00 EGP";
-            document.getElementById(`cost${deviceId}`).innerHTML = "0.00 EGP";
-            document.getElementById(`elapsedTime${deviceId}`).innerHTML = "00:00:00";
-            document.querySelector(`#device${deviceId} button[onclick^="startTimer"]`).disabled = false;
-            document.querySelector(`#device${deviceId} button[onclick^="stopTimer"]`).disabled = true;
-            document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).disabled = true;
-            document.querySelector(`#device${deviceId} button[onclick^="resumeTimer"]`).classList.add('d-none');
-            document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).classList.remove('d-none');
-            document.querySelector(`#device${deviceId} button[onclick^="pauseTimer"]`).disabled = true;
-            document.querySelector(`#device${deviceId} .running-device`).classList.add('d-none')
-            document.querySelector(`#device${deviceId} .not-running-device`).classList.remove('d-none')
-            resetDrinkQuantities(deviceId);
-            
+        if(localStorage.getItem('devices')){
+            for (let deviceId = 0; deviceId <= devices.length; deviceId++) {
+                document.getElementById(`startTime${devices[deviceId]}`).classList.add('d-none');
+                document.getElementById(`startTime${devices[deviceId]}`).innerHTML = "";
+                document.getElementById(`pauseTime${devices[deviceId]}`).innerHTML = "";
+                document.getElementById(`pauseTime${devices[deviceId]}`).classList.add('d-none');
+                clearInterval(timers[devices[deviceId]]);
+                localStorage.removeItem(`device${devices[deviceId]}`);
+                localStorage.removeItem(`startTime${devices[deviceId]}`);
+                localStorage.removeItem(`pauseTime${devices[deviceId]}`);
+                document.getElementById(`costm${devices[deviceId]}`).innerHTML = "0.00 EGP";
+                document.getElementById(`cost${devices[deviceId]}`).innerHTML = "0.00 EGP";
+                document.getElementById(`elapsedTime${devices[deviceId]}`).innerHTML = "00:00:00";
+                document.querySelector(`#device${devices[deviceId]} button[onclick^="startTimer"]`).disabled = false;
+                document.querySelector(`#device${devices[deviceId]} button[onclick^="stopTimer"]`).disabled = true;
+                document.querySelector(`#device${devices[deviceId]} button[onclick^="resumeTimer"]`).disabled = true;
+                document.querySelector(`#device${devices[deviceId]} button[onclick^="resumeTimer"]`).classList.add('d-none');
+                document.querySelector(`#device${devices[deviceId]} button[onclick^="pauseTimer"]`).classList.remove('d-none');
+                document.querySelector(`#device${devices[deviceId]} button[onclick^="pauseTimer"]`).disabled = true;
+                document.querySelector(`#device${devices[deviceId]} .running-device`).classList.add('d-none')
+                document.querySelector(`#device${devices[deviceId]} .not-running-device`).classList.remove('d-none')
+                resetDrinkQuantities(devices[deviceId]);
+                console.log(devices[deviceId]);
+            }
         }
     }
 }
@@ -738,10 +737,12 @@ function clearTimer(deviceId) {
 }
 
 function loadMenuCosts() {
-    for (let deviceId = 1; deviceId <= devices.length; deviceId++) {  // Assuming you have 6 devices
-        const storedCost = localStorage.getItem(`menuCost${deviceId}`);
-        if (storedCost !== null) {
-            document.getElementById(`costm${deviceId}`).innerHTML = `${storedCost} EGP`;
+    if(localStorage.getItem('devices')){
+        for (let deviceId = 0; deviceId <= devices.length; deviceId++) {  // Assuming you have 6 devices
+            const storedCost = localStorage.getItem(`menuCost${devices[deviceId]}`);
+            if (storedCost !== null) {
+                document.getElementById(`costm${devices[deviceId]}`).innerHTML = `${storedCost} EGP`;
+            }
         }
     }
 }
@@ -771,7 +772,6 @@ function discountRequest(deviceId){
 
 }
 function calcDiscountCost(deviceId){
-    console.log("test");
     let savedData = JSON.parse(localStorage.getItem(`device${deviceId}`));
     let discountValue = document.getElementById(`discount${deviceId}`).value
     let afterDiscount =( savedData.cost - discountValue).toFixed();
@@ -861,3 +861,5 @@ window.onload = function(){
     init()
     document.querySelector('.loading').classList.add('d-none')
 };
+
+
