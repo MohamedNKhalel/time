@@ -337,9 +337,9 @@ function init() {
                         document.querySelector(`#device${devices[deviceId]} button[onclick^="pauseTimer"]`).disabled = true;
                         document.querySelector(`#device${devices[deviceId]} button[onclick^="resumeTimer"]`).disabled = false;
                     }
-                } 
-                loadDrinkQuantities(devices[deviceId]);  // Load the drink quantities for each device
+                 } 
                 }
+                loadDrinkQuantities(devices[deviceId]);  // Load the drink quantities for each device
         }
     getStartandPausedTime();
     loadRateSelections(); 
